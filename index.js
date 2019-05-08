@@ -1,3 +1,3 @@
 const camelCase = require('camelcase');
 
-console.log("anus")
+console.log(camelCase("CMD-Proffesional"))
