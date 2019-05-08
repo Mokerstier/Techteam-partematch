@@ -1,0 +1,28 @@
+{
+  "name": "boilerpackage",
+  "version": "1.0.0",
+  "description": "Packages that are necessary for the app",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js"
+  },
+  "author": "Wouter van der Heijde",
+  "license": "MIT",
+  "dependencies": {
+    "camelcase": "^5.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mokerstier/Package-boilerplate.git"
+  },
+  "keywords": [
+    "camel"
+  ],
+  "bugs": {
+    "url": "https://github.com/Mokerstier/Package-boilerplate/issues"
+  },
+  "homepage": "https://github.com/Mokerstier/Package-boilerplate#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
