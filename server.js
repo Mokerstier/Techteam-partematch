@@ -19,8 +19,10 @@ app
     });
 ;
 function home(req, res) {
-    res.render('index.ejs')
+    res.render('pages/index.ejs' ,{
+        title: "Home"
+    });
   }
 function fetchRegister(req, res) {
-    res.render('register.ejs')
+    res.render('pages/register.ejs')
 }
