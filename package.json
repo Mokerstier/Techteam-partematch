@@ -4,7 +4,8 @@
   "description": "Packages that are necessary for the app",
   "main": "index.js",
   "scripts": {
-    "build": "node index.js"
+    "build": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Wouter van der Heijde",
   "license": "MIT",
