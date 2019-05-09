@@ -1,0 +1,9 @@
+@font-face {
+    font-family: futura-pt, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    src: url("https://use.typekit.net/uhx2ooa.css");
+}
+body{
+    font-family: futura-pt, sans-serif;
+}
