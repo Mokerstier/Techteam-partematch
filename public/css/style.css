@@ -1,9 +1,6 @@
-@font-face {
-    font-family: futura-pt, sans-serif;
-    font-style: normal;
-    font-weight: 300;
-    src: url("https://use.typekit.net/uhx2ooa.css");
+header li a {
+  color: transparent;
 }
-body{
-    font-family: futura-pt, sans-serif;
+header li a .settings {
+  background-image: url(icons/settings.svg);
 }

@@ -14,6 +14,7 @@ app
     .get("/", home)
     .get("/register", fetchRegister)
     
+    
     .use('/public', express.static('public'))
     
     // 404 redirect
