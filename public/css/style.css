@@ -1,15 +1,19 @@
 @import url("https://use.typekit.net/uhx2ooa.css");
-* {
+html {
   padding: 0;
   margin: 0;
 }
 body {
   font-family: futura, sans-serif;
   color: #2d2d2d;
+  margin: 0;
 }
+/* Navigatie */
 header ul {
   background-color: #ffd217;
   display: flex;
+  padding: 0;
+  margin: 0;
 }
 header ul li {
   list-style: none;
