@@ -1,6 +1,39 @@
-header li a {
-  color: transparent;
+@import url("https://use.typekit.net/uhx2ooa.css");
+* {
+  padding: 0;
+  margin: 0;
 }
-header li a .settings {
-  background-image: url(icons/settings.svg);
+body {
+  font-family: futura, sans-serif;
+  color: #2d2d2d;
+}
+header ul {
+  background-color: #ffd217;
+  display: flex;
+}
+header ul li {
+  list-style: none;
+}
+header ul li a {
+  display: block;
+  color: transparent;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 2em;
+  height: 3em;
+}
+header ul li a.settings {
+  background-image: url("/public/icons/settings.svg");
+}
+header ul li a.user {
+  background-image: url("/public/icons/user.svg");
+}
+header ul li a.chat {
+  background-image: url("/public/icons/chat.svg");
+}
+header ul li a.logo {
+  background-image: url("/public/logo/summeet.svg");
+  background-size: contain;
+  width: 8em;
 }

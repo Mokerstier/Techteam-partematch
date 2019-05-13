@@ -7,6 +7,7 @@ app.listen(port, () => console.log(`server is gestart op port ${port}`));
 const camelCase = require('camelcase');
 
 app
+    
     // define template engine
     .set("view engine", "ejs")
     
@@ -14,8 +15,8 @@ app
     .get("/", home)
     .get("/register", fetchRegister)
     
-    
-    .use('/public', express.static('public'))
+    .use(express.static(__dirname, +'/public'))
+    //.use('/public', express.static('public'))
     
     // 404 redirect
     .use(function (req, res, next ){
