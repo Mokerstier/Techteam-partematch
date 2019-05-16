@@ -10,13 +10,11 @@ const app = express();
 app
     // define static files
     .use(express.static(__dirname, +'/public')) 
-    // define external route folder   
+    // define route folder   
     .use('/', routes)
     // define template engine
     .set("view engine", "ejs")
-    .use(function (req, res, next ){
-        res.status(404).render('pages/404.ejs')
-    });
 ;
+
 
 app.listen(port, () => console.log(`server is gestart op port ${port}`));

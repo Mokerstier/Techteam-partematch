@@ -17,11 +17,20 @@ function routes () {
     });
 
     //Route to register-succes page
-    exRoutes.post("/register", function(req, res) {
-        console.log(req.body)
-        res.render('pages/register-succes.ejs')
+    const bodyParser = require('body-parser');
+    const urlencodedParser = bodyParser.urlencoded({ extended: false });
+    exRoutes.post("/register", urlencodedParser, function(req, res) {
+        console.log(req.body);
+        res.render('pages/register-succes.ejs' ,{
+            title: 'Register complete!'
+        })
     });
-    
+
+    exRoutes.use(function(req, res, next){
+        res.status(404).render('pages/404.ejs', 
+        {title: "Sorry, page not found"});
+    });
+
     return exRoutes;
 
 };
