@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46">
+  <defs>
+    <linearGradient id="notifications-a" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+    <linearGradient id="notifications-b" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-width="3" transform="translate(0 -6)">
+    <path stroke="url(#notifications-a)" d="M11.4639328,34.6119778 L11.4639328,23.173913 C11.4639328,15.3698894 17.7903439,9.04347826 25.5943675,9.04347826 C33.3983912,9.04347826 39.7248023,15.3698894 39.7248023,23.173913 L39.7248023,34.6119778 L41.2173913,34.6119778 C43.4265303,34.6119778 45.2173913,36.4028388 45.2173913,38.6119778 L45.2173913,39.6554561 C45.2173913,41.8645951 43.4265303,43.6554561 41.2173913,43.6554561 L10.7826087,43.6554561 C8.5734697,43.6554561 6.7826087,41.8645951 6.7826087,39.6554561 L6.7826087,38.6119778 C6.7826087,36.4028388 8.5734697,34.6119778 10.7826087,34.6119778 L11.4639328,34.6119778 Z" transform="rotate(37 26 26.35)"/>
+    <circle cx="14.5" cy="45.5" r="4.5" fill="url(#notifications-b)" stroke="url(#notifications-b)"/>
+  </g>
+</svg>

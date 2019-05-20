@@ -4,8 +4,8 @@ function routes () {
     
     // Route to homepage
     exRoutes.get("/", function(req, res) {
-        res.render('pages/index.ejs' ,{
-            title: "Home",
+        res.render('pages/splash.ejs' ,{
+            title: "partEmatch",
         });
     });
     
@@ -19,16 +19,32 @@ function routes () {
     //Route to register-succes page
     const bodyParser = require('body-parser');
     const urlencodedParser = bodyParser.urlencoded({ extended: false });
-    exRoutes.post("/register", urlencodedParser, function(req, res) {
+    
+    exRoutes.get("/register", urlencodedParser, function(req, res) {
         console.log(req.body);
         res.render('pages/register-succes.ejs' ,{
             title: 'Register complete!'
-        })
+        });
     });
-
+    // adding festivals
+    exRoutes.get("/addevent" , function(req, res){
+        res.render('pages/addevent.ejs' ,{
+            title: "Addevent"
+        });
+    });
+    exRoutes.get("/addevent-succes", urlencodedParser, function(req, res) {
+        
+        response = {
+            festival: req.query.festival
+        }
+        
+        res.end(JSON.stringify(response));
+        console.log(response);
+    });
     exRoutes.use(function(req, res, next){
-        res.status(404).render('pages/404.ejs', 
-        {title: "Sorry, page not found"});
+        res.status(404).render('pages/404.ejs', {
+            title: "Sorry, page not found"
+        });
     });
 
     return exRoutes;

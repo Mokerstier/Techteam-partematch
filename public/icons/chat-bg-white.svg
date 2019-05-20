@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="46" viewBox="0 0 56 46">
+  <defs>
+    <linearGradient id="chat-bg-white-a" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+    <linearGradient id="chat-bg-white-b" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+    <linearGradient id="chat-bg-white-c" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+    <linearGradient id="chat-bg-white-d" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+    <linearGradient id="chat-bg-white-e" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-width="3" transform="translate(3 2)">
+    <path fill="#FFF" stroke="url(#chat-bg-white-a)" d="M9.78225806,9 L40.5,9 L40.5,31.6153846 C40.5,36.9682983 36.3446911,41.5234615 31,41.5234615 L23.5,41.5234615 L10,25.0234615 C3.33333333,25.0234615 -1.31450406e-13,25.0234615 -1.31450406e-13,25.0234615 C-1.31450406e-13,23.7276496 0.0349462366,21.617265 0.10483871,18.6923077 C0.10483871,13.339394 4.43756694,9 9.78225806,9 Z" transform="rotate(180 20.25 25.262)"/>
+    <path stroke="url(#chat-bg-white-b)" d="M21.5,21.6865385 L8.73387097,21.6865385"/>
+    <path stroke="url(#chat-bg-white-c)" d="M31.6612903,30.4984615 L8.73387097,30.4984615"/>
+    <path fill="#FFF" stroke="url(#chat-bg-white-d)" d="M25.2096774,1.79343719e-16 L41.2580645,1.79343719e-16 C45.6897042,1.79343719e-16 49.2822581,3.59808083 49.2822581,8.03653846 L49.2822581,25.6926923 L25.2096774,25.6926923 C20.7780377,25.6926923 17.1854839,22.0946115 17.1854839,17.6561538 L17.1854839,8.03653846 C17.1854839,3.59808083 20.7780377,8.96718597e-16 25.2096774,1.79343719e-16 Z"/>
+    <path stroke="url(#chat-bg-white-e)" d="M24.1209677 9.93461538L42.3387097 9.93461538M24.1209677 16.9373077L42.3387097 16.9373077"/>
+  </g>
+</svg>

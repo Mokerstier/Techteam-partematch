@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="24" viewBox="0 0 43 24">
+  <defs>
+    <linearGradient id="show-pass-a" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+    <linearGradient id="show-pass-b" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#7C4997"/>
+      <stop offset="47.414%" stop-color="#B74A95"/>
+      <stop offset="100%" stop-color="#6171B4"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(4 3)">
+    <g transform="translate(12 3)">
+      <circle cx="6" cy="6" r="6" fill="url(#show-pass-a)"/>
+      <circle cx="3.5" cy="2.5" r="1.5" fill="#FFF"/>
+      <circle cx="1.5" cy="4.5" r="1" fill="#FFF"/>
+    </g>
+    <circle cx="17.5" cy="9.5" r="1.5" fill="#000"/>
+    <path stroke="url(#show-pass-b)" stroke-width="3" d="M17.5,18 C27.1649831,18 35,10.5 35,9 C35,7.5 27.1649831,0 17.5,0 C7.83501688,0 0,7.5 0,9 C0,10.5 7.83501688,18 17.5,18 Z"/>
+  </g>
+</svg>
