@@ -3,6 +3,19 @@ const {routes} = require('./routes/routes');
 const camelCase = require('camelcase');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const mongo = require('mongodb');
+
+require('dotenv').config();
+
+var db = null;
+var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT;
+
+mongo.MongoClient.connect(url,{ useNewUrlParser: true }, function (err, client) {
+  if (err) {
+    throw err
+  } 
+  db = client.db(process.env.DB_NAME);
+});
 
 const port = 3000;
 const app = express();

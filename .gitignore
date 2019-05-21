@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 style.less
 addevent.less
+data
+.env
