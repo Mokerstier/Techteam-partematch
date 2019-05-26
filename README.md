@@ -31,7 +31,7 @@ if everything is setted up the right way youre terminal will log:
 
 `server is gestart op port "your_specified_port"`
 
-`Now connected to MongoDB on database: partematch!`
+`Now connected to MongoDB on database: "your_db_name"`
 
 ### Usage nodemon
 
