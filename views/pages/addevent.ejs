@@ -6,23 +6,24 @@
     <form action="/addevent-succes" method="GET">
         <fieldset>
             <legend>Voeg een festival toe</legend>
-            <div class="formlist">
-                <div class="form-option">
+            <div class="form_field_event">
+                <div class="form_option_event">
                     <input value="lowlands" type="checkbox" name="festival" id="lowlands">
-                    <label for="lowlands">Lowlands</label>
+                    <label class="event" for="lowlands">Lowlands</label>
                 </div>
-                <div class="form-option">
+                <div class="form_option_event">
                     <input value="pinkpop" type="checkbox" name="festival" id="pinkpop">
-                    <label for="pinkpop">Pinkpop</label>
+                    <label class="event" for="pinkpop">Pinkpop</label>
                 </div>
-                <div class="form-option">
+                <div class="form_option_event">
                     <input value="psy-fi" type="checkbox" name="festival" id="psy-fi">
-                    <label for="psy-fi">Psy-fi</label>
+                    <label class="event" for="psy-fi">Psy-fi</label>
                 </div>
             </div>
             <button class="form__button" type="submit">Voeg festival toe!</button>
         </fieldset>
     </form>
+    <% include ../partials/navbar %>
 </body>
 
 </html>

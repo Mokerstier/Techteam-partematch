@@ -11,13 +11,15 @@
   "author": "Wouter van der Heijde",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "camelcase": "^5.3.1",
     "dotenv": "^8.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mongodb": "^3.2.5",
-    "mongoose": "^5.5.10"
+    "mongoose": "^5.5.10",
+    "mongoose-unique-validator": "^2.0.3"
   },
   "repository": {
     "type": "git",
