@@ -14,6 +14,7 @@ To clone the repo use the `git clone` command in youre favorite CLI:
 
 ### 2. Install dependencies
 Install al the required dependencies to be able to run the app on youre server:
+
 `npm install`
 
 ### 3. Configuration
@@ -27,7 +28,9 @@ create a `.env` - configure `DB_NAME`, `DB_HOST` and a `DB_PORT`
 
 You are now able to run the application using `npm start`
 if everything is setted up the right way youre terminal will log:
+
 `server is gestart op port "your_specified_port"`
+
 `Now connected to MongoDB on database: partematch!`
 
 ### Usage nodemon
