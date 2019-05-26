@@ -9,25 +9,26 @@ partEmatch is a dating-app that focusses on people that are visiting festivals a
 ## Installation
 ### 1. Clone the partEmatch repo
 To clone the repo use the `git clone` command in youre favorite CLI:
+
 `git clone https://github.com/Mokerstier/partEmatch-datingApp.git`
 
 ### 2. Install dependencies
 Install al the required dependencies to be able to run the app on youre server:
 `npm install`
 
-### Configuration
+### 3. Configuration
 Before you can use a `mongoDB` - database you'll have to make some configurations on pre hand:
 create a `.env` - configure `DB_NAME`, `DB_HOST` and a `DB_PORT`
-1. Open your CLI and run the following commands:
-`touch .env`
+#### Open your CLI and run the following commands:
+1. `touch .env`
+2. `echo "DB_NAME=your_db_name" >> .env`
+3. `echo "DB_PORT=your_db_port" >> .env`
+4. `echo "DB_HOST=your_db_host" >> .env` => usually `localhost`
 
-
-### Usage camelCase
-On your main JS file example: `index.js` add the following line to the top of the file
-`const camelCase = require('camelcase')`
-This package will be able to convert any strings to camelCase example: `cmd-proffesional` => `cmdProffesional` or
-`CMD Proffesional` => `cmdProffesional`
-
+You are now able to run the application using `npm start`
+if everything is setted up the right way youre terminal will log:
+`server is gestart op port "your_specified_port"`
+`Now connected to MongoDB on database: partematch!`
 
 ### Usage nodemon
 
