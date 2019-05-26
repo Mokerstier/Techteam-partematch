@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
  
 router.post('/', urlencodedParser, async (req, res) => {
  
@@ -18,7 +19,7 @@ router.post('/', urlencodedParser, async (req, res) => {
             email: req.body.email,
             password: req.body.password
         });
-
+        
         await user.save();
         res.send('Succesfully registerd '+user.firstName+' with '+ user.email+' this e-mail!');
     }

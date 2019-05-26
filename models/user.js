@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.ObjectId;
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 
-const userSchema = mongoose.model('User', new mongoose.Schema({
+const userSchema =  new mongoose.Schema({
     
     email: {
         type: String, 
@@ -46,8 +45,8 @@ const userSchema = mongoose.model('User', new mongoose.Schema({
         party: [String]
     }
     
-}));
-userSchema.schema.pre('save', function (next) {
+});
+userSchema.pre('save', function (next) {
     var user = this;
     bcrypt.hash(user.password, 10, function (err, hash){
       if (err) {
@@ -58,8 +57,8 @@ userSchema.schema.pre('save', function (next) {
     })
   });
 
- userSchema.apply(uniqueValidator);
+ userSchema.plugin(uniqueValidator);
 //  , {message: 'is already taken.'}
 
 
-exports.userSchema = userSchema;
+exports.userSchema = mongoose.model('user', userSchema);
