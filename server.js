@@ -30,7 +30,6 @@ const port = 3000;
 const app = express();
 
 
-
 app
     // define static files
     .use(express.static(__dirname, +'/public')) 

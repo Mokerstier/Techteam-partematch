@@ -1,9 +1,25 @@
-# Package-boilerplate
+# partEmatch - datingapp
 NPM - Node - package.json 
 Package with `camelCase` and `nodemon`
 
-## Install all the dependencies with
+## Description
+partEmatch is a dating-app that focusses on people that are visiting festivals and looking for other people that attend to the same festival. Each user can specify festivals they attend. Some users are looking for a romance where other just want to start friendships or find people to share festival experiences with.
+
+
+## Installation
+### 1. Clone the partEmatch repo
+To clone the repo use the `git clone` command in youre favorite CLI:
+`git clone https://github.com/Mokerstier/partEmatch-datingApp.git`
+
+### 2. Install dependencies
+Install al the required dependencies to be able to run the app on youre server:
 `npm install`
+
+### Configuration
+Before you can use a `mongoDB` - database you'll have to make some configurations on pre hand:
+create a `.env` - configure `DB_NAME`, `DB_HOST` and a `DB_PORT`
+1. Open your CLI and run the following commands:
+`touch .env`
 
 
 ### Usage camelCase
