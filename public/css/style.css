@@ -1,4 +1,7 @@
 @import url("https://use.typekit.net/uhx2ooa.css");
+* {
+  box-sizing: border-box;
+}
 html {
   padding: 0;
   margin: 0;
@@ -117,6 +120,12 @@ footer ul li a.match {
 footer ul li a.noti {
   background-image: url("/public/icons/notifications.svg");
 }
+.profile_user {
+  padding: 1rem;
+}
+.profile_settings {
+  padding: 1rem;
+}
 /* Form styling */
 form {
   max-width: 100vw;
@@ -130,8 +139,11 @@ form fieldset {
   max-width: 100vw;
 }
 form fieldset legend {
-  padding: 1rem;
+  display: inline-block;
+  font-size: 1.2rem;
+  padding: 1rem 1rem .5rem 1rem;
   margin: 0;
+  width: 100%;
 }
 form fieldset input {
   border-color: #435ca7;
@@ -141,11 +153,15 @@ form fieldset button {
   margin: auto;
   margin-top: 5em;
 }
+form fieldset textarea {
+  display: block;
+}
 .form_field {
   display: flex;
   flex-wrap: nowrap;
   max-width: inherit;
   overflow-x: auto;
+  border-bottom: 1px solid #435ca7;
 }
 .form_field .form_option {
   display: block;
@@ -153,6 +169,7 @@ form fieldset button {
   margin: 1rem 0 1rem 1rem;
 }
 .form_field_event {
+  background-color: rgba(255, 255, 255, 0.397);
   display: flex;
   flex-wrap: nowrap;
   max-width: inherit;
@@ -210,6 +227,7 @@ form fieldset button {
   font-size: 1rem;
   padding: .5rem 1rem;
   margin: auto;
+  margin-top: 1rem;
   text-align: center;
   width: 80%;
   max-width: 10rem;

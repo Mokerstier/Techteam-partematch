@@ -6,7 +6,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
  
 router.post('/', urlencodedParser, async (req, res) => {
- 
+    
     // Check if this user already exisits
     let user = await userSchema.findOne({ email: req.body.email });
     if (user) {
@@ -22,7 +22,7 @@ router.post('/', urlencodedParser, async (req, res) => {
         
         await user.save();
         res.send('Succesfully registerd '+user.firstName+' with '+ user.email+' this e-mail!');
-    }
+    } 
 });
  
 module.exports = router;
