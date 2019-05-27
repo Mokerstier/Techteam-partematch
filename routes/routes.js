@@ -56,6 +56,12 @@ function routes () {
             title: "Addevent"
         });
     });
+    exRoutes.get("/addevent-succes", function(req, res){
+        res.render('pages/addevent-succes.ejs',{
+            title: "Succes",
+            festival: req.query.festival
+        });
+    });
     exRoutes.use(function(req, res, next){
         res.status(404).render('pages/404.ejs', {
             title: "Sorry, page not found"

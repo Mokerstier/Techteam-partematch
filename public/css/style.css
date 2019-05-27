@@ -126,6 +126,9 @@ footer ul li a.noti {
 .profile_settings {
   padding: 1rem;
 }
+.event_succes {
+  padding: 1rem;
+}
 /* Form styling */
 form {
   max-width: 100vw;
