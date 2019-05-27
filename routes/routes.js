@@ -36,7 +36,8 @@ function routes () {
     exRoutes.get('/profile', function(req, res){
         res.render('pages/profile.ejs', {
             title: 'Hi user',
-            
+            username: 'Wouter',
+            festival: 'Psy-fi'
         })
     });
     //Route to settings
