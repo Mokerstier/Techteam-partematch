@@ -3,20 +3,20 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const camelCase = require('camelcase');
 const bodyParser = require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
 const mongo = require('mongodb');
-const {userSchema} = require('./models/user');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
+
 //routes
 const {routes} = require('./routes/routes');
 // controllers
 const user = require('./controllers/users');
-const login = require('./controllers/user-login');
+
 require('dotenv').config();
+require('./controllers/user-login')(passport);
 
-
-var db = null;
 var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
 
 
@@ -33,12 +33,22 @@ mongoose.connection.on('open', function(err, doc){
 const port = 3000;
 const app = express();
 
-
 app
+    
     // define static files
+    .use(urlencodedParser)
     .use(express.static(__dirname, +'/public')) 
     .use(express.json())
+    .use(cookieParser())
+    .use(flash())
     .use('/register', user)
+    
+    .use(session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      //cookie: {secure: true}
+    }))
     .use(passport.initialize())
     .use(passport.session())
     // define route folder   
@@ -46,14 +56,8 @@ app
     // define template engine
     .set("view engine", "ejs")
     .set('trust proxy', 1) // used because not communicating over HTTPS and want to set cookie
-    .use(session({
-      secret: 'partEmatch secret',
-      resave: false,
-      saveUninitialized: true,
-      cookie: {secure: true}
-    }))
+    
 ;
-require('./controllers/user-login')(passport);
 
 
 app.listen(port, () => console.log(`server is gestart op port ${port}`));

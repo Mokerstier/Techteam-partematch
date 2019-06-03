@@ -1,18 +1,35 @@
 
 function routes () {
     const passport = require('passport');
-    const LocalStrategy = require('passport-local').Strategy;
+    const session = require('express-session');
+    const LocalStrategy = require('passport-local');
     const exRoutes = require('express').Router();
     const login = require('../controllers/user-login');
-    const userSchema = require('../models/user');
-    
+    const {userSchema} = require('../models/user');
+    const user = require('../controllers/users');
+    const camelCase = require('camelcase');
+
+    function isLoggedIn(req, res, next) {
+        console.log(`this is the session id ${req.session.id}`)
+        // passport adds this to the request object
+        if (req.isAuthenticated()) {
+            
+            return next();
+        } else
+        res.redirect('/login');
+    }
     // Route to homepage
     exRoutes.get("/", function(req, res) {
         res.render('pages/splash.ejs' ,{
             title: "partEmatch",
         });
     });
-    
+    //Route to home when logged in
+    exRoutes.get('/home', function(req, res){
+        res.render('pages/index.ejs', {
+            title: 'Find a match'
+        });
+    });
     // Route to login
     exRoutes.get('/login', function (req, res) {
         res.render('pages/login.ejs',{
@@ -20,8 +37,9 @@ function routes () {
         })
     })
     exRoutes.post('/login', function(req, res, next){
+        
         passport.authenticate('local', {
-            successRedirect: '/settings',
+            successRedirect: '/profile',
             failureRedirect: '/login',
             failureFlash: true
         })(req, res, next);
@@ -33,16 +51,26 @@ function routes () {
         });
     });
     // Route to profile
-    exRoutes.get('/profile', function(req, res){
-        res.render('pages/profile.ejs', {
-            title: 'Hi user',
-            username: 'Wouter',
-            festival: 'Psy-fi'
+    exRoutes.get('/profile', isLoggedIn, function(req, res){
+        console.log(req.session.passport.user)
+        const user_id = req.session.passport.user
+        console.log(user_id)
+        userSchema.findOne({_id: user_id}, function(err, user){
+            
+            res.render('pages/profile.ejs', { 
+                title: `Hi ${user.firstName}`,
+                username: camelCase(user.firstName, {pascalCase: true}),
+                festival: ''
+                });
         })
+        
+        
+        
+       
     });
     //Route to settings
     exRoutes.get('/settings', function (req, res) {
-        if ('/'){
+        if (req.user){
             res.render('pages/settings.ejs', {
                 title: 'Settings'
             });
@@ -52,7 +80,7 @@ function routes () {
     });
     
     // Route to adding festivals
-    exRoutes.get("/addevent" , function(req, res){
+    exRoutes.get("/addevent", isLoggedIn, function(req, res){
         res.render('pages/addevent.ejs' ,{
             title: "Addevent"
         });
