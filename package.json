@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "Packages that are necessary for the app",
   "main": "index.js",
+  "engines": {
+    "npm": "6.9.0",
+    "node": "10.15.3"
+  },
   "scripts": {
     "build": "node server.js",
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "dev": "nodemon server.js"
+    
   },
   "author": "Wouter van der Heijde",
   "license": "MIT",

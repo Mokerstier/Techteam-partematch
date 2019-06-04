@@ -4,3 +4,4 @@ style.less
 addevent.less
 data
 .env
+/lib

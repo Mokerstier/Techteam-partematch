@@ -98,6 +98,9 @@ header a {
   background-position: center;
   display: block;
 }
+.logout__button {
+  color: #fff;
+}
 .pref__button {
   background-image: url("/public/icons/filter.svg");
   background-repeat: no-repeat;
