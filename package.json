@@ -8,8 +8,6 @@
     "node": "10.15.3"
   },
   "scripts": {
-    "build": "node server.js",
-    
     "start": "node server.js"
     
   },
@@ -33,18 +31,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mokerstier/Package-boilerplate.git"
+    "url": "git+https://github.com/Mokerstier/partEmatch-datingApp"
   },
   "keywords": [
     "camel"
   ],
   "bugs": {
-    "url": "https://github.com/Mokerstier/Package-boilerplate/issues"
+    "url": "https://github.com/Mokerstier/partEmatch-datingApp/issues"
   },
-  "homepage": "https://github.com/Mokerstier/Package-boilerplate#readme",
+  "homepage": "https://github.com/Mokerstier/partEmatch-datingApp#readme",
   "devDependencies": {
     "eslint": "^5.16.0",
-    "nodemon": "^1.19.0",
-    "scripts": "start"
+    "nodemon": "^1.19.0"
+    
   }
 }
