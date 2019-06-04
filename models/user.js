@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
+const {prefSchema} = require('../models/prefs')
 
 const userSchema =  new mongoose.Schema({
     
@@ -31,9 +32,9 @@ const userSchema =  new mongoose.Schema({
         index: true,
         required: true
     },
-    
+
     gender: String,
-    age: Date,
+    dob: Date,
     location: String,
     bio: String,
     img: {
@@ -43,7 +44,8 @@ const userSchema =  new mongoose.Schema({
     events: {
         festival: [String],
         party: [String]
-    }
+    },
+    prefs: [prefSchema.schema]
     
 });
 userSchema.pre('save', function (next) {

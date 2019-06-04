@@ -1,8 +1,9 @@
 const {userSchema} = require('../models/user');
 const express = require('express');
 const router = express.Router();
+const {prefSchema} = require('../models/prefs')
 const bodyParser = require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
  
 router.post('/', urlencodedParser, async (req, res) => {
@@ -17,11 +18,27 @@ router.post('/', urlencodedParser, async (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            gender: req.body.gender,
+            dob: req.body.dob,
+            location: req.body.location,
+            bio: req.body.bio,
+            img: {
+                url: '',
+                alt: ''
+            },
+            events: {
+                festival: req.body.festival,
+                party: [''],
+            },
+            prefs: [prefSchema.schema]
         });
         
         await user.save();
-        res.send('Succesfully registerd '+user.firstName+' with '+ user.email+' this e-mail!');
+
+        //res.send('Succesfully registerd '+user.firstName+' with '+ user.email+' this e-mail!');
+        res.redirect('/profile')
+        
     } 
 });
  

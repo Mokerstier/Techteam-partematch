@@ -3,9 +3,9 @@
     <% include ../partials/head %>
 
 <body>
-
-    
-    <% include ../partials/navbar %>
+    <% for(var i =0; i < user.length; i++){ %>
+        <% include ../partials/matches.ejs %>
+    <% } %>
     
 </body>
 </html>

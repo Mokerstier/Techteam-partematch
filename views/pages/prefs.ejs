@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ../partials/head %>
+
+<body>
+    <section class="profile_settings">
+        <h2>Aanvullende informatie</h2>
+        <form action="/prefs" method="POST" class="settings_form">
+            <% include ../partials/preferences.ejs %>
+            <button class="form__button" type="submit">Verstuur</button>
+        </form>
+    </section>
+    <% include ../partials/navbar %>
+</body>
+
+</html>
