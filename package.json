@@ -8,8 +8,8 @@
     "node": "10.15.3"
   },
   "scripts": {
-    "start": "node server.js"
-    
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "Wouter van der Heijde",
   "license": "MIT",
@@ -26,6 +26,7 @@
     "mongodb": "^3.2.5",
     "mongoose": "^5.5.10",
     "mongoose-unique-validator": "^2.0.3",
+    "multer": "^1.4.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
@@ -43,6 +44,5 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "nodemon": "^1.19.0"
-    
   }
 }

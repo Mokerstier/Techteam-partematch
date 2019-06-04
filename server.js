@@ -18,7 +18,9 @@ require('dotenv').config();
 require('./controllers/user-login')(passport);
 
 var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
-
+if (process.env.NODE_ENV === 'production') {
+  dbURI = process.env.MONGOLAB_URI;
+}
 
 mongoose.connect(url, { useNewUrlParser: true })
     .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
@@ -35,20 +37,23 @@ const app = express();
 
 app
     
-    // define static files
+    
     .use(urlencodedParser)
+    // define static files
     .use(express.static(__dirname, +'/public')) 
     .use(express.json())
     .use(cookieParser())
     .use(flash())
+    // register route
     .use('/register', user)
-    
+    // session
     .use(session({
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       //cookie: {secure: true}
     }))
+    //passport
     .use(passport.initialize())
     .use(passport.session())
     // define route folder   

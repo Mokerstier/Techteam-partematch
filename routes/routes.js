@@ -11,6 +11,39 @@ function routes() {
     const camelCase = require('camelcase');
     const bodyParser = require('body-parser');
     const urlencodedParser = bodyParser.urlencoded({ extended: true });
+    const multer = require('multer');
+    const path = require('path');
+    
+    //Storage uploads
+    const uploads = multer.diskStorage({
+        destination: './public/uploads/',
+        filename: function(req, file, cb){
+            cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        }
+    });
+    // Init upload
+    const upload = multer({
+        storage: uploads,
+        fileFilter: function(req, file, cb){
+            checkFileType(file, cb);
+        }
+    }).single('userImage');
+
+    //check filetype for uploads
+    function checkFileType(file, cb){
+        // allowed extensions
+        const filetypes = /jpeg|jpg|png|gif/;
+        // check extensions
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        //chekc mime
+        const mimetype = filetypes.test(file.mimetype);
+
+        if (mimetype && extname){
+            return cb(null,true);
+        } else {
+            cb('Error: images only');
+        }
+    }
 
     function lookForMatch(req, res, next){
         const user_id = req.session.passport.user;
@@ -71,6 +104,28 @@ function routes() {
             })
         });
     });
+    exRoutes.post('/upload', (req, res) => {
+        upload(req, res, (err) => {
+            if (err) {
+                res.redirect('/profile', {
+                    msg: err,
+                    
+                });
+            } else {
+                if (req.file == undefined) {
+                    res.redirect('/profile', {                    
+                        msg: 'Error: no file selected!',
+                        
+                    });
+                } else{
+                    res.redirect('/profile',{
+                        msg: 'File uploaded',
+                        file: `uploads/${req.file.filename}`
+                    })
+                }
+            }
+        })
+    })
     //Route to login
     exRoutes.get('/login', function (req, res) {
         res.render('pages/login.ejs', {
@@ -105,13 +160,12 @@ function routes() {
     });
     // Route to profile
     exRoutes.get('/profile', isLoggedIn, function (req, res) {
-
         const user_id = req.session.passport.user
 
         userSchema.findOne({ _id: user_id }, function (err, user) {
             if (err) throw err
             res.render('pages/profile.ejs', {
-                title: `Hi ${user.firstName}`,
+                title: `Partematch ${user.firstName} profile`,
                 username: camelCase(user.firstName, { pascalCase: true }, user.lastName, { pascalCase: true }),
                 festival: user.events.festival,
                 dob: user.dob,
@@ -119,11 +173,8 @@ function routes() {
                 imgUrl: user.img.url,
             });
         })
-
-
-
-
     });
+
     // exRoutes.get('/profile', isLoggedIn, function(req, res){
     //     console.log(req.session.passport.user)
     //     const user_id = req.session.passport.user

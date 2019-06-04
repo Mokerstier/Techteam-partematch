@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
-const {prefSchema} = require('../models/prefs')
+const {prefSchema} = require('../models/prefs');
 
 const userSchema =  new mongoose.Schema({
     
@@ -50,6 +50,7 @@ const userSchema =  new mongoose.Schema({
 });
 userSchema.pre('save', function (next) {
     var user = this;
+    if (!user.isModified('password')) return next();
     bcrypt.hash(user.password, 10, function (err, hash){
       if (err) {
         return next(err);
