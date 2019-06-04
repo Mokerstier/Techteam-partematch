@@ -17,10 +17,8 @@ const user = require('./controllers/users');
 require('dotenv').config();
 require('./controllers/user-login')(passport);
 
-var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
-if (process.env.NODE_ENV === 'production') {
-  dbURI = process.env.MONGOLAB_URI;
-}
+var url = 'mongodb://127.0.0.1:27017/'+process.env.DB_NAME;
+
 
 mongoose.connect(url, { useNewUrlParser: true })
     .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
