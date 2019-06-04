@@ -17,18 +17,19 @@ const user = require('./controllers/users');
 require('dotenv').config();
 require('./controllers/user-login')(passport);
 
-var url = 'mongodb://127.0.0.1:27017/'+process.env.DB_NAME;
+//var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
+var uri = process.env.MONGODB_URI;
+mongoose.set("useNewUrlParser", true);
+mongoose.connect(uri);
+// mongoose.connect(url, { useNewUrlParser: true })
+//     .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
+//     .catch(err => console.error('Something went wrong', err));
 
 
-mongoose.connect(url, { useNewUrlParser: true })
-    .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
-    .catch(err => console.error('Something went wrong', err));
-
-
-mongoose.connection.on('open', function(err, doc){
-  console.log(`connection established with ${process.env.DB_NAME}`);
+// mongoose.connection.on('open', function(err, doc){
+//   console.log(`connection established with ${process.env.DB_NAME}`);
   
-});
+// });
 
 const port = 3000;
 const app = express();
