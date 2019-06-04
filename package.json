@@ -10,7 +10,7 @@
   "scripts": {
     "build": "node server.js",
     "dev": "nodemon server.js",
-    "satrt": "node server.js"
+    "start": "node server.js"
     
   },
   "author": "Wouter van der Heijde",
