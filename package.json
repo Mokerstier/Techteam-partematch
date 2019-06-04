@@ -2,7 +2,7 @@
   "name": "boilerpackage",
   "version": "1.0.0",
   "description": "Packages that are necessary for the app",
-  "main": "index.js",
+  "main": "server.js",
   "engines": {
     "npm": "6.9.0",
     "node": "10.15.3"
