@@ -17,14 +17,14 @@ function routes() {
     //Storage uploads
     const uploads = multer.diskStorage({
         destination: './public/uploads/',
-        filename: function(req, file, cb){
+        filename: (req, file, cb) =>{
             cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
         }
     });
     // Init upload
     const upload = multer({
         storage: uploads,
-        fileFilter: function(req, file, cb){
+        fileFilter: (req, file, cb) => {
             checkFileType(file, cb);
         }
     }).single('userImage');
@@ -67,15 +67,15 @@ function routes() {
 
     }
     // Route to homepage
-    exRoutes.get("/", function (req, res) {
+    exRoutes.get("/", (req, res) => {
         res.render('pages/splash.ejs', {
             title: "partEmatch",
         });
     });
     //Route to match when logged in
-    exRoutes.get('/match', isLoggedIn, lookForMatch, function (req, res) {
+    exRoutes.get('/match', isLoggedIn, lookForMatch, (req, res) => {
         //console.log(`now attempting search for match ${filter}`)
-        userSchema.find({'events.festival':'lowlands'}, function (err, users) {
+        userSchema.find({'events.festival':'lowlands'}, (err, users) => {
             console.log(`we found you ${users.length} matches`)
             if (err) {
                 res.send('something went terribly wrong')
@@ -88,7 +88,7 @@ function routes() {
         
     });
     //Route to other user profile
-    exRoutes.get('/user/:id', isLoggedIn, function (req, res, next) {
+    exRoutes.get('/user/:id', isLoggedIn, (req, res, next) => {
         let id = req.params.id
         console.log(id)
         userSchema.findById({ _id: id }, (err, user) => {
@@ -107,32 +107,34 @@ function routes() {
     exRoutes.post('/upload', (req, res) => {
         upload(req, res, (err) => {
             if (err) {
-                res.redirect('/profile', {
+                res.redirect('/settings', {
                     msg: err,
                     
                 });
             } else {
                 if (req.file == undefined) {
-                    res.redirect('/profile', {                    
+                    res.redirect('/settings', {                    
                         msg: 'Error: no file selected!',
                         
                     });
                 } else{
-                    res.redirect('/profile',{
+                    console.log(req.user)
+                    res.redirect('/settings',{
                         msg: 'File uploaded',
                         file: `uploads/${req.file.filename}`
+                        
                     })
                 }
             }
         })
     })
     //Route to login
-    exRoutes.get('/login', function (req, res) {
+    exRoutes.get('/login', (req, res) => {
         res.render('pages/login.ejs', {
             title: 'Login'
         })
     })
-    exRoutes.post('/login', function (req, res, next) {
+    exRoutes.post('/login', (req, res, next) => {
 
         passport.authenticate('local', {
             successRedirect: '/profile',
@@ -141,15 +143,15 @@ function routes() {
         })(req, res, next);
     });
     // Route to register page
-    exRoutes.get('/register', function (req, res) {
+    exRoutes.get('/register', (req, res) => {
         res.render('pages/register.ejs', {
             title: 'Register'
         });
     });
-    exRoutes.get('/logout', function (req, res, next) {
+    exRoutes.get('/logout', (req, res, next) => {
         if (req.session) {
             // delete session object
-            req.session.destroy(function (err) {
+            req.session.destroy( (err) => {
                 if (err) {
                     return next(err);
                 } else {
@@ -159,10 +161,10 @@ function routes() {
         }
     });
     // Route to profile
-    exRoutes.get('/profile', isLoggedIn, function (req, res) {
+    exRoutes.get('/profile', isLoggedIn, (req, res) => {
         const user_id = req.session.passport.user
 
-        userSchema.findOne({ _id: user_id }, function (err, user) {
+        userSchema.findOne({ _id: user_id }, (err, user) => {
             if (err) throw err
             res.render('pages/profile.ejs', {
                 title: `Partematch ${user.firstName} profile`,
@@ -174,69 +176,75 @@ function routes() {
             });
         })
     });
-
-    // exRoutes.get('/profile', isLoggedIn, function(req, res){
-    //     console.log(req.session.passport.user)
-    //     const user_id = req.session.passport.user
-    //     console.log(user_id)
-    //     userSchema.findOne({_id: user_id}, function(err, user){
-
-    //         res.render('pages/profile.ejs', { 
-    //             title: `Hi ${user.firstName}`,
-    //             username: camelCase(user.firstName, {pascalCase: true}),
-    //             festival: ''
-    //             });
-    //     })   
-
-
-
-
-    // });
-    //Route to settings
-    exRoutes.get('/prefs', isLoggedIn, function (req, res) {
+    //Route to preferences
+    exRoutes.get('/prefs', isLoggedIn, (req, res) => {
 
         res.render('pages/prefs.ejs', {
             title: 'Prefs'
         });
     });
-    exRoutes.post('/prefs', isLoggedIn, urlencodedParser, function (req, res) {
-
+    exRoutes.post('/prefs', isLoggedIn, urlencodedParser, (req, res) => {
         const user_id = req.session.passport.user;
-        userSchema.findOne({ _id: user_id }, function (err, user) {
+        userSchema.findOne({ _id: user_id }, (err, user) => {
             console.log("hallo", user.firstName)
             if (err) throw err;
-            // let settings = req.body; 
-
             user.prefs.create({
                 pref: req.body.pref,
                 looking: req.body.looking
             });
             console.log(user.prefs)
-
-            user.save(function (err) {
+            user.save( (err) => {
                 if (err) throw err;
-
             });
-
         })
         res.redirect('/profile');
     });
-
+    // route to settings
+    exRoutes.get('/settings', isLoggedIn, (req, res) => {
+        res.render('pages/settings.ejs',{
+            title: 'Change your settings'
+        });
+    });
+    exRoutes.post('/settings', isLoggedIn, urlencodedParser, (req, res) => {
+        const user_id = req.session.passport.user;
+        userSchema.findOne({ _id: user_id }, async (err, doc) => {
+            if(err) throw err
+            console.log(doc)
+                doc.gender = req.body.gender,
+                doc.dob = req.body.dob,
+                doc.location = req.body.location,
+                doc.bio = req.body.bio;
+            
+            await doc.save();
+            res.redirect('/profile');
+        });
+    });
     // Route to adding festivals
-    exRoutes.get("/addevent", isLoggedIn, function (req, res) {
+    exRoutes.get("/addevent", isLoggedIn,  (req, res) => {
         res.render('pages/addevent.ejs', {
             title: "Addevent"
         });
     });
-    exRoutes.get("/addevent-succes", function (req, res) {
-
-        res.render('pages/addevent-succes.ejs', {
-
-            title: "Succes",
-            festival: req.query.festival
+    exRoutes.post('/addevent-succes', isLoggedIn, (req, res) => {
+        const user_id = req.session.passport.user;
+        userSchema.findOne({ _id: user_id }, async (err, doc) => {
+            if(err) throw err
+            doc.events.festival = req.body.festival;
+            console.log(doc.events);
+            await doc.save();
+            res.redirect('/profile');
         });
     });
-    exRoutes.use(function (req, res, next) {
+    // DANGER DELETE ACCOUNT
+    exRoutes.post('/delete', isLoggedIn, (req,res) => {
+        const user_id = req.session.passport.user;
+        userSchema.findOneAndDelete({ _id: user_id }, async (err, doc) => {
+            if(err) throw err
+            res.redirect('/');
+        });
+    });
+    // 404 pages invalid url or page doesnt exist
+    exRoutes.use( (req, res, next) => {
         res.status(404).render('pages/404.ejs', {
             title: "Sorry, page not found"
         });
