@@ -5,6 +5,15 @@ Package with `camelCase` and `nodemon`
 ## Description
 partEmatch is a dating-app that focusses on people that are visiting festivals and looking for other people that attend to the same festival. Each user can specify festivals they attend. Some users are looking for a romance where other just want to start friendships or find people to share festival experiences with.
 
+## Supported Features
+Within the app users are able to:
+- Register a profile
+- Login a registerd account
+- Upload an img
+- Change user information (profile)
+- Find matches (based on festivals/partys attending)
+- Specify preferences (looking for love/friendship, looking for male/female/no preference)
+- Delete an account
 
 ## Installation
 ### 1. Clone the partEmatch repo
