@@ -11,9 +11,9 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
+// var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
 
-const connection = mongoose.connect(url, { useNewUrlParser: true });
+// const connection = mongoose.connect(url, { useNewUrlParser: true });
 
 module.exports = function(passport){
 

@@ -27,13 +27,15 @@ Install al the required dependencies to be able to run the app on youre server:
 `npm install`
 
 ### 3. Configuration
-Before you can use a `mongoDB` - database you'll have to make some configurations on pre hand:
+Before you can use a `mongoDB` - database locally you'll have to make some configurations on pre hand:
 create a `.env` - configure `DB_NAME`, `DB_HOST` and a `DB_PORT`
-#### Open your CLI and run the following commands:
+#### Open your CLI and run the following commands
+For local setups:
 1. `touch .env`
 2. `echo "DB_NAME=your_db_name" >> .env`
 3. `echo "DB_PORT=your_db_port" >> .env`
 4. `echo "DB_HOST=your_db_host" >> .env` => usually `localhost`
+5. `echo "PORT=your_port_number" >> .env` => usually `8080`
 
 You are now able to run the application using `npm start`
 if everything is setted up the right way youre terminal will log:
