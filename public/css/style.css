@@ -162,6 +162,7 @@ footer ul li a.noti {
 }
 .login_form .form_field {
   display: block;
+  margin-bottom: 1rem;
 }
 .login_form form {
   width: 100%;

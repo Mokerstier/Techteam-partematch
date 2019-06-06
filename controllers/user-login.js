@@ -25,7 +25,7 @@ module.exports = function(passport){
 
       function(username, password, done){
         let auth = {email: username};
-        userSchema.findOne(auth, function(err, user){
+        userSchema.findOne(auth, (err, user) =>{
             
             if (err) throw err;
             if (!user){
@@ -33,7 +33,7 @@ module.exports = function(passport){
                 return done (null, false, {message: 'No user found'});
             }
             
-            bcrypt.compare(password, user.password, function(err, authSucces){
+            bcrypt.compare(password, user.password, (err, authSucces) => {
                 if(err) throw err;
                 if(authSucces){
                     console.log(`${user.firstName} is now logged in`);
@@ -45,11 +45,11 @@ module.exports = function(passport){
             });
         });
     }));
-    passport.serializeUser(function(user_id, done) {
+    passport.serializeUser((user_id, done) => {
         done(null, user_id);
       });
       
-    passport.deserializeUser(function(user_id, done) {
+    passport.deserializeUser((user_id, done) => {
         
         done(null, user_id);
         

@@ -55,16 +55,28 @@ function routes() {
             var filter = doc.events.festival;
             console.log(`this are the filteroptions '${filter}'`)    
                 return next();
-    })}
+    })};
+
+    async function whoThisUser(req, res, next) {
+        const user_id = req.session.passport.user;
+        userSchema.findOne({ _id: user_id }, (err, thisUser) => {
+            if (err){
+                res.send('something broke who this ', thisUser.firstName)
+            } 
+            else{
+                console.log(thisUser);
+                return next(thisUser);  
+                
+            } 
+        })
+    }
 
     function isLoggedIn(req, res, next) {
         // check if user is logged in with passport
         if (req.isAuthenticated()) {
-
             return next();
         } else
             res.redirect('/login');
-
     }
     // Route to homepage
     exRoutes.get("/", (req, res) => {
@@ -75,7 +87,7 @@ function routes() {
     //Route to match when logged in
     exRoutes.get('/match', isLoggedIn, lookForMatch, (req, res) => {
         //console.log(`now attempting search for match ${filter}`)
-        userSchema.find({'events.festival':'lowlands'}, (err, users) => {
+        userSchema.find({'events.festival':'lowlands'} , (err, users) => {
             console.log(`we found you ${users.length} matches`)
             if (err) {
                 res.send('something went terribly wrong')
@@ -84,8 +96,7 @@ function routes() {
                 user: users,
                 title: 'Find a match'
             });
-        });
-        
+        });        
     });
     //Route to other user profile
     exRoutes.get('/user/:id', isLoggedIn, (req, res, next) => {
@@ -108,21 +119,18 @@ function routes() {
         upload(req, res, (err) => {
             if (err) {
                 res.redirect('/settings', {
-                    msg: err,
-                    
+                    msg: err,                 
                 });
             } else {
                 if (req.file == undefined) {
                     res.redirect('/settings', {                    
-                        msg: 'Error: no file selected!',
-                        
+                        msg: 'Error: no file selected!',                      
                     });
                 } else{
                     console.log(req.user)
                     res.redirect('/settings',{
                         msg: 'File uploaded',
-                        file: `uploads/${req.file.filename}`
-                        
+                        file: `uploads/${req.file.filename}`                        
                     })
                 }
             }
@@ -149,7 +157,7 @@ function routes() {
         });
     });
     exRoutes.get('/logout', (req, res, next) => {
-        if (req.session) {
+        if (req.session) { //check if a session is active
             // delete session object
             req.session.destroy( (err) => {
                 if (err) {
@@ -161,13 +169,27 @@ function routes() {
         }
     });
     // Route to profile
-    exRoutes.get('/profile', isLoggedIn, (req, res) => {
+    exRoutes.get('/profile', isLoggedIn,  (req, res, err) => {
+        // if (err) {
+        //     res.send(`say whut ${err}`)
+        // } else {
+        //     const thisUser = JSON.parse(thisUser)
+        //     console.log('succes')
+        //     res.render('pages/profile.ejs', {
+        //         title : `Partematch profile`,
+        //         username : camelCase(thisUser.firstName, { pascalCase: true })+ camelCase(thisUser.lastName, { pascalCase: true }),
+        //         festival : thisUser.events.festival,
+        //         dob : thisUser.dob,
+        //         bio : thisUser.bio,
+        //         imgUrl : thisUser.img.url
+        //     });
+        // }
         const user_id = req.session.passport.user
-
         userSchema.findOne({ _id: user_id }, (err, user) => {
             if (err) throw err
+
             res.render('pages/profile.ejs', {
-                title: `Partematch ${user.firstName} profile`,
+                title: `Partematch ${user.firstName} profile`,     
                 username: camelCase(user.firstName, { pascalCase: true }, user.lastName, { pascalCase: true }),
                 festival: user.events.festival,
                 dob: user.dob,
