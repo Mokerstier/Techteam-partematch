@@ -17,12 +17,15 @@ const user = require('./controllers/users');
 require('dotenv').config();
 require('./controllers/user-login')(passport);
 
+
+// Settings for online DATABASE
 var uri = process.env.MONGODB_URI;
 mongoose.set("useNewUrlParser", true);
 mongoose.connect(uri);
 
+
+// LOCAL DATABASE
 // var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
- 
 // mongoose.connect(url, { useNewUrlParser: true })
 //     .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
 //     .catch(err => console.error('Something went wrong', err));
@@ -32,7 +35,8 @@ mongoose.connect(uri);
   
 // });
 
-const port = process.env.APP_PORT;
+// Port for running server
+const port = process.env.PORT;
 const app = express();
 
 app
