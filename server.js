@@ -32,7 +32,7 @@ const options = {
 
 // Settings for online DATABASE
 var uri = process.env.MONGODB_URI;
-mongoose.set("useNewUrlParser", true);
+// mongoose.set("useNewUrlParser", true);
 mongoose.connect(uri, options);
 
 
@@ -42,10 +42,9 @@ mongoose.connect(uri, options);
 //     .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
 //     .catch(err => console.error('Something went wrong', err));
 
-// mongoose.connection.on('open', function(err, doc){
-//   console.log(`connection established with ${process.env.DB_NAME}`);
-  
-// });
+mongoose.connection.on('open', function(err, doc){
+  console.log(`connection established with ${process.env.DB_NAME}`);
+});
 
 // Port for running server
 const port = process.env.PORT;
