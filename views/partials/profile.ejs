@@ -1,22 +1,22 @@
 <section class="profile_user">
     <div class="profile_picture">
-        <img src="<%= imgUrl %>" alt="">
+        <img src="<%= user.img.url %>" alt="">
     </div>
     <div class="profile_info">
         <h2 class="profile_name"><%= username %></h2>
-        <p class="profile_age"><%= dob %></p>
+        <p class="profile_age"><%= user.dob %></p>
         <h2>Bio</h2>
-        <% if(bio.lenght === 0){ %>
+        <% if(user.bio.length === 0){ %>
             <p class="profile_helpermsg">Voeg een beschrijving toe toe via <a href="/settings">het settings menu!</a></p>
         <% } else { %>
-            <p class="profile_bio"><%= bio %></p>
+            <p class="profile_bio"><%= user.bio %></p>
        <% }; %>
     </div>
     <div class="profile_festival">
         <h2>Gaat naar:</h2>
         <ul>
-        <% for(var i =0; i < festival.length; i++){ %>
-            <li><%= festival[i] %></li>
+        <% for(var i =0; i < user.events.festival.length; i++){ %>
+            <li><%= user.events.festival[i] %></li>
         <% } %>
         </ul>
     </div>
