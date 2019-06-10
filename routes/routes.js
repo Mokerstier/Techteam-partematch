@@ -44,18 +44,31 @@ function routes() {
             cb('Error: images only');
         }
     }
-
-    function lookForMatch(req, res, next){
+    // Matching logic based on festival
+    let lookForMatch = (req, res, next) => {
         const user_id = req.session.passport.user;
-        const userfilter = userSchema.findOne({_id:user_id}, (err, doc) =>{
+        userSchema.findOne({_id:user_id}, (err, doc) =>{
             if (!doc){
                 res.redirect('/profile')
-            
+                
             } else 
-            var filter = doc.events.festival;
-            console.log(`this are the filteroptions '${filter}'`)    
-                return next();
+                lookForMatch = doc.events.festival;                                       
+                return next(null, lookForMatch)
     })};
+    //Route to match when logged in and with matchingLogic based on festival
+    exRoutes.get('/match', isLoggedIn, lookForMatch, (req, res) => {
+        console.log(`now attempting search for match [${lookForMatch}]`)
+        userSchema.find({'events.festival':{ $in: lookForMatch } }, (err, users) => {
+            console.log(`we found you ${users.length} matches`)
+            if (err) {
+                res.send('something went terribly wrong')
+            }
+            res.render('pages/index.ejs', {
+                user: users,
+                title: 'Find a match'
+            });
+        });        
+    });
 
     function isLoggedIn(req, res, next) {
         // check if user is logged in with passport
@@ -91,20 +104,7 @@ function routes() {
             title: "partEmatch",
         });
     });
-    //Route to match when logged in
-    exRoutes.get('/match', isLoggedIn, lookForMatch, (req, res) => {
-        //console.log(`now attempting search for match ${filter}`)
-        userSchema.find({'events.festival':'lowlands'} , (err, users) => {
-            console.log(`we found you ${users.length} matches`)
-            if (err) {
-                res.send('something went terribly wrong')
-            }
-            res.render('pages/index.ejs', {
-                user: users,
-                title: 'Find a match'
-            });
-        });        
-    });
+    
     //Route to other user profile
     exRoutes.get('/user/:id', isLoggedIn, (req, res, next) => {
         let id = req.params.id
@@ -175,7 +175,6 @@ function routes() {
             });
         }
     });
-
     //Route to preferences
     exRoutes.get('/prefs', isLoggedIn, (req, res) => {
 
