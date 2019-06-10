@@ -57,20 +57,6 @@ function routes() {
                 return next();
     })};
 
-    async function whoThisUser(req, res, next) {
-        const user_id = req.session.passport.user;
-        userSchema.findOne({ _id: user_id }, (err, thisUser) => {
-            if (err){
-                res.send('something broke who this ', thisUser.firstName)
-            } 
-            else{
-                console.log(thisUser);
-                return next(thisUser);  
-                
-            } 
-        })
-    }
-
     function isLoggedIn(req, res, next) {
         // check if user is logged in with passport
         if (req.isAuthenticated()) {
@@ -78,6 +64,27 @@ function routes() {
         } else
             res.redirect('/login');
     }
+    // Route to profile
+    let thisUser = ( req, res, next) => {
+        const user_id = req.session.passport.user;        
+        userSchema.findOne({ _id: user_id }, (err, data) => {
+            if (err){
+                res.send('something broke who this ', data.firstName)
+            } 
+            else{              
+                thisUser = JSON.stringify(data)
+                return next();  
+            } 
+        });
+    };
+    exRoutes.get('/profile', isLoggedIn, thisUser, (req, res) => {
+        const data = JSON.parse(thisUser)
+        res.render('pages/profile.ejs', {
+            user: data,
+            title: `Partematch profile ${data.firstName} `,
+            username: `${camelCase(data.firstName, { pascalCase: true })} ${camelCase(data.lastName, { pascalCase: true })}`
+        })
+    });
     // Route to homepage
     exRoutes.get("/", (req, res) => {
         res.render('pages/splash.ejs', {
@@ -168,36 +175,7 @@ function routes() {
             });
         }
     });
-    // Route to profile
-    exRoutes.get('/profile', isLoggedIn,  (req, res, err) => {
-        // if (err) {
-        //     res.send(`say whut ${err}`)
-        // } else {
-        //     const thisUser = JSON.parse(thisUser)
-        //     console.log('succes')
-        //     res.render('pages/profile.ejs', {
-        //         title : `Partematch profile`,
-        //         username : camelCase(thisUser.firstName, { pascalCase: true })+ camelCase(thisUser.lastName, { pascalCase: true }),
-        //         festival : thisUser.events.festival,
-        //         dob : thisUser.dob,
-        //         bio : thisUser.bio,
-        //         imgUrl : thisUser.img.url
-        //     });
-        // }
-        const user_id = req.session.passport.user
-        userSchema.findOne({ _id: user_id }, (err, user) => {
-            if (err) throw err
 
-            res.render('pages/profile.ejs', {
-                title: `Partematch ${user.firstName} profile`,     
-                username: camelCase(user.firstName, { pascalCase: true }, user.lastName, { pascalCase: true }),
-                festival: user.events.festival,
-                dob: user.dob,
-                bio: user.bio,
-                imgUrl: user.img.url,
-            });
-        })
-    });
     //Route to preferences
     exRoutes.get('/prefs', isLoggedIn, (req, res) => {
 
