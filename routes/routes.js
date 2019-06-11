@@ -6,7 +6,6 @@ function routes() {
     const exRoutes = require('express').Router();
     const login = require('../controllers/user-login');
     const { userSchema } = require('../models/user');
-    const { prefSchema } = require('../models/prefs');
     const user = require('../controllers/users');
     const camelCase = require('camelcase');
     const bodyParser = require('body-parser');
@@ -177,24 +176,16 @@ function routes() {
     });
     //Route to preferences
     exRoutes.get('/prefs', isLoggedIn, (req, res) => {
-
         res.render('pages/prefs.ejs', {
             title: 'Prefs'
         });
     });
-    exRoutes.post('/prefs', isLoggedIn, urlencodedParser, (req, res) => {
-        const user_id = req.session.passport.user;
-        userSchema.findOne({ _id: user_id }, (err, user) => {
-            console.log("hallo", user.firstName)
-            if (err) throw err;
-            user.prefs.create({
-                pref: req.body.pref,
-                looking: req.body.looking
-            });
-            console.log(user.prefs)
-            user.save( (err) => {
-                if (err) throw err;
-            });
+    exRoutes.post('/prefs', isLoggedIn, urlencodedParser, thisUser, (req, res) => {
+        const data = JSON.parse(thisUser);
+        userSchema.findById({_id:data._id}, (err, user) => {   
+            user.prefs.pref = req.body.pref,
+            user.prefs.relation = req.body.relation
+            console.log(user)
         })
         res.redirect('/profile');
     });
