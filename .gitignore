@@ -5,8 +5,5 @@ addevent.less
 data
 .env
 /lib
-<<<<<<< HEAD
-TechTeam.code-workspace
-=======
-TechTeam.code-workspace
->>>>>>> 455da579d54ab473c2d5f3b467e3ac1a618fab2f
+*.code-workspace
+
