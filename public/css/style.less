@@ -1,0 +1,344 @@
+@dark-purple : #7c4997;
+@purple: #b74a95;
+@dark-blue: #435ca7;
+@blue: #6171b4;
+@light-blue: #4cbed2;
+@yellow: #ffd217;
+@black: #2d2d2d;
+@button-color: linear-gradient(#4cbed2,#6171b4);
+
+@import url("https://use.typekit.net/uhx2ooa.css");
+//general
+*{
+    box-sizing: border-box;
+}
+html{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: @light-blue;
+    background-image: linear-gradient(223deg, #435CA7 0%, #6171B4 24%, #4CBED2 100%); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 100vh;
+    font-family: futura, sans-serif;
+    color: @black;
+    margin: 0;
+    width: 100%;
+}
+.splash{
+    background-image: url("/public/background/EZoo-2014-Crowd-People-DLG-6008.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.5;
+    z-index: -1;
+    
+    div{
+        background-image: linear-gradient(223deg, #435CA7 0%, #6171B4 24%, #4CBED2 100%);
+        height: 100%;
+        width: 100%;
+        opacity: 0.5;
+    }
+    ~h1, ~h3{
+        color: #fff;
+        text-align: center;
+        width: 80%;
+        margin: auto;
+        padding-top: 5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+    }
+    ~h3{
+        padding-bottom: 5rem;
+    }
+    ~p{
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        width: 80%;
+        margin: auto;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+    }
+    ~a{
+        display: block;
+        margin: auto;
+        text-decoration: none;
+    }
+
+}
+// Header styles
+h1, h2, h3{
+    max-width: 30rem;
+}
+h1{
+    font-size: 1.5rem;
+}
+h2{
+    font-size: 1.4rem;
+}
+h3{
+    font-size: 1rem;
+}
+a{
+    color: @dark-blue;
+    font-weight: bold;
+}
+/* Header navigation */
+header{
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+    a{
+        color: transparent;
+        background-color: #ffffff75;
+        width: 2em;
+        height: 2em;
+        border-radius: 6px;
+        margin:0 .5rem;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        display: block;
+    }
+}
+.logout__button{
+    color: #fff;
+}
+.pref__button{
+    background-image: url("/public/icons/filter.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    display: block;
+    
+}
+/* Footer Navigation */
+footer{
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: 100vw;
+    nav{
+        width: 100%;
+    }
+    ul{
+        display: flex;
+        justify-content: space-evenly;
+        padding: 0;
+        margin: 0;
+        
+        li{
+            list-style: none;
+            a{
+                display: block;
+                color: transparent;
+                background-size: 30px;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 2em;
+                height: 3em;
+                &.settings{
+                    background-image: url("/public/icons/settings-bg-white.svg");
+                }
+                &.user{
+                    background-image: url("/public/icons/user-bg-white.svg");
+                }
+                &.chat{
+                    background-image: url("/public/icons/chat.svg");
+                }
+                &.match{
+                    background-image: url("/public/icons/festival.svg");
+                }
+                &.noti{
+                    background-image: url("/public/icons/notifications.svg");
+                }
+            }
+    }
+    }
+}
+.login_form{
+    padding: 2rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    align-content: center;
+    .form_field{
+        display: block;
+        margin-bottom: 1rem;
+    }
+    form{
+        width: 100%;
+    }
+    input{
+        width: 80%;
+    }
+    label{
+        display: block;
+        width: 100%
+    }
+}
+.profile_user{
+    padding: 1rem;
+}
+.profile_settings{
+    padding: 1rem;
+}
+.profile_picture{
+    border-radius: 50%;
+    width: 10rem;
+    height: 10rem;
+    text-align: center;
+    img{
+        border-radius: 100%;
+        width: 100%;
+        height: 100%;
+    }
+
+}
+.users_match{
+    display: flex;
+    flex-wrap: wrap;
+}
+.matches_user{
+    &:nth-of-type(even){
+        padding-top: 2rem;
+    }
+    h2{
+        text-align: center;
+    }
+    display: block;
+    width: 33%;
+    padding: .5rem;
+    .profile_picture{
+        width: 6rem;
+        height: 6rem;
+    }
+}
+.event_succes{
+    padding: 1rem;
+}
+/* Form styling */
+form{
+    max-width: 100vw;
+    padding-bottom: 5rem;
+
+    fieldset{
+        padding: 1rem;
+        border: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100vw;
+        
+        
+        legend{
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 1rem 1rem .5rem 1rem;
+            margin: 0;
+            width: 100%;
+        }
+        input{
+            border-color: @dark-blue;
+        }
+        button{
+            display: block;
+            margin: auto;
+            margin-top: 5em;
+            
+        }
+        textarea{
+            display: block;
+        }
+    }
+    
+}
+.form_field{
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: inherit;
+    overflow-x: auto;
+    
+    .form_option{
+        display: block;
+        position: relative;
+        margin: 1rem 0 1rem 1rem;
+    }
+}
+.form_field_event{
+    background-color: rgba(255, 255, 255, 0.397);
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: inherit;
+    overflow-x: auto;
+
+    .form_option_event{
+        min-width: 18rem;
+        position: relative;
+        margin: 1rem 0 1rem 1rem;
+
+        input{
+            position: absolute;
+            visibility: hidden;
+        
+        }
+        input:checked + label:after{
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 4px;
+            background-color: #3ffd2e69;
+            width: 16rem;
+            height: 10rem;
+        }
+        label.event:before{
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-color: #fff;
+            border-radius: 4px;
+            content: "";
+            display: block;
+            width: 16rem;
+            height: 10rem;
+        }
+        #psy-fi + label:before{
+            background-image: url("/public/Festivals/PsyFi-logo.jpg");
+        }
+        #pinkpop + label:before{
+            background-image: url("/public/Festivals/pinkpop.svg");
+        }
+        #lowlands + label:before{
+            background-image: url("/public/Festivals/Lowlands-logo.jpg");
+        }
+    }
+}
+/* button */
+.link__button,
+.form__button{
+    background-color: #4cbed2;
+    background-image: @button-color;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    display: block;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    margin: auto;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    max-width: 12rem;
+}
