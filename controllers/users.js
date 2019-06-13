@@ -1,7 +1,6 @@
 const {userSchema} = require('../models/user');
 const express = require('express');
 const router = express.Router();
-const {prefSchema} = require('../models/prefs');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
@@ -31,7 +30,11 @@ router.post('/', urlencodedParser, async (req, res) => {
                 festival: req.body.festival,
                 party: [''],
             },
-            prefs: [prefSchema.schema]
+            prefs: { 
+                pref: req.body.pref,
+                relation: req.body.relation
+            }
+        
         });
         
         await user.save();
