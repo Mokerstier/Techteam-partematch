@@ -219,7 +219,7 @@ function routes() {
                         await doc.save();
 
                         console.log(req.file.filename);
-                    res.redirect('/profile',{
+                    res.redirect('/profile', 200,{
                         msg: 'File uploaded',
                         file: `uploads/${req.file.filename}`
                     })
