@@ -19,7 +19,7 @@ body {
   width: 100%;
 }
 .splash {
-  background-image: url("https://www.clf-lighting.com/wp-content/uploads/CLF-Defqon-1-1200x800.jpg");
+  background-image: url("/public/background/EZoo-2014-Crowd-People-DLG-6008.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -76,7 +76,7 @@ h3 {
   font-size: 1rem;
 }
 a {
-  color: #EC6808;
+  color: #ec6808;
   font-weight: bold;
 }
 /* Header navigation */
@@ -112,10 +112,12 @@ header a {
 footer {
   position: fixed;
   bottom: 0;
+  background-color: #fff;
   width: 100vw;
 }
 footer nav {
   width: 100%;
+  background-color: #161622;
 }
 footer ul {
   display: flex;
@@ -190,7 +192,7 @@ form fieldset input {
 }
 .login_form label {
   font-size: 1rem;
-  color: #fff;
+  color: #2d2d2d;
   display: block;
   width: 100%;
   opacity: 0.5;
@@ -343,7 +345,7 @@ form fieldset button {
   color: #fff;
   display: block;
   font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: .5rem 1rem;
   margin: auto;
   margin-bottom: 1rem;
   margin-top: 1rem;

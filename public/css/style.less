@@ -31,50 +31,6 @@ body {
 	margin: 0;
 	width: 100%;
 }
-<<<<<<< HEAD
-.splash{
-    background-image: url("https://www.clf-lighting.com/wp-content/uploads/CLF-Defqon-1-1200x800.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    opacity: 0.5;
-    z-index: -1;
-    
-    div{
-        background-image: linear-gradient(223deg, #435CA7 0%, #6171B4 24%, #4CBED2 100%);
-        height: 100%;
-        width: 100%;
-        opacity: 0.5;
-    }
-    ~h1, ~h3{
-        color: #fff;
-        text-align: center;
-        width: 80%;
-        margin: auto;
-        padding-top: 5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.50);
-    }
-    ~h3{
-        padding-bottom: 5rem;
-    }
-    ~p{
-        color: #fff;
-        text-align: center;
-        padding: 1rem;
-        width: 80%;
-        margin: auto;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.50);
-    }
-    ~a{
-        display: block;
-        margin: auto;
-        text-decoration: none;
-    }
-=======
 .splash {
 	background-image: url("/public/background/EZoo-2014-Crowd-People-DLG-6008.jpg");
 	background-position: center;
@@ -86,7 +42,6 @@ body {
 	width: 100vw;
 	opacity: 0.5;
 	z-index: -1;
->>>>>>> 178df33f3712d8de33a645882cf4be75071a37f5
 
 	div {
 		background-image: linear-gradient(
@@ -140,15 +95,9 @@ h2 {
 h3 {
 	font-size: 1rem;
 }
-<<<<<<< HEAD
 a{
     color: @orange;
     font-weight: bold;
-=======
-a {
-	color: @dark-blue;
-	font-weight: bold;
->>>>>>> 178df33f3712d8de33a645882cf4be75071a37f5
 }
 /* Header navigation */
 header {
@@ -180,49 +129,6 @@ header {
 	display: block;
 }
 /* Footer Navigation */
-<<<<<<< HEAD
-footer{
-    position: fixed;
-    bottom: 0;
-    width: 100vw;
-    nav{
-        width: 100%;
-    }
-    ul{
-        display: flex;
-        justify-content: space-evenly;
-        padding: 0;
-        margin: 0;
-        
-        li{
-            list-style: none;
-            a{
-                display: block;
-                color: transparent;
-                background-size: 30px;
-                background-repeat: no-repeat;
-                background-position: center;
-                width: 2em;
-                height: 3em;
-                &.settings{
-                    background-image: url("/public/icons/settings-bg-white.svg");
-                }
-                &.user{
-                    background-image: url("/public/icons/user-bg-white.svg");
-                }
-                &.chat{
-                    background-image: url("/public/icons/chat.svg");
-                }
-                &.match{
-                    background-image: url("/public/icons/festival.svg");
-                }
-                &.noti{
-                    background-image: url("/public/icons/notifications.svg");
-                }
-            }
-    }
-    }
-=======
 footer {
 	position: fixed;
 	bottom: 0;
@@ -230,6 +136,7 @@ footer {
 	width: 100vw;
 	nav {
 		width: 100%;
+		background-color: @dark-blue;
 	}
 	ul {
 		display: flex;
@@ -265,7 +172,6 @@ footer {
 			}
 		}
 	}
->>>>>>> 178df33f3712d8de33a645882cf4be75071a37f5
 }
 form {
 	background-color: @medium-blue;
@@ -327,42 +233,11 @@ form {
 		width: 100%;
 		max-width: 20rem;
 
-<<<<<<< HEAD
-    .form_field{
-        display: block;
-        padding-top: 1.5rem;
-        position: relative;
-    }
-    label{
-        font-size: 1rem;
-        color: @white;
-        display: block;
-        width: 100%;
-        opacity: .5;
-        padding:0 4px;
-        position: absolute;
-        top: 1.6rem;
-        transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
-        z-index: 2;        
-    }
-    input{
-        background-color: rgba(255, 255, 255, 0.5);
-        font-size: 1rem;
-        width: 100%;
-        max-width: 20rem;
-        
-        &:focus ~ label{
-            top: .2rem;
-            opacity: 1;
-        }
-    }
-=======
 		&:focus ~ label {
 			top: 0.2rem;
 			opacity: 1;
 		}
 	}
->>>>>>> 178df33f3712d8de33a645882cf4be75071a37f5
 }
 .profile_user {
 	padding: 1rem;
@@ -498,7 +373,6 @@ form {
 }
 /* button */
 .link__button,
-<<<<<<< HEAD
 .form__button{
     background-color: #4cbed2;
     background-image: linear-gradient(271deg,#e54114,#e8620b 47%,#f49b05);
@@ -515,22 +389,4 @@ form {
     text-align: center;
     width: 100%;
     max-width: 12rem;
-=======
-.form__button {
-	background-color: #4cbed2;
-	background-image: @button-color;
-	border: none;
-	border-radius: 6px;
-	color: #fff;
-	display: block;
-	font-size: 1rem;
-	padding: 0.5rem 1rem;
-	margin: auto;
-	margin-bottom: 1rem;
-	margin-top: 1rem;
-	text-decoration: none;
-	text-align: center;
-	width: 100%;
-	max-width: 12rem;
->>>>>>> 178df33f3712d8de33a645882cf4be75071a37f5
 }
