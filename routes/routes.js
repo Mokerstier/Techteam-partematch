@@ -160,12 +160,12 @@ function routes() {
                 });  
             })    
         }
-        // User looking for love with opposing sex
-        else if (relationMatch == 'love' && genderMatch == !'nopref'){
+        // User looking for love with female sex
+        else if (relationMatch == 'love' && genderMatch == 'female'){
             console.log (`I'm a ${data.gender}, looking for ${genderMatch} people, that look for love and are attending ${data.events.festival}`)
             userSchema.find({
                 '_id': {$ne: data._id},
-                'gender': {$ne : data.gender} ,
+                'gender': 'female' ,
                 'prefs.pref':{ $in: [data.gender, 'nopref'] } ,
                 'events.festival':{ $in: festivalMatch }, 
                 'prefs.relation':{ $in: ['nopref','love']} 
@@ -178,8 +178,44 @@ function routes() {
                 });  
             })    
         }
+        // User looking for love with Male sex
+        else if (relationMatch == 'love' && genderMatch == 'male'){
+            console.log (`I'm a ${data.gender}, looking for ${genderMatch} people, that look for love and are attending ${data.events.festival}`)
+            userSchema.find({
+                '_id': {$ne: data._id},
+                'gender': 'male' ,
+                'prefs.pref':{ $in: [data.gender, 'nopref'] } ,
+                'events.festival':{ $in: festivalMatch }, 
+                'prefs.relation':{ $in: ['nopref','love']} 
+                }, (err, users) =>{
+                console.log(`we found you ${users.length} matches`)
+                console.log(users)
+                res.render('pages/index.ejs', {
+                    user: users,
+                    title: 'Find a match'
+                });  
+            })    
+        }
+        // Man looking for friend with all genders
+        else if (relationMatch == 'friend' && genderMatch == 'male'){
+            console.log (`I'm a ${data.gender}, looking for ${genderMatch} people, that want to become friends and are attending ${data.events.festival}`)
+            userSchema.find({
+                '_id': {$ne: data._id},
+                'gender': 'male' ,
+                'prefs.pref':{ $in: [data.gender, 'nopref'] } ,
+                'events.festival':{ $in: festivalMatch }, 
+                'prefs.relation':{ $in: ['nopref','friend']} 
+                }, (err, users) =>{
+                console.log(`we found you ${users.length} matches`)
+                console.log(users)
+                res.render('pages/index.ejs', {
+                    user: users,
+                    title: 'Find a match'
+                });  
+            })    
+        }
         // User looking for love with Same sex
-        else if (relationMatch == 'love'){
+        else if (relationMatch == 'love' && genderMatch == data.gender){
             console.log (`I'm a ${data.gender}, looking for ${genderMatch} people, that look for love and are attending ${data.events.festival}`)
             userSchema.find({
                 '_id': {$ne: data._id},

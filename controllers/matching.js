@@ -1,4 +1,4 @@
-const match = require('express').Router();
+const passport = require('passport');
 
 let genderMatch = (req, res, next) => {
     const user_id = req.session.passport.user;
