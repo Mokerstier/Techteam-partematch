@@ -169,21 +169,44 @@ footer{
     padding: 2rem 1rem;
     display: flex;
     flex-wrap: wrap;
-    text-align: center;
+    text-align: left;
     align-content: center;
+    form{
+        background-color: rgba(255, 255, 255, 0.8);
+        border: solid 2px @dark-blue;
+        padding: 1rem 2rem 3rem;
+        margin: auto;
+        width: 100%;
+        max-width: 20rem;
+    }
+
     .form_field{
         display: block;
-        margin-bottom: 1rem;
-    }
-    form{
-        width: 100%;
-    }
-    input{
-        width: 80%;
+        padding-top: 1.5rem;
+        position: relative;
     }
     label{
+        font-size: 1rem;
+        color: @black;
         display: block;
-        width: 100%
+        width: 100%;
+        opacity: .5;
+        padding:0 4px;
+        position: absolute;
+        top: 1.6rem;
+        transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        z-index: 2;        
+    }
+    input{
+        background-color: rgba(255, 255, 255, 0.5);
+        font-size: 1rem;
+        width: 100%;
+        max-width: 20rem;
+        
+        &:focus ~ label{
+            top: .2rem;
+            opacity: 1;
+        }
     }
 }
 .profile_user{
