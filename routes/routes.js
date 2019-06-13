@@ -118,7 +118,6 @@ function routes() {
                 festival: user.events.festival,
                 dob: user.dob,
                 bio: user.bio,
-                imgUrl: user.img.url,
             })
         });
     });
