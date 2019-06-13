@@ -37,10 +37,7 @@ const userSchema =  new mongoose.Schema({
     dob: Date,
     location: String,
     bio: String,
-    img: {
-        url: String,
-        alt: String
-    },
+    img: String,
     events: {
         festival: [String],
         party: [String]

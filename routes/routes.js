@@ -122,27 +122,6 @@ function routes() {
             })
         });
     });
-    exRoutes.post('/upload', (req, res) => {
-        upload(req, res, (err) => {
-            if (err) {
-                res.redirect('/settings', {
-                    msg: err,                 
-                });
-            } else {
-                if (req.file == undefined) {
-                    res.redirect('/settings', {                    
-                        msg: 'Error: no file selected!',                      
-                    });
-                } else{
-                    console.log(req.user)
-                    res.redirect('/settings',{
-                        msg: 'File uploaded',
-                        file: `uploads/${req.file.filename}`                        
-                    })
-                }
-            }
-        })
-    })
     //Route to login
     exRoutes.get('/login', (req, res) => {
         res.render('pages/login.ejs', {
@@ -218,6 +197,37 @@ function routes() {
             res.redirect('/profile');
         });
     });
+
+    exRoutes.post('/upload', (req, res) => {
+        const user_id = req.session.passport.user;
+        upload(req, res, (err) => {
+            if (err) {
+                res.redirect('/settings', {
+                    msg: err,                 
+                });
+            } else {
+                if (req.file == undefined) {
+                    res.redirect('/settings', {                    
+                        msg: 'Error: no file selected!',                      
+                    });
+                } else{
+                    userSchema.findOne({ _id: user_id }, async (err, doc) => {
+                        if(err) throw err
+                        console.log(doc)
+                            doc.img = req.file.filename;
+                        
+                        await doc.save();
+
+                        console.log(req.file.filename);
+                    res.redirect('/profile',{
+                        msg: 'File uploaded',
+                        file: `uploads/${req.file.filename}`
+                    })
+                    });
+                }
+            }
+        })
+    })
     // Route to adding festivals
     exRoutes.get("/addevent", isLoggedIn,  (req, res) => {
         res.render('pages/addevent.ejs', {

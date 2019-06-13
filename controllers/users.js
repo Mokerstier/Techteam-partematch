@@ -23,10 +23,7 @@ router.post('/', urlencodedParser, async (req, res) => {
             dob: req.body.dob,
             location: req.body.location,
             bio: req.body.bio,
-            img: {
-                url: '',
-                alt: ''
-            },
+            img: "",
             events: {
                 festival: req.body.festival,
                 party: [''],
