@@ -263,7 +263,6 @@ function routes() {
                 festival: user.events.festival,
                 dob: user.dob,
                 bio: user.bio,
-                imgUrl: user.img.url,
             })
         });
     });
@@ -358,7 +357,7 @@ function routes() {
                         await doc.save();
 
                         console.log(req.file.filename);
-                    res.redirect('/profile',{
+                    res.redirect('/profile', 200,{
                         msg: 'File uploaded',
                         file: `uploads/${req.file.filename}`
                     })
