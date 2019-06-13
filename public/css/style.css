@@ -274,6 +274,13 @@ form fieldset button {
   margin: auto;
   margin-top: 5em;
 }
+.upload .form_field .form_option {
+  display: unset;
+}
+.upload fieldset input {
+  width: 100%;
+  margin: 1em 0;
+}
 .form_field form {
   padding-bottom: 5rem;
   width: 50%;
@@ -338,7 +345,6 @@ form fieldset button {
 /* button */
 .link__button,
 .form__button {
-  background-color: #4cbed2;
   background-image: linear-gradient(271deg, #e54114, #e8620b 47%, #f49b05);
   border: none;
   border-radius: 6px;
@@ -353,4 +359,8 @@ form fieldset button {
   text-align: center;
   width: 100%;
   max-width: 12rem;
+}
+.link__button:hover,
+.form__button:hover {
+  background-image: linear-gradient(271deg, #e8620b, #e54114 47%, #f49b05);
 }
