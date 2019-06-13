@@ -1,10 +1,13 @@
 @dark-purple : #7c4997;
 @purple: #b74a95;
-@dark-blue: #435ca7;
+@dark-blue: #161622;
+@medium-blue: #1C1C29;
+@orange: #EC6808;
 @blue: #6171b4;
 @light-blue: #4cbed2;
 @yellow: #ffd217;
 @black: #2d2d2d;
+@white: #fff;
 @button-color: linear-gradient(#4cbed2,#6171b4);
 
 @import url("https://use.typekit.net/uhx2ooa.css");
@@ -17,15 +20,14 @@ html{
     margin: 0;
 }
 body{
-    background-color: @light-blue;
-    background-image: linear-gradient(223deg, #435CA7 0%, #6171B4 24%, #4CBED2 100%); 
+    background-color: @dark-blue;
     background-repeat: no-repeat;
     background-size: cover;
     box-sizing: border-box;
     height: 100%;
     min-height: 100vh;
     font-family: futura, sans-serif;
-    color: @black;
+    color: @white;
     margin: 0;
     width: 100%;
 }
@@ -165,20 +167,41 @@ footer{
     }
     }
 }
+form{
+    background-color: @medium-blue;
+    padding: 1em;
+    margin: 50px auto;
+    width: 90%;
+    max-width: 20rem;
+    text-align: center;
+
+    .form-field {
+        display: flex;
+        justify-content: space-between;
+        margin: 1em 0;
+        label {
+            width: 30%;
+        }
+    }
+
+    .field{ height: 30px;}
+
+    fieldset input {
+        color: #fff;
+        border-radius: 20px;
+        background-color: #2e2e3e;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+
 .login_form{
     padding: 2rem 1rem;
     display: flex;
     flex-wrap: wrap;
     text-align: left;
     align-content: center;
-    form{
-        background-color: rgba(255, 255, 255, 0.8);
-        border: solid 2px @dark-blue;
-        padding: 1rem 2rem 3rem;
-        margin: auto;
-        width: 100%;
-        max-width: 20rem;
-    }
 
     .form_field{
         display: block;
@@ -251,9 +274,6 @@ footer{
 }
 /* Form styling */
 form{
-    max-width: 100vw;
-    padding-bottom: 5rem;
-
     fieldset{
         padding: 1rem;
         border: none;
@@ -278,23 +298,25 @@ form{
             margin-top: 5em;
             
         }
-        textarea{
-            display: block;
-        }
     }
     
 }
+
+
 .form_field{
-    display: flex;
-    flex-wrap: nowrap;
-    max-width: inherit;
-    overflow-x: auto;
+    form {
+    padding-bottom: 5rem;
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+}
     
     .form_option{
-        display: block;
-        position: relative;
         margin: 1rem 0 1rem 1rem;
+        display: flex;
+        justify-content: center;
     }
+    .gender{ width: unset;}
 }
 .form_field_event{
     background-color: rgba(255, 255, 255, 0.397);
