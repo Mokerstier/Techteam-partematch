@@ -31,15 +31,15 @@ const options = {
 };
 
 // // Settings for online DATABASE
-// var uri = process.env.MONGODB_URI;
-// // mongoose.set("useNewUrlParser", true);
-// mongoose.connect(uri, options);
-
-
-// LOCAL DATABASE
 var uri = process.env.MONGODB_URI;
 // mongoose.set("useNewUrlParser", true);
 mongoose.connect(uri, options);
+
+
+// LOCAL DATABASE
+// var uri = process.env.MONGODB_URI;
+// // mongoose.set("useNewUrlParser", true);
+// mongoose.connect(uri, options);
 
 
 mongoose.connection.on('open', function (err, doc) {
