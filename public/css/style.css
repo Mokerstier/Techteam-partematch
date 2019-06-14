@@ -274,6 +274,12 @@ form fieldset button {
   margin: auto;
   margin-top: 5em;
 }
+.unhide {
+  display: unset !important;
+}
+#geslacht {
+  display: none;
+}
 .upload .form_field .form_option {
   display: unset;
 }
@@ -289,8 +295,6 @@ form fieldset button {
 }
 .form_field .form_option {
   margin: 1rem 0 1rem 1rem;
-  display: flex;
-  justify-content: center;
 }
 .form_field .gender {
   width: unset;
