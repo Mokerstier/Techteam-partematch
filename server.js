@@ -11,7 +11,8 @@ const flash = require('connect-flash');
 const {routes} = require('./routes/routes');
 // controllers
 const user = require('./controllers/users');
-const matches = require('./controllers/matching');
+// const {matching} = require('./controllers/matching');
+
 
 require('dotenv').config();
 require('./controllers/user-login')(passport);
@@ -33,7 +34,6 @@ const options = {
 var uri = process.env.MONGODB_URI;
 mongoose.connect(uri, options);
 
-
 mongoose.connection.on('open', function(err, doc){
   console.log(`connection established with ${process.env.DB_NAME}`);
 })
@@ -43,7 +43,6 @@ const port = process.env.PORT;
 const app = express();
 
 app
-    
     
     .use(urlencodedParser)
     // define static files
@@ -72,7 +71,7 @@ app
     .set('view engine', 'ejs')
     .set('trust proxy', 1) // used because not communicating over HTTPS and want to set cookie
     
-    .get('/match', matches)
+    
 ;
 
 

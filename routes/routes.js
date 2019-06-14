@@ -1,18 +1,16 @@
 
 function routes() {
     const passport = require('passport');
-    const session = require('express-session');
-    const LocalStrategy = require('passport-local');
     const exRoutes = require('express').Router();
-    const login = require('../controllers/user-login');
     const { userSchema } = require('../models/user');
-    const user = require('../controllers/users');
     const camelCase = require('camelcase');
     const bodyParser = require('body-parser');
     const urlencodedParser = bodyParser.urlencoded({ extended: true });
     const multer = require('multer');
     const path = require('path');
-  
+    const isLoggedIn = require('../controllers/loggedin');
+    const thisUser = require('../controllers/thisuser');
+    
     //Storage uploads
     const uploads = multer.diskStorage({
         destination: './public/uploads/',
@@ -44,28 +42,31 @@ function routes() {
         }
     }
 
-    function isLoggedIn(req, res, next) {
-        // check if user is logged in with passport
-        if (req.isAuthenticated()) {
-            return next();
-        } else
-            res.redirect('/login');
-    }
-    // Route to profile
-    let thisUser = ( req, res, next) => {
-        const user_id = req.session.passport.user;        
-        userSchema.findOne({ _id: user_id }, (err, data) => {
-            if (err){
-                res.send('something broke who this ', data.firstName)
-            } 
-            else{              
-                thisUser = JSON.stringify(data)
-                return next();  
-            } 
-        });
-    };
+    // function isLoggedIn(req, res, next) {
+    //     // check if user is logged in with passport
+    //     if (req.isAuthenticated()) {
+    //         return next();
+    //     } else
+    //         res.redirect('/login');
+    // }
+    //Route to profile
+    // let thisUser = ( req, res, next) => {
+    //     const user_id = req.session.passport.user;        
+    //     userSchema.findOne({ _id: user_id }, (err, data) => {
+    //         if (err){
+    //             res.send('something broke who this ', data.firstName)
+    //         } 
+    //         else{              
+    //             thisUser = JSON.stringify(data)
+    //             return next();  
+    //         } 
+    //     });
+    // };
     exRoutes.get('/profile', isLoggedIn, thisUser, (req, res) => {
-        const data = JSON.parse(thisUser)
+        thisUser.getData(function(err, result){
+            if (err) throw err
+            console.log(result)
+        })
         res.render('pages/profile.ejs', {
             user: data,
             title: `Partematch profile ${data.firstName} `,

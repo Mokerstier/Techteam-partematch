@@ -1,4 +1,4 @@
-module.exports = function matches() {
+function matching(req, res) {
     const passport = require('passport');
     const session = require('express-session');
     const LocalStrategy = require('passport-local');
@@ -11,10 +11,11 @@ module.exports = function matches() {
     const urlencodedParser = bodyParser.urlencoded({ extended: true });
     const multer = require('multer');
     const path = require('path');
-    // const isLoggedIn = require('../controllers/loggedin');
-    // const thisUser = require('../controllers/thisuser');
+    const isLoggedIn = require('../controllers/loggedin');
+    const thisUser = require('../controllers/thisuser');
 
-
+    console.log()
+    
     let genderMatch = (req, res, next) => {
         const user_id = req.session.passport.user;
         userSchema.findOne({ _id: user_id }, (err, doc) => {
@@ -53,7 +54,7 @@ module.exports = function matches() {
         })
     };
     //Route to match when logged in and with matchingLogic based on festival
-    exRoutes.get('/match', festivalMatch, genderMatch, relationMatch, (req, res) => {
+    exRoutes.get('/match', isLoggedIn, thisUser, festivalMatch, genderMatch, relationMatch, (req, res) => {
         const data = JSON.parse(thisUser)
 
         // User looking for all kind of relations <3 in both sexes
@@ -172,11 +173,15 @@ module.exports = function matches() {
             }, (err, users) => {
                 console.log(`we found you ${users.length} matches`)
                 console.log(users)
-                res.render('pages/index.ejs', {
-                    user: users,
-                    title: 'Find a match'
-                });
+                
+                
             })
         }
-    });
+        res.render('pages/index.ejs', {
+            user: users,
+            title: 'Find a match'
+        });
+        
+    })
 }
+exports.matching = matching();
