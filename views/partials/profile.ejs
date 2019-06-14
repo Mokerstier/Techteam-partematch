@@ -18,8 +18,8 @@
             <% if(!user.events.festival){ %>
                 <p>Plz add festivals your going to!</p>
             <% } %>
-        <% for(var i =0; i < user.events.festival.length; i++){ %>
-            <li><%= user.events.festival[i] %></li>
+        <% for(var i =0; i < user.events.length; i++){ %>
+            <li><%= user.events[i] %></li>
         <% } %>
         </ul>
     </div>

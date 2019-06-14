@@ -7,6 +7,7 @@
     <img src="<%= result.url %>" alt="">
     <h3><%= events._embedded.events[i].name %></h3>
     <form class="event-addForm action="addEvent" method="POST">
+        <input type="hidden" value="<%= events._embedded.events[i].id %>" name="eventID" />
         <input type="submit" value="Add to profile" />   
     </form>
 </div>
