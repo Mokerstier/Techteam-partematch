@@ -30,28 +30,25 @@ const options = {
   family: 4 // Use IPv4, skip trying IPv6
 };
 
-// // Settings for online DATABASE
-// var uri = process.env.MONGODB_URI;
-// // mongoose.set("useNewUrlParser", true);
-// mongoose.connect(uri, options);
+// Settings for online DATABASE
+var uri = process.env.MONGODB_URI;
+// mongoose.set("useNewUrlParser", true);
+mongoose.connect(uri, options);
 
-<<<<<<< HEAD
 mongoose.connection.on('open', function(err, doc){
   console.log(`connection established with ${process.env.DB_NAME}`);
 });
-=======
 
 // LOCAL DATABASE
-var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
-mongoose.connect(url, { useNewUrlParser: true })
-    .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
-    .catch(err => console.error('Something went wrong', err));
+// var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
+// mongoose.connect(url, { useNewUrlParser: true })
+//     .then(() => console.log(`Now connected to MongoDB on database: ${process.env.DB_NAME}!`))
+//     .catch(err => console.error('Something went wrong', err));
 
 mongoose.connection.on('open', function(err, doc){
   console.log(`connection established with ${process.env.DB_NAME}`);
 });
 
->>>>>>> df715fe6d445327188aa47522bc2adba0e88ec6a
 // Port for running server
 const port = process.env.PORT;
 const app = express();

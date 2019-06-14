@@ -1,14 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="51" height="33" viewBox="0 0 51 33">
-  <defs>
-    <linearGradient id="filter-a" x1="92.8%" x2="4.858%" y1="50%" y2="50%">
-      <stop offset="0%" stop-color="#7C4997"/>
-      <stop offset="47.414%" stop-color="#B74A95"/>
-      <stop offset="100%" stop-color="#6171B4"/>
-    </linearGradient>
-  </defs>
-  <g fill="url(#filter-a)" fill-rule="evenodd">
-    <path d="M10.7929675,4 L49.5,4 C50.3284271,4 51,4.67157288 51,5.5 C51,6.32842712 50.3284271,7 49.5,7 L10.7929675,7 C10.1400386,9.3085048 8.01755425,11 5.5,11 C2.46243388,11 0,8.53756612 0,5.5 C0,2.46243388 2.46243388,0 5.5,0 C8.01755425,0 10.1400386,1.6914952 10.7929675,4 Z"/>
-    <path d="M10.7929675,15 L49.5,15 C50.3284271,15 51,15.6715729 51,16.5 C51,17.3284271 50.3284271,18 49.5,18 L10.7929675,18 C10.1400386,20.3085048 8.01755425,22 5.5,22 C2.46243388,22 0,19.5375661 0,16.5 C0,13.4624339 2.46243388,11 5.5,11 C8.01755425,11 10.1400386,12.6914952 10.7929675,15 Z" transform="matrix(-1 0 0 1 51 0)"/>
-    <path d="M17.2070325,29 L1.5,29 C0.671572875,29 1.01453063e-16,28.3284271 0,27.5 C-1.01453063e-16,26.6715729 0.671572875,26 1.5,26 L17.2070325,26 C17.8599614,23.6914952 19.9824458,22 22.5,22 C25.0175542,22 27.1400386,23.6914952 27.7929675,26 L49.5,26 C50.3284271,26 51,26.6715729 51,27.5 C51,28.3284271 50.3284271,29 49.5,29 L27.7929675,29 C27.1400386,31.3085048 25.0175542,33 22.5,33 C19.9824458,33 17.8599614,31.3085048 17.2070325,29 Z" transform="matrix(-1 0 0 1 51 0)"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56.54 36.59"><defs><style>.cls-1,.cls-2,.cls-3{fill-rule:evenodd;}.cls-1{fill:url(#Nieuwe_verloopstaal_2);}.cls-2{fill:url(#Nieuwe_verloopstaal_2-2);}.cls-3{fill:url(#Nieuwe_verloopstaal_2-3);}</style><linearGradient id="Nieuwe_verloopstaal_2" y1="6.1" x2="56.54" y2="6.1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e54216"/><stop offset="0.47" stop-color="#e8620c"/><stop offset="1" stop-color="#f59b0b"/></linearGradient><linearGradient id="Nieuwe_verloopstaal_2-2" y1="18.29" x2="56.54" y2="18.29" xlink:href="#Nieuwe_verloopstaal_2"/><linearGradient id="Nieuwe_verloopstaal_2-3" y1="30.49" x2="56.54" y2="30.49" xlink:href="#Nieuwe_verloopstaal_2"/></defs><title>filter</title><g id="Laag_2" data-name="Laag 2"><g id="Laag_1-2" data-name="Laag 1"><g id="Icon"><path class="cls-1" d="M12,4.43H54.88a1.67,1.67,0,0,1,0,3.33H12a6.1,6.1,0,1,1,0-3.33Z"/><path class="cls-2" d="M44.58,16.63H1.66a1.67,1.67,0,0,0,0,3.33H44.58a6.1,6.1,0,1,0,0-3.33Z"/><path class="cls-3" d="M37.47,32.15H54.88a1.66,1.66,0,0,0,0-3.32H37.47a6.1,6.1,0,0,0-11.74,0H1.66a1.66,1.66,0,0,0,0,3.32H25.73a6.1,6.1,0,0,0,11.74,0Z"/></g></g></g></svg>
