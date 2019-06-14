@@ -15,6 +15,16 @@
 * {
 	box-sizing: border-box;
 }
+html,
+body {
+	height: 100%;
+}
+main {
+	flex: 1;
+}
+footer {
+	flex-shrink: 0;
+}
 html {
 	padding: 0;
 	margin: 0;
@@ -24,8 +34,9 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	box-sizing: border-box;
-	height: 100%;
-	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
 	font-family: futura, sans-serif;
 	color: @white;
 	margin: 0;
@@ -95,9 +106,9 @@ h2 {
 h3 {
 	font-size: 1rem;
 }
-a{
-    color: @orange;
-    font-weight: bold;
+a {
+	color: @orange;
+	font-weight: bold;
 }
 /* Header navigation */
 header {
@@ -130,10 +141,8 @@ header {
 }
 /* Footer Navigation */
 footer {
-	position: fixed;
-	bottom: 0;
 	background-color: #fff;
-	width: 100vw;
+	flex-shrink: 0;
 	nav {
 		width: 100%;
 		background-color: @dark-blue;
@@ -278,6 +287,23 @@ form {
 .event_succes {
 	padding: 1rem;
 }
+.event {
+	&-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	&-card {
+		border: solid 1px black;
+		max-width: 20em;
+		justify-content: space-around;
+		align-items: center;
+		margin: 1em auto;
+		img {
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+}
 /* Form styling */
 form {
 	fieldset {
@@ -305,7 +331,7 @@ form {
 	}
 }
 
-.upload{
+.upload {
 	.form_field .form_option {
 		display: unset;
 	}
@@ -382,23 +408,23 @@ form {
 }
 /* button */
 .link__button,
-.form__button{
-    background-image: linear-gradient(271deg,#e54114,#e8620b 47%,#f49b05);
-    border: none;
-    border-radius: 6px;
-    color: #fff;
-    display: block;
-    font-size: 1rem;
-    padding: .5rem 1rem;
-    margin: auto;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    text-decoration: none;
-    text-align: center;
-    width: 100%;
+.form__button {
+	background-image: linear-gradient(271deg, #e54114, #e8620b 47%, #f49b05);
+	border: none;
+	border-radius: 6px;
+	color: #fff;
+	display: block;
+	font-size: 1rem;
+	padding: 0.5rem 1rem;
+	margin: auto;
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	text-decoration: none;
+	text-align: center;
+	width: 100%;
 	max-width: 12rem;
 }
 .link__button:hover,
-.form__button:hover{
-	background-image: linear-gradient(271deg,#e8620b,#e54114 47%,#f49b05);
+.form__button:hover {
+	background-image: linear-gradient(271deg, #e8620b, #e54114 47%, #f49b05);
 }
