@@ -1,10 +1,9 @@
-<h1>Upload foto</h1>
 <%= typeof msg != 'undefined' ? msg : '' %>
-<form action="/upload" method="post" enctype="multipart/form-data">
+<form action="/upload" method="post" enctype="multipart/form-data" class="upload">
     <fieldset>
         <div class="form_field">
             <div class="form_option">
-                <label for="male">Kies een bestand</label>
+                <label for="male">Profielfoto</label><br>
                 <input name="userImage" type="file">
             </div>
         </div>
