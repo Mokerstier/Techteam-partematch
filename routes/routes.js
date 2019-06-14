@@ -66,10 +66,8 @@ function routes() {
 		res.render("pages/profile.ejs", {
 			user: data,
 			title: `Partematch profile ${data.firstName} `,
-			username: `${camelCase(data.firstName, { pascalCase: true })} ${camelCase(
-				data.lastName,
-				{ pascalCase: true }
-			)}`
+			username: `${camelCase(data.firstName, { pascalCase: true })}
+			 ${camelCase(data.lastName, { pascalCase: true })}`
 		});
 	});
 
