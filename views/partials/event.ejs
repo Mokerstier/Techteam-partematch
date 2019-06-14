@@ -1,0 +1,9 @@
+<% 
+    var result = events._embedded.events[i].images.find(function(obj) {
+        return (obj.ratio === "16_9" && obj.width === 1024);
+    }) 
+%>
+<div class="event-card">
+    <img src="<%= result.url %>" alt="">
+    <h3><%= events._embedded.events[i].name %></h3>
+</div>

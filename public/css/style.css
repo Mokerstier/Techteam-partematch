@@ -2,6 +2,16 @@
 * {
   box-sizing: border-box;
 }
+html,
+body {
+  height: 100%;
+}
+main {
+  flex: 1;
+}
+footer {
+  flex-shrink: 0;
+}
 html {
   padding: 0;
   margin: 0;
@@ -11,8 +21,9 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;
-  height: 100%;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   font-family: futura, sans-serif;
   color: #fff;
   margin: 0;
@@ -110,10 +121,8 @@ header a {
 }
 /* Footer Navigation */
 footer {
-  position: fixed;
-  bottom: 0;
   background-color: #fff;
-  width: 100vw;
+  flex-shrink: 0;
 }
 footer nav {
   width: 100%;
@@ -251,6 +260,21 @@ form fieldset input {
 .event_succes {
   padding: 1rem;
 }
+.event-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.event-card {
+  border: solid 1px black;
+  max-width: 20em;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1em auto;
+}
+.event-card img {
+  width: 100%;
+  object-fit: cover;
+}
 /* Form styling */
 form fieldset {
   padding: 1rem;
@@ -351,7 +375,7 @@ form fieldset button {
   color: #fff;
   display: block;
   font-size: 1rem;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   margin: auto;
   margin-bottom: 1rem;
   margin-top: 1rem;

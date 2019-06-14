@@ -5,6 +5,7 @@ function routes() {
 	const exRoutes = require("express").Router();
 	const login = require("../controllers/user-login");
 	const { userSchema } = require("../models/user");
+	const { getEvents } = require("../controllers/getEventData");
 	const user = require("../controllers/users");
 	const camelCase = require("camelcase");
 	const bodyParser = require("body-parser");
@@ -13,7 +14,7 @@ function routes() {
 	const path = require("path");
 	const changePassword = require("../controllers/change-password");
 
-	//Storage uploads
+	// Storage uploads
 	const uploads = multer.diskStorage({
 		destination: "./public/uploads/",
 		filename: (req, file, cb) => {
@@ -31,7 +32,7 @@ function routes() {
 		}
 	}).single("userImage");
 
-	//check filetype for uploads
+	// check filetype for uploads
 	function checkFileType(file, cb) {
 		// allowed extensions
 		const filetypes = /jpeg|jpg|png|gif/;
@@ -39,7 +40,7 @@ function routes() {
 		const extname = filetypes.test(
 			path.extname(file.originalname).toLowerCase()
 		);
-		//chekc mime
+		// chekc mime
 		const mimetype = filetypes.test(file.mimetype);
 
 		if (mimetype && extname) {
@@ -109,7 +110,7 @@ function routes() {
 			return next(null, relationMatch);
 		});
 	};
-	//Route to match when logged in and with matchingLogic based on festival
+	// Route to match when logged in and with matchingLogic based on festival
 	exRoutes.get(
 		"/match",
 		isLoggedIn,
@@ -324,7 +325,7 @@ function routes() {
 		});
 	});
 
-	//Route to other user profile
+	// Route to other user profile
 	exRoutes.get("/user/:id", isLoggedIn, (req, res, next) => {
 		let id = req.params.id;
 		console.log(id);
@@ -345,7 +346,7 @@ function routes() {
 			});
 		});
 	});
-	//Route to login
+	// Route to login
 	exRoutes.get("/login", (req, res) => {
 		res.render("pages/login.ejs", {
 			title: "Login"
@@ -366,9 +367,9 @@ function routes() {
 	});
 	exRoutes.get("/logout", (req, res, next) => {
 		if (req.session) {
-			//check if a session is active
+			// check if a session is active
 			// delete session object
-			req.session.destroy((err) => {
+			req.session.destroy(err => {
 				if (err) {
 					return next(err);
 				} else {
@@ -377,7 +378,7 @@ function routes() {
 			});
 		}
 	});
-	//Route to preferences
+	// Route to preferences
 	exRoutes.get("/prefs", isLoggedIn, (req, res) => {
 		res.render("pages/prefs.ejs", {
 			title: "Prefs"
@@ -423,7 +424,7 @@ function routes() {
 
 	exRoutes.post("/upload", (req, res) => {
 		const user_id = req.session.passport.user;
-		upload(req, res, (err) => {
+		upload(req, res, err => {
 			if (err) {
 				res.redirect("/settings", {
 					msg: err
@@ -453,8 +454,10 @@ function routes() {
 	});
 	// Route to adding festivals
 	exRoutes.get("/addevent", isLoggedIn, (req, res) => {
-		res.render("pages/addevent.ejs", {
-			title: "Addevent"
+		getEvents().then(events => {
+			const data = { title: "Add event", events };
+			console.log(data);
+			res.render("pages/addevent.ejs", data);
 		});
 	});
 	exRoutes.post("/addevent-succes", isLoggedIn, (req, res) => {
