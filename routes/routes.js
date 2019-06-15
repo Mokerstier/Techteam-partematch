@@ -111,13 +111,6 @@ function routes () {
 
 		// User looking for all kind of relations <3 in both sexes
 		if (genderMatch === 'nopref' && relationMatch === 'nopref') {
-			console.log(
-				`I'm a ${
-					data.gender
-				}, looking for ${genderMatch} people who are attending ${
-					data.events.festival
-				}`
-			);
 			userSchema.find(
 				{
 					_id: { $ne: data._id },
