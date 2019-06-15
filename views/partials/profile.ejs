@@ -6,16 +6,16 @@
         <h2 class="profile_name"><%= username %></h2>
         <p class="profile_age"><%= user.dob %></p>
         <h2>Bio</h2>
-        <% if(user.bio.length === 0){ %>
+        <% if(user.bio.length === 0 && user.session){ %>
             <p class="profile_helpermsg">Voeg een beschrijving toe toe via <a href="/settings">het settings menu!</a></p>
-        <% } else { %>
+        <% } else if (user.bio.length == 0){ %>
             <p class="profile_bio"><%= user.bio %></p>
        <% }; %>
     </div>
     <div class="profile_festival">
         <h2>Gaat naar:</h2>
         <ul>
-            <% if(!user.events.festival){ %>
+            <% if(user.events.festival == 0){ %>
                 <p>Plz add festivals your going to!</p>
             <% } %>
         <% for(var i =0; i < user.events.festival.length; i++){ %>
@@ -24,8 +24,9 @@
         </ul>
     </div>
     <div>
-        
+        <% if (user.session == user.id){ %>
         <a class="link__button" href="/addevent">Voeg festival toe</a>
+        <% } %>
     </div>
     
 </section>
