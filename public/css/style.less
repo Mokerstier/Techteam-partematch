@@ -8,6 +8,7 @@
 @yellow: #ffd217;
 @black: #2d2d2d;
 @white: #fff;
+@blue: blue;
 @button-color: linear-gradient(#4cbed2, #6171b4);
 
 @import url("https://use.typekit.net/uhx2ooa.css");
@@ -105,28 +106,24 @@ header {
 	flex-wrap: wrap;
 	flex-direction: row-reverse;
 	padding: 1rem 1.5rem;
-	a {
-		color: transparent;
-		background-color: #ffffff75;
-		width: 2em;
-		height: 2em;
-		border-radius: 6px;
-		margin: 0 0.5rem;
+	a {	
+		font-size: 0;	
+		border-radius: 6px;		
 		background-repeat: no-repeat;
-		background-size: contain;
+		background-size: 2rem;
 		background-position: center;
+		color: transparent;
 		display: block;
+		padding: 1.2rem;
+		margin: 0 0.5rem;
 	}
 }
 .logout__button {
-	color: #fff;
+	background-image: url("/public/icons/logout.svg");
+
 }
 .pref__button {
 	background-image: url("/public/icons/filter.svg");
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-position: center;
-	display: block;
 }
 /* Footer Navigation */
 footer {
@@ -155,16 +152,16 @@ footer {
 				width: 2em;
 				height: 3em;
 				&.settings {
-					background-image: url("/public/icons/settings-bg-white.svg");
+					background-image: url("/public/icons/settings.svg");
 				}
 				&.user {
-					background-image: url("/public/icons/user-bg-white.svg");
+					background-image: url("/public/icons/user.svg");
 				}
 				&.chat {
 					background-image: url("/public/icons/chat.svg");
 				}
 				&.match {
-					background-image: url("/public/icons/festival.svg");
+					background-image: url("/public/icons/match.svg");
 				}
 				&.noti {
 					background-image: url("/public/icons/notifications.svg");
