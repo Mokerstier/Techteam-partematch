@@ -5,9 +5,16 @@ function routes () {
 	const camelCase = require('camelcase');
 	const bodyParser = require('body-parser');
 	const urlencodedParser = bodyParser.urlencoded({ extended: true });
+<<<<<<< HEAD
 	const multer = require('multer');
 	const path = require('path');
 	const changePassword = require('../controllers/change-password');
+=======
+	const multer = require("multer");
+	const path = require("path");
+	const isLoggedIn = require('../controllers/loggedin');
+	const changePassword = require("../controllers/change-password");
+>>>>>>> development
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
@@ -44,13 +51,6 @@ function routes () {
 			next('Error: images only');
 		}
 	}
-
-	function isLoggedIn (req, res, next) {
-		// check if user is logged in with passport
-		if (req.isAuthenticated()) {
-			return next();
-		} else res.redirect('/login');
-	}
 	// Route to profile
 	let thisUser = (req, res, next) => {
 		const user_id = req.session.passport.user;
@@ -68,12 +68,11 @@ function routes () {
 		res.render('pages/profile.ejs', {
 			user: data,
 			title: `Partematch profile ${data.firstName} `,
-			username: `${camelCase(data.firstName, { pascalCase: true })} ${camelCase(
-				data.lastName,
-				{ pascalCase: true }
-			)}`
+			username: `${camelCase(data.firstName, { pascalCase: true })}
+			 ${camelCase(data.lastName, { pascalCase: true })}`
 		});
 	});
+
 	let genderMatch = (req, res, next) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {

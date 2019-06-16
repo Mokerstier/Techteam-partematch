@@ -11,6 +11,8 @@ const flash = require('connect-flash');
 const { routes } = require('./routes/routes');
 // controllers
 const user = require('./controllers/users');
+// const {matching} = require('./controllers/matching');
+
 
 require('dotenv').config();
 require('./controllers/user-login')(passport);
@@ -30,7 +32,6 @@ const options = {
 
 // Settings for online DATABASE
 var uri = process.env.MONGODB_URI;
-// mongoose.set("useNewUrlParser", true);
 mongoose.connect(uri, options);
 
 mongoose.connection.on('open', function (err, doc) {
