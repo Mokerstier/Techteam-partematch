@@ -12,6 +12,7 @@ function routes() {
 	const urlencodedParser = bodyParser.urlencoded({ extended: true });
 	const multer = require("multer");
 	const path = require("path");
+	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
 
 	// Storage uploads
@@ -49,13 +50,6 @@ function routes() {
 			cb("Error: images only");
 		}
 	}
-
-	function isLoggedIn(req, res, next) {
-		// check if user is logged in with passport
-		if (req.isAuthenticated()) {
-			return next();
-		} else res.redirect("/login");
-	}
 	// Route to profile
 	let thisUser = (req, res, next) => {
 		const user_id = req.session.passport.user;
@@ -82,6 +76,7 @@ function routes() {
 			});
 		});
 	});
+
 	let genderMatch = (req, res, next) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
@@ -113,7 +108,7 @@ function routes() {
 			return next(null, relationMatch);
 		});
 	};
-	// Route to match when logged in and with matchingLogic based on festival
+	//Route to match when logged in and with matchingLogic based on festival
 	exRoutes.get(
 		"/match",
 		isLoggedIn,
@@ -201,8 +196,8 @@ function routes() {
 					}
 				);
 			}
-			// User looking for love with opposing sex
-			else if (relationMatch == "love" && genderMatch == !"nopref") {
+			// User looking for love with female sex
+			else if (relationMatch == "love" && genderMatch == "female") {
 				console.log(
 					`I'm a ${
 						data.gender
@@ -213,7 +208,7 @@ function routes() {
 				userSchema.find(
 					{
 						_id: { $ne: data._id },
-						gender: { $ne: data.gender },
+						gender: "female",
 						"prefs.pref": { $in: [data.gender, "nopref"] },
 						"events.festival": { $in: festivalMatch },
 						"prefs.relation": { $in: ["nopref", "love"] }
@@ -228,8 +223,62 @@ function routes() {
 					}
 				);
 			}
+			// User looking for love with Male sex
+			else if (relationMatch == "love" && genderMatch == "male") {
+				console.log(
+					`I'm a ${
+						data.gender
+					}, looking for ${genderMatch} people, that look for love and are attending ${
+						data.events.festival
+					}`
+				);
+				userSchema.find(
+					{
+						_id: { $ne: data._id },
+						gender: "male",
+						"prefs.pref": { $in: [data.gender, "nopref"] },
+						"events.festival": { $in: festivalMatch },
+						"prefs.relation": { $in: ["nopref", "love"] }
+					},
+					(err, users) => {
+						console.log(`we found you ${users.length} matches`);
+						console.log(users);
+						res.render("pages/index.ejs", {
+							user: users,
+							title: "Find a match"
+						});
+					}
+				);
+			}
+			// Man looking for friend with all genders
+			else if (relationMatch == "friend" && genderMatch == "male") {
+				console.log(
+					`I'm a ${
+						data.gender
+					}, looking for ${genderMatch} people, that want to become friends and are attending ${
+						data.events.festival
+					}`
+				);
+				userSchema.find(
+					{
+						_id: { $ne: data._id },
+						gender: "male",
+						"prefs.pref": { $in: [data.gender, "nopref"] },
+						"events.festival": { $in: festivalMatch },
+						"prefs.relation": { $in: ["nopref", "friend"] }
+					},
+					(err, users) => {
+						console.log(`we found you ${users.length} matches`);
+						console.log(users);
+						res.render("pages/index.ejs", {
+							user: users,
+							title: "Find a match"
+						});
+					}
+				);
+			}
 			// User looking for love with Same sex
-			else if (relationMatch == "love") {
+			else if (relationMatch == "love" && genderMatch == data.gender) {
 				console.log(
 					`I'm a ${
 						data.gender
@@ -309,16 +358,6 @@ function routes() {
 					}
 				);
 			}
-			// userSchema.find({'events.festival':{ $in: festivalMatch } }, (err, users) => {
-			//     console.log(`we found you ${users.length} matches`)
-			//     if (err) {
-			//         res.send('something went terribly wrong')
-			//     }
-			//     res.render('pages/index.ejs', {
-			//         user: users,
-			//         title: 'Find a match'
-			//     });
-			// });
 		}
 	);
 	// Route to homepage
