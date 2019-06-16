@@ -1,5 +1,5 @@
 {
-  "name": "boilerpackage",
+  "name": "partematchboilerplate",
   "version": "1.0.0",
   "description": "Packages that are necessary for the app",
   "main": "server.js",

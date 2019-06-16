@@ -17,11 +17,11 @@ function routes() {
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
-		destination: "./public/uploads/",
+		destination: './public/uploads/',
 		filename: (req, file, cb) => {
 			cb(
 				null,
-				file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+				file.fieldname + '-' + Date.now() + path.extname(file.originalname)
 			);
 		}
 	});
@@ -31,10 +31,10 @@ function routes() {
 		fileFilter: (req, file, cb) => {
 			checkFileType(file, cb);
 		}
-	}).single("userImage");
+	}).single('userImage');
 
 	// check filetype for uploads
-	function checkFileType(file, cb) {
+	function checkFileType (file, next) {
 		// allowed extensions
 		const filetypes = /jpeg|jpg|png|gif/;
 		// check extensions
@@ -45,9 +45,9 @@ function routes() {
 		const mimetype = filetypes.test(file.mimetype);
 
 		if (mimetype && extname) {
-			return cb(null, true);
+			return next(null, true);
 		} else {
-			cb("Error: images only");
+			next('Error: images only');
 		}
 	}
 	// Route to profile
@@ -55,14 +55,14 @@ function routes() {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, data) => {
 			if (err) {
-				res.send("something broke who this ", data.firstName);
+				res.send('something broke who this ', data.firstName);
 			} else {
 				thisUser = JSON.stringify(data);
 				return next();
 			}
 		});
 	};
-	exRoutes.get("/profile", isLoggedIn, thisUser, (req, res) => {
+	exRoutes.get('/profile', isLoggedIn, thisUser, (req, res) => {
 		const data = JSON.parse(thisUser);
 		getEventById(data.events.join("&id=")).then(eventObjects => {
 			data.eventObjects = eventObjects;
@@ -80,8 +80,8 @@ function routes() {
 	let genderMatch = (req, res, next) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
-			if (!doc) {
-				res.redirect("/profile");
+			if (err) {
+				res.redirect('/profile');
 			} else genderMatch = doc.prefs.pref;
 			console.log(genderMatch);
 
@@ -92,8 +92,8 @@ function routes() {
 	let festivalMatch = (req, res, next) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
-			if (!doc) {
-				res.redirect("/profile");
+			if (err) {
+				res.redirect('/profile');
 			} else festivalMatch = doc.events.festival;
 			return next(null, festivalMatch);
 		});
@@ -101,281 +101,170 @@ function routes() {
 	let relationMatch = (req, res, next) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
-			if (!doc) {
-				res.redirect("/profile");
-			} else gender = doc.gender;
+			if (err) {
+				res.redirect('/profile');
+			} else genderMatch = doc.gender;
 			relationMatch = doc.prefs.relation;
 			return next(null, relationMatch);
 		});
 	};
-	//Route to match when logged in and with matchingLogic based on festival
-	exRoutes.get(
-		"/match",
-		isLoggedIn,
-		thisUser,
-		festivalMatch,
-		genderMatch,
-		relationMatch,
-		(req, res) => {
-			const data = JSON.parse(thisUser);
 
-			// User looking for all kind of relations <3 in both sexes
-			if (genderMatch == "nopref" && relationMatch == "nopref") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people who are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for friends of both sexes
-			else if (genderMatch == "nopref" && relationMatch == "friend") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that want to become friends and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"prefs.relation": { $in: ["nopref", "friend"] },
-						"events.festival": { $in: festivalMatch }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with all sexes
-			else if (genderMatch == "nopref" && relationMatch == "love") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that want to become friends and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with female sex
-			else if (relationMatch == "love" && genderMatch == "female") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that look for love and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: "female",
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with Male sex
-			else if (relationMatch == "love" && genderMatch == "male") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that look for love and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: "male",
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// Man looking for friend with all genders
-			else if (relationMatch == "friend" && genderMatch == "male") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that want to become friends and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: "male",
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "friend"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with Same sex
-			else if (relationMatch == "love" && genderMatch == data.gender) {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that look for love and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: data.gender,
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for friend with opposing sex
-			else if (relationMatch == "friend" && genderMatch == !"nopref") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that want to become friends and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: { $ne: data.gender },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "friend"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for friend with Same sex
-			else if (relationMatch == "friend") {
-				console.log(
-					`I'm a ${
-						data.gender
-					}, looking for ${genderMatch} people, that look for love and are attending ${
-						data.events.festival
-					}`
-				);
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: data.gender,
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"events.festival": { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "friend"] }
-					},
-					(err, users) => {
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
+	// Route to match when logged in and with matchingLogic based on festival
+	exRoutes.get('/match', isLoggedIn, thisUser, festivalMatch, genderMatch, relationMatch, (req, res) => {
+		const data = JSON.parse(thisUser);
+
+		// User looking for all kind of relations <3 in both sexes
+		if (genderMatch === 'nopref' && relationMatch === 'nopref') {
+			userSchema.find({
+				_id: { $ne: data._id },
+				'prefs.pref': { $in: [data.gender, 'nopref'] },
+				'events.festival': { $in: festivalMatch }
+			}, (err, users) => {
+				if (err) throw err;
+				console.log(`we found you ${users.length} matches`);
+				console.log(users);
+				res.render('pages/index.ejs', {
+					user: users,
+					title: 'Find a match'
+				});
+			});
 		}
-	);
+		// User looking for friends of both sexes
+		else if (genderMatch === 'nopref' && relationMatch === 'friend') {
+			userSchema.find({
+				_id: { $ne: data._id },
+				'prefs.pref': { $in: [data.gender, 'nopref'] },
+				'prefs.relation': { $in: ['nopref', 'friend'] },
+				'events.festival': { $in: festivalMatch }
+			},
+			(err, users) => {
+				if (err) throw err;
+				console.log(`we found you ${users.length} matches`);
+				console.log(users);
+				res.render('pages/index.ejs', {
+					user: users,
+					title: 'Find a match'
+				});
+			});
+		}
+		// User looking for love with all sexes
+		else if (genderMatch === 'nopref' && relationMatch === 'love') {
+			userSchema.find(
+				{
+					_id: { $ne: data._id },
+					'prefs.pref': { $in: [data.gender, 'nopref'] },
+					'events.festival': { $in: festivalMatch },
+					'prefs.relation': { $in: ['nopref', 'love'] }
+				},
+				(err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					res.render('pages/index.ejs', {
+						user: users,
+						title: 'Find a match'
+					});
+				}
+			);
+		}
+		// User looking for love with opposing sex
+		else if (relationMatch === 'love' && genderMatch === !'nopref') {
+			userSchema.find(
+				{
+					_id: { $ne: data._id },
+					gender: { $ne: data.gender },
+					'prefs.pref': { $in: [data.gender, 'nopref'] },
+					'events.festival': { $in: festivalMatch },
+					'prefs.relation': { $in: ['nopref', 'love'] }
+				},
+				(err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					res.render('pages/index.ejs', {
+						user: users,
+						title: 'Find a match'
+					});
+				}
+			);
+		}
+		// User looking for love with Same sex
+		else if (relationMatch === 'love') {
+			userSchema.find(
+				{
+					_id: { $ne: data._id },
+					gender: data.gender,
+					'prefs.pref': { $in: [data.gender, 'nopref'] },
+					'events.festival': { $in: festivalMatch },
+					'prefs.relation': { $in: ['nopref', 'love'] }
+				},
+				(err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					res.render('pages/index.ejs', {
+						user: users,
+						title: 'Find a match'
+					});
+				}
+			);
+		}
+		// User looking for friend with opposing sex
+		else if (relationMatch === 'friend' && genderMatch === !'nopref') {
+			userSchema.find({
+				_id: { $ne: data._id },
+				gender: { $ne: data.gender },
+				'prefs.pref': { $in: [data.gender, 'nopref'] },
+				'events.festival': { $in: festivalMatch },
+				'prefs.relation': { $in: ['nopref', 'friend'] }
+			}, (err, users) => {
+				if (err) throw err;
+				console.log(`we found you ${users.length} matches`);
+				console.log(users);
+				res.render('pages/index.ejs', {
+					user: users,
+					title: 'Find a match'
+				});
+			});
+		}
+		// User looking for friend with Same sex
+		else if (relationMatch === 'friend') {
+			userSchema.find(
+				{
+					_id: { $ne: data._id },
+					gender: data.gender,
+					'prefs.pref': { $in: [data.gender, 'nopref'] },
+					'events.festival': { $in: festivalMatch },
+					'prefs.relation': { $in: ['nopref', 'friend'] }
+				},
+				(err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					res.render('pages/index.ejs', {
+						user: users,
+						title: 'Find a match'
+					});
+				}
+			);
+		}
+	});
 	// Route to homepage
-	exRoutes.get("/", (req, res) => {
-		res.render("pages/splash.ejs", {
-			title: "partEmatch"
+	exRoutes.get('/', (req, res) => {
+		res.render('pages/splash.ejs', {
+			title: 'partEmatch'
 		});
 	});
 
 	// Route to other user profile
-	exRoutes.get("/user/:id", isLoggedIn, (req, res, next) => {
+	exRoutes.get('/user/:id', isLoggedIn, (req, res, next) => {
 		let id = req.params.id;
 		console.log(id);
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
-			return res.render("pages/user.ejs", {
+			return res.render('pages/user.ejs', {
 				user: user,
-				title: user.firstName + " PartEmatch",
+				title: user.firstName + ' PartEmatch',
 				username: camelCase(
 					user.firstName,
 					{ pascalCase: true },
@@ -394,20 +283,20 @@ function routes() {
 			title: "Login"
 		});
 	});
-	exRoutes.post("/login", (req, res, next) => {
-		passport.authenticate("local", {
-			successRedirect: "/profile",
-			failureRedirect: "/login",
+	exRoutes.post('/login', (req, res, next) => {
+		passport.authenticate('local', {
+			successRedirect: '/profile',
+			failureRedirect: '/login',
 			failureFlash: true
 		})(req, res, next);
 	});
 	// Route to register page
-	exRoutes.get("/register", (req, res) => {
-		res.render("pages/register.ejs", {
-			title: "Register"
+	exRoutes.get('/register', (req, res) => {
+		res.render('pages/register.ejs', {
+			title: 'Register'
 		});
 	});
-	exRoutes.get("/logout", (req, res, next) => {
+	exRoutes.get('/logout', (req, res, next) => {
 		if (req.session) {
 			// check if a session is active
 			// delete session object
@@ -415,66 +304,68 @@ function routes() {
 				if (err) {
 					return next(err);
 				} else {
-					return res.redirect("/");
+					return res.redirect('/');
 				}
 			});
 		}
 	});
 	// Route to preferences
-	exRoutes.get("/prefs", isLoggedIn, (req, res) => {
-		res.render("pages/prefs.ejs", {
-			title: "Prefs"
+	exRoutes.get('/prefs', isLoggedIn, (req, res) => {
+		res.render('pages/prefs.ejs', {
+			title: 'Prefs'
 		});
 	});
 	exRoutes.post(
-		"/prefs",
+		'/prefs',
 		isLoggedIn,
 		urlencodedParser,
 		thisUser,
 		(req, res) => {
 			const data = JSON.parse(thisUser);
 			userSchema.findById({ _id: data._id }, (err, user) => {
-				(user.prefs.pref = req.body.pref),
-					(user.prefs.relation = req.body.relation);
-				console.log(user);
-				user.save();
+				if (err) throw err;
+				else {
+					user.prefs.pref = req.body.pref;
+					user.prefs.relation = req.body.relation;
+					console.log(user);
+					user.save();
+				}
 			});
 
-			res.redirect("/profile");
-		}
-	);
+			res.redirect('/profile');
+		});
 	// route to settings
-	exRoutes.get("/settings", isLoggedIn, (req, res) => {
-		res.render("pages/settings.ejs", {
-			title: "Change your settings"
+	exRoutes.get('/settings', isLoggedIn, (req, res) => {
+		res.render('pages/settings.ejs', {
+			title: 'Change your settings'
 		});
 	});
-	exRoutes.post("/settings", isLoggedIn, urlencodedParser, (req, res) => {
+	exRoutes.post('/settings', isLoggedIn, urlencodedParser, (req, res) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, async (err, doc) => {
 			if (err) throw err;
 			console.log(doc);
-			(doc.gender = req.body.gender),
-				(doc.dob = req.body.dob),
-				(doc.location = req.body.location),
-				(doc.bio = req.body.bio);
+			doc.gender = req.body.gender;
+			doc.dob = req.body.dob;
+			doc.location = req.body.location;
+			doc.bio = req.body.bio;
 
 			await doc.save();
-			res.redirect("/profile");
+			res.redirect('/profile');
 		});
 	});
 
-	exRoutes.post("/upload", (req, res) => {
+	exRoutes.post('/upload', (req, res) => {
 		const user_id = req.session.passport.user;
 		upload(req, res, err => {
 			if (err) {
-				res.redirect("/settings", {
+				res.redirect('/settings', {
 					msg: err
 				});
 			} else {
-				if (req.file == undefined) {
-					res.redirect("/settings", {
-						msg: "Error: no file selected!"
+				if (req.file === undefined) {
+					res.redirect('/settings', {
+						msg: 'Error: no file selected!'
 					});
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
@@ -485,8 +376,8 @@ function routes() {
 						await doc.save();
 
 						console.log(req.file.filename);
-						res.redirect("/profile", 200, {
-							msg: "File uploaded",
+						res.redirect('/profile', 200, {
+							msg: 'File uploaded',
 							file: `uploads/${req.file.filename}`
 						});
 					});
@@ -516,18 +407,18 @@ function routes() {
 		);
 	});
 	// DANGER DELETE ACCOUNT
-	exRoutes.post("/delete", isLoggedIn, (req, res) => {
+	exRoutes.post('/delete', isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOneAndDelete({ _id: user_id }, async (err, doc) => {
 			if (err) throw err;
-			res.redirect("/");
+			res.redirect('/');
 		});
 	});
-	exRoutes.post("/changePassword", isLoggedIn, changePassword);
+	exRoutes.post('/changePassword', isLoggedIn, changePassword);
 	// 404 pages invalid url or page doesnt exist
 	exRoutes.use((req, res, next) => {
-		res.status(404).render("pages/404.ejs", {
-			title: "Sorry, page not found"
+		res.status(404).render('pages/404.ejs', {
+			title: 'Sorry, page not found'
 		});
 	});
 

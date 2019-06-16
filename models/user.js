@@ -3,11 +3,13 @@ const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
+
 	email: {
 		type: String,
 		lowercase: true,
 		required: [true, "can't be blank"],
 		match: [/\S+@\S+\.\S+/, "is invalid"],
+
 		index: true,
 		unique: true,
 		required: true
@@ -19,7 +21,7 @@ const userSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
 		lowercase: true,
-		required: [true, "can't be blank"],
+		required: [true, 'can\'t be blank'],
 		index: true,
 		required: true
 	},
@@ -53,6 +55,7 @@ userSchema.pre("save", function(next) {
 		next();
 	});
 });
+
 
 userSchema.plugin(uniqueValidator);
 //  , {message: 'is already taken.'}
