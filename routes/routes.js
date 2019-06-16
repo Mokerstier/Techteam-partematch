@@ -65,7 +65,7 @@ function routes() {
 	exRoutes.get("/profile", isLoggedIn, thisUser, (req, res) => {
 		const data = JSON.parse(thisUser);
 		getEventById(data.events.join("&id=")).then(eventObjects => {
-			data.events.objects = eventObjects;
+			data.eventObjects = eventObjects;
 			console.log(data);
 			res.render("pages/profile.ejs", {
 				user: data,

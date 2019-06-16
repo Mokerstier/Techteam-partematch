@@ -1,13 +1,19 @@
-<% 
+<%  if (events._embedded){
     var result = events._embedded.events[i].images.find(function(obj) {
         return (obj.ratio === "16_9" && obj.width === 1024);
     }) 
+}
+else if (events.objects._embedded){
+    var result = eventObjects._embedded.events[i].images.find(function(obj) {
+        return (obj.ratio === "16_9" && obj.width === 1024);
+    }) 
+}
 %>
 <div class="event-card">
     <img src="<%= result.url %>" alt="">
     <h3><%= events._embedded.events[i].name %></h3>
-    <form class="event-addForm action="addEvent" method="POST">
+    <form class="event-addForm action="<%= action %></form>>" method="POST">
         <input type="hidden" value="<%= events._embedded.events[i].id %>" name="eventID" />
-        <input type="submit" value="Add to profile" />   
+        <input type="submit" value="<%= value %>>" />   
     </form>
 </div>

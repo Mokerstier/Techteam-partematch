@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include ../partials/head %>
+	<% include ../partials/head %>
 
-<body>
-    <main>
-    <% include ../partials/searchevent %>
-    <div class="event-container">
-        <% for (var i=0; i <= 4; i++) { %>
-            <% include ../partials/event %>
-        <% } %>
-    </div> 
-    </main>
-    <% include ../partials/navbar %>
-</body>
-
+	<body>
+		<main>
+			<% include ../partials/searchevent %>
+			<div class="event-container">
+				<% var action="addEvent"; var value="Add to profile";%> <% for (var i=0;
+				i <= 4; i++) { %> <% include ../partials/event %> <% } %>
+			</div>
+		</main>
+		<% include ../partials/navbar %>
+	</body>
 </html>
