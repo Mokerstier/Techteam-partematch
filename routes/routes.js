@@ -5,16 +5,10 @@ function routes () {
 	const camelCase = require('camelcase');
 	const bodyParser = require('body-parser');
 	const urlencodedParser = bodyParser.urlencoded({ extended: true });
-<<<<<<< HEAD
-	const multer = require('multer');
-	const path = require('path');
-	const changePassword = require('../controllers/change-password');
-=======
 	const multer = require("multer");
 	const path = require("path");
 	const isLoggedIn = require('../controllers/loggedin');
 	const changePassword = require("../controllers/change-password");
->>>>>>> development
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
