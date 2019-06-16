@@ -19,6 +19,7 @@
         "semi": ["error", "always"],
         "indent": ["error", "tab"],
         "no-tabs": ["error", { "allowIndentationTabs": true }],
+        "no-dupe-keys": "off",
         "quotes": ["error", "single"]
     }
 }
