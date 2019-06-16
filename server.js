@@ -1,10 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const camelCase = require('camelcase');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
-const mongo = require('mongodb');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -13,6 +11,8 @@ const flash = require('connect-flash');
 const {routes} = require('./routes/routes');
 // controllers
 const user = require('./controllers/users');
+// const {matching} = require('./controllers/matching');
+
 
 require('dotenv').config();
 require('./controllers/user-login')(passport);
@@ -32,12 +32,12 @@ const options = {
 
 // Settings for online DATABASE
 var uri = process.env.MONGODB_URI;
-// mongoose.set("useNewUrlParser", true);
 mongoose.connect(uri, options);
 
 mongoose.connection.on('open', function(err, doc){
   console.log(`connection established with ${process.env.DB_NAME}`);
-});
+})
+
 // Port for running server
 const port = process.env.PORT;
 const app = express();
@@ -62,11 +62,15 @@ app
     //passport
     .use(passport.initialize())
     .use(passport.session())
+    
     // define route folder   
     .use('/', routes)
+    
+    
     // define template engine
-    .set("view engine", "ejs")
+    .set('view engine', 'ejs')
     .set('trust proxy', 1) // used because not communicating over HTTPS and want to set cookie
+    
     
 ;
 
