@@ -14,7 +14,12 @@
         "sourceType": "module"
     },
     "rules": {
+        "brace-style": [2, "1tbs", {"allowSingleLine": true}],
+        "camelcase": ["error", {"allow": ["user_id"]}],
+        "semi": ["error", "always"],
         "indent": ["error", "tab"],
+        "no-tabs": ["error", { "allowIndentationTabs": true }],
+        "no-dupe-keys": "off",
         "quotes": ["error", "single"]
     }
 }
