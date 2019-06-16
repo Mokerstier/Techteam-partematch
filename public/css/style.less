@@ -18,10 +18,13 @@
 }
 html,
 body {
+	scrollbar-width: none;
 	height: 100%;
+	overflow: -moz-scrollbars-none;
 }
 main {
 	flex: 1;
+	padding: 3em 0;
 }
 footer {
 	flex-shrink: 0;
@@ -113,13 +116,20 @@ a {
 }
 /* Header navigation */
 header {
+	background-color: @dark-blue;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row-reverse;
+	align-content: center;
 	padding: 1rem 1.5rem;
-	a {	
-		font-size: 0;	
-		border-radius: 6px;		
+	box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.1);
+	position: fixed;
+	top: 0;
+	height: 3em;
+	width: 100%;
+	a {
+		font-size: 0;
+		border-radius: 6px;
 		background-repeat: no-repeat;
 		background-size: 2rem;
 		background-position: center;
@@ -131,7 +141,6 @@ header {
 }
 .logout__button {
 	background-image: url("/public/icons/logout.svg");
-
 }
 .pref__button {
 	background-image: url("/public/icons/filter.svg");
@@ -141,6 +150,10 @@ footer {
 	background-color: #fff;
 	flex-shrink: 0;
 	nav {
+		height: 3em;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
 		background-color: @dark-blue;
 		padding: 0.5em 0;
 		box-shadow: 1px -1px 5px rgba(255, 255, 255, 0.1);
@@ -285,8 +298,20 @@ form {
 	&-container {
 		display: flex;
 		flex-wrap: wrap;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		&.profile {
+			flex-wrap: nowrap;
+			max-width: 90vw;
+			overflow-x: auto;
+			.event-card {
+				margin-right: 1em;
+			}
+		}
 	}
 	&-card {
+		min-width: 15em;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -299,6 +324,9 @@ form {
 		img {
 			width: 100%;
 			object-fit: cover;
+		}
+		h3 {
+			margin: 0 1em;
 		}
 	}
 	&-addForm {
