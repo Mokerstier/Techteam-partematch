@@ -1,32 +1,37 @@
 <section class="profile_user">
-    <div class="profile_picture">
-        <img src="../public/uploads/<%= user.img %>" alt="">
-    </div>
-    <div class="profile_info">
-        <h2 class="profile_name"><%= username %></h2>
-        <p class="profile_age"><%= user.dob %></p>
-        <h2>Bio</h2>
-        <% if(user.bio.length === 0 && user.session){ %>
-            <p class="profile_helpermsg">Voeg een beschrijving toe toe via <a href="/settings">het settings menu!</a></p>
-        <% } else if (user.bio.length == 0){ %>
-            <p class="profile_bio"><%= user.bio %></p>
-       <% }; %>
-    </div>
-    <div class="profile_festival">
-        <h2>Gaat naar:</h2>
-        <ul>
-            <% if(user.events.festival == 0){ %>
-                <p>Plz add festivals your going to!</p>
-            <% } %>
-        <% for(var i =0; i < user.events.festival.length; i++){ %>
-            <li><%= user.events.festival[i] %></li>
-        <% } %>
-        </ul>
-    </div>
-    <div>
-        <% if (user.session == user.id){ %>
-        <a class="link__button" href="/addevent">Voeg festival toe</a>
-        <% } %>
-    </div>
-    
+	<div class="profile_picture">
+		<img src="../public/uploads/<%= user.img %>" alt="" />
+	</div>
+	<div class="profile_info">
+		<h2 class="profile_name"><%= username %></h2>
+		<p class="profile_age"><%= user.dob %></p>
+		<h2>Bio</h2>
+		<% if(user.bio.length === 0){ %>
+		<p class="profile_helpermsg">
+			Voeg een beschrijving toe toe via
+			<a href="/settings">het settings menu!</a>
+		</p>
+		<% } else { %>
+		<p class="profile_bio"><%= user.bio %></p>
+		<% }; %>
+	</div>
+	<div class="profile_festival">
+		<h2>Gaat naar:</h2>
+		<ul>
+			<% if(!user.events){ %>
+			<p>
+				You don't seem to have liked any events, like some events to find
+				matches.
+			</p>
+			<% var action="removeEvent"; var value="Remove from profile";%> <% } %> <%
+			if(user.events) { for(var i =0; i < user.events.length; i++){ %>
+			<div class="event-container"></div>
+			<% } } %>
+		</ul>
+	</div>
+	<div>
+	        <% if (user.session == user.id){ %>
+		<a class="link__button" href="/addevent">Voeg festival toe</a>
+		<% } %>
+	</div>
 </section>

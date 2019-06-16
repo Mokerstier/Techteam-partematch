@@ -1,14 +1,15 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
 
 	email: {
 		type: String,
 		lowercase: true,
-		required: [true, 'can\'t be blank'],
-		match: [/\S+@\S+\.\S+/, 'is invalid'],
+		required: [true, "can't be blank"],
+		match: [/\S+@\S+\.\S+/, "is invalid"],
+
 		index: true,
 		unique: true,
 		required: true
@@ -27,7 +28,7 @@ const userSchema = new mongoose.Schema({
 	lastName: {
 		type: String,
 		lowercase: true,
-		required: [true, 'can\'t be blank'],
+		required: [true, "can't be blank"],
 		index: true,
 		required: true
 	},
@@ -37,20 +38,16 @@ const userSchema = new mongoose.Schema({
 	location: String,
 	bio: String,
 	img: String,
-	events: {
-		festival: [String],
-		party: [String]
-	},
+	events: [String],
 	prefs: {
 		pref: String,
 		relation: String
 	}
-
 });
-userSchema.pre('save', function (next) {
+userSchema.pre("save", function(next) {
 	var user = this;
-	if (!user.isModified('password')) return next();
-	bcrypt.hash(user.password, 10, function (err, hash) {
+	if (!user.isModified("password")) return next();
+	bcrypt.hash(user.password, 10, function(err, hash) {
 		if (err) {
 			return next(err);
 		}
@@ -59,7 +56,8 @@ userSchema.pre('save', function (next) {
 	});
 });
 
+
 userSchema.plugin(uniqueValidator);
 //  , {message: 'is already taken.'}
 
-exports.userSchema = mongoose.model('user', userSchema);
+exports.userSchema = mongoose.model("user", userSchema);

@@ -1,13 +1,18 @@
-function routes () {
-	const passport = require('passport');
-	const exRoutes = require('express').Router();
-	const { userSchema } = require('../models/user');
-	const camelCase = require('camelcase');
-	const bodyParser = require('body-parser');
+function routes() {
+	const passport = require("passport");
+	const session = require("express-session");
+	const LocalStrategy = require("passport-local");
+	const exRoutes = require("express").Router();
+	const login = require("../controllers/user-login");
+	const { userSchema } = require("../models/user");
+	const { getEvents, getEventById } = require("../controllers/getEventData");
+	const user = require("../controllers/users");
+	const camelCase = require("camelcase");
+	const bodyParser = require("body-parser");
 	const urlencodedParser = bodyParser.urlencoded({ extended: true });
 	const multer = require("multer");
 	const path = require("path");
-	const isLoggedIn = require('../controllers/loggedin');
+	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
 
 	// Storage uploads
@@ -59,11 +64,16 @@ function routes () {
 	};
 	exRoutes.get('/profile', isLoggedIn, thisUser, (req, res) => {
 		const data = JSON.parse(thisUser);
-		res.render('pages/profile.ejs', {
-			user: data,
-			title: `Partematch profile ${data.firstName} `,
-			username: `${camelCase(data.firstName, { pascalCase: true })}
-			 ${camelCase(data.lastName, { pascalCase: true })}`
+		getEventById(data.events.join("&id=")).then(eventObjects => {
+			data.eventObjects = eventObjects;
+			console.log(data);
+			res.render("pages/profile.ejs", {
+				user: data,
+				title: `Partematch profile ${data.firstName} `,
+				username: `${camelCase(data.firstName, {
+					pascalCase: true
+				})} ${camelCase(data.lastName, { pascalCase: true })}`
+			});
 		});
 	});
 
@@ -98,6 +108,7 @@ function routes () {
 			return next(null, relationMatch);
 		});
 	};
+
 	// Route to match when logged in and with matchingLogic based on festival
 	exRoutes.get('/match', isLoggedIn, thisUser, festivalMatch, genderMatch, relationMatch, (req, res) => {
 		const data = JSON.parse(thisUser);
@@ -267,9 +278,9 @@ function routes () {
 		});
 	});
 	// Route to login
-	exRoutes.get('/login', (req, res) => {
-		res.render('pages/login.ejs', {
-			title: 'Login'
+	exRoutes.get("/login", (req, res) => {
+		res.render("pages/login.ejs", {
+			title: "Login"
 		});
 	});
 	exRoutes.post('/login', (req, res, next) => {
@@ -289,7 +300,7 @@ function routes () {
 		if (req.session) {
 			// check if a session is active
 			// delete session object
-			req.session.destroy((err) => {
+			req.session.destroy(err => {
 				if (err) {
 					return next(err);
 				} else {
@@ -346,7 +357,7 @@ function routes () {
 
 	exRoutes.post('/upload', (req, res) => {
 		const user_id = req.session.passport.user;
-		upload(req, res, (err) => {
+		upload(req, res, err => {
 			if (err) {
 				res.redirect('/settings', {
 					msg: err
@@ -375,20 +386,25 @@ function routes () {
 		});
 	});
 	// Route to adding festivals
-	exRoutes.get('/addevent', isLoggedIn, (req, res) => {
-		res.render('pages/addevent.ejs', {
-			title: 'Addevent'
+	exRoutes.get("/addevent", isLoggedIn, (req, res) => {
+		getEvents().then(events => {
+			const data = { title: "Add event", events };
+			console.log(data);
+			res.render("pages/addevent.ejs", data);
 		});
 	});
-	exRoutes.post('/addevent-succes', isLoggedIn, (req, res) => {
+	exRoutes.post("/addevent", isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
-		userSchema.findOne({ _id: user_id }, async (err, doc) => {
-			if (err) throw err;
-			doc.events.festival = req.body.festival;
-			console.log(doc.events);
-			await doc.save();
-			res.redirect('/profile');
-		});
+		userSchema.findOneAndUpdate(
+			{ _id: user_id },
+			{ $addToSet: { events: req.body.eventID } },
+			async (err, doc) => {
+				if (err) throw err;
+				console.log(doc.events);
+				await doc.save();
+				res.redirect("/profile");
+			}
+		);
 	});
 	// DANGER DELETE ACCOUNT
 	exRoutes.post('/delete', isLoggedIn, (req, res) => {
