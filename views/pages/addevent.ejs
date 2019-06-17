@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 	<% include ../partials/head %>
-
+    <% include ../partials/header %>
 	<body>
 		<main>
 			<% include ../partials/searchevent %>
-			<div class="event-container">
-				<% for (var i=0; i <= 4; i++) { %> <% include("../partials/event",
-				{action: "addEvent", value:"Add to profile"}) %> <% } %>
-			</div>
+            <% if(events.page.totalElements > 0) { %>
+			<div class="event-container search">
+                <% for(var i=0; i<events._embedded.events.length; i++) { %> 
+                <%- include("../partials/event",{ action: "addEvent", value:"Add to profile", i:i, events:events }) %>
+                <% } %>
+            </div>
+            <% } %>
+            <% if(events.page.totalElements === 0) { %>
+                <h3 class="emptySearch">Nothing found, try other keywords</h3>
+            <% } %>
 		</main>
 		<% include ../partials/navbar %>
 	</body>

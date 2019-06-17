@@ -294,6 +294,10 @@ form {
 .event_succes {
 	padding: 1rem;
 }
+.emptySearch {
+	margin: 0 auto;
+	text-align: center;
+}
 .event {
 	&-container {
 		display: flex;
@@ -309,6 +313,11 @@ form {
 				margin-right: 1em;
 			}
 		}
+		&.search {
+			.event-card {
+				margin: 1em auto;
+			}
+		}
 	}
 	&-card {
 		min-width: 15em;
@@ -319,8 +328,6 @@ form {
 		border: solid 1px black;
 		max-width: 20em;
 		justify-content: space-around;
-		align-items: center;
-		margin: 1em auto;
 		img {
 			width: 100%;
 			object-fit: cover;
@@ -342,18 +349,45 @@ form {
 /* Form styling */
 
 /*Form opacity*/
-.field1{margin: 1em 0; height: 40px;}
-.prefs,.details,.label,.field{opacity: 0; height: 0; transition: 300ms; margin: 1em 0;}
-.field6:valid,.field1:valid,.field:valid{ border: 2px solid green;}
+.field1 {
+	margin: 1em 0;
+	height: 40px;
+}
+.prefs,
+.details,
+.label,
+.field {
+	opacity: 0;
+	height: 0;
+	transition: 300ms;
+	margin: 1em 0;
+}
+.field6:valid,
+.field1:valid,
+.field:valid {
+	border: 2px solid green;
+}
 
-.field1:valid~.field2{ opacity: 1; height: 40px;}
-.field2:valid~.field3{ opacity: 1; height: 40px;}
-.field3:valid~.field4{ opacity: 1; height: 40px;}
-.field4:valid~.details{opacity: 1; height: auto;}
-.field6:valid~.prefs{opacity: 1; height: auto;}
-
-
-
+.field1:valid ~ .field2 {
+	opacity: 1;
+	height: 40px;
+}
+.field2:valid ~ .field3 {
+	opacity: 1;
+	height: 40px;
+}
+.field3:valid ~ .field4 {
+	opacity: 1;
+	height: 40px;
+}
+.field4:valid ~ .details {
+	opacity: 1;
+	height: auto;
+}
+.field6:valid ~ .prefs {
+	opacity: 1;
+	height: auto;
+}
 
 // input#name2:valid~.interest-picture2 {
 // 	height: auto;
@@ -361,8 +395,6 @@ form {
 // 	transition: 0.7s ease 0s;
 // 	z-index: 1
 //   }
-
-
 
 form {
 	fieldset {
