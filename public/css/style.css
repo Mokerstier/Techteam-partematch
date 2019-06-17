@@ -274,6 +274,16 @@ form fieldset button {
   margin: auto;
   margin-top: 5em;
 }
+form input {
+  background:url() no-repeat;
+  background: #161622;
+  margin: none;
+  padding: 1em;
+  font-size: 1em;
+  border: none; 
+  color: #fff;
+  border-radius: 6px;
+}
 .upload .form_field .form_option {
   display: unset;
 }

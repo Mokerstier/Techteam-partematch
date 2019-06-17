@@ -28,7 +28,10 @@
         <a class="link__button" href="/addevent">Voeg festival toe</a>
     </div>
 
-    <% include ../partials/like.ejs %>
-
+    <% if (user.session != user.id) { %>
+        <% include ../partials/like.ejs %>
+    <% } %>
+    
+    <% include ../partials/iliked.ejs %>
 
 </section>

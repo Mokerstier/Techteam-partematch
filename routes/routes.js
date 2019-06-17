@@ -391,11 +391,11 @@ function routes() {
         const user_id = req.session.passport.user;
         console.log(id)
         userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            doc.likes.ilikedid = id;
+            { $addToSet: { ilikedid: id }}
             doc.save()
         });
         userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            otherUser.likes.likedme = user_id;
+            { $addToSet: { likedme: user_id }}
             otherUser.save()
             console.log('Succes')
         });

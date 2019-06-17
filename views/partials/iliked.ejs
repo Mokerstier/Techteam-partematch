@@ -1,10 +1,10 @@
 <div>
     <ul>
         <% var aantallikes = 0 %>
-        <% if (user.likes.likeid.length > 0) { %>
-            <% for (var i = 0; i < user.likes.likeid.length; i++) { %>
-                <% if (user.likes.likeid[i].length > 0) { %>
-                    <p><%= user.likes.likeid[i] %></p>
+        <% if (user.likes.ilikedid.length > 0) { %>
+            <% for (var i = 0; i < user.likes.ilikedid.length; i++) { %>
+                <% if (user.likes.ilikedid[i].length > 0) { %>
+                    <p><%= user.likes.ilikedid[i] %></p>
                     <% aantallikes += 1 %>
                 <% } %>
             <% } %>
@@ -12,7 +12,5 @@
         <% } else  { %>
                 <p>Geen likes</p>
             <% } %>
-
     </ul>
 </div>
-<!--<p><%= user.likes.likeid[0] + ' ' + user.likes.likeid.length %></p>-->
