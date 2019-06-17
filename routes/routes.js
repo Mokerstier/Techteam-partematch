@@ -14,7 +14,8 @@ function routes() {
 	const path = require("path");
 	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
-	const fs = require('fs'); 
+    const fs = require('fs'); 
+    const url = require('url')
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
@@ -257,9 +258,10 @@ function routes() {
 		});
 	});
 
+    let id;
 	// Route to other user profile
 	exRoutes.get('/user/:id', isLoggedIn, (req, res, next) => {
-		let id = req.params.id;
+		id = req.params.id
 		console.log(id);
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
@@ -354,56 +356,6 @@ function routes() {
 			await doc.save();
 			res.redirect('/profile');
 		});
-	});
-
-
-    // Route to adding festivals
-    exRoutes.get("/addevent", isLoggedIn,  (req, res) => {
-        res.render('pages/addevent.ejs', {
-            title: "Addevent"
-        });
-    });
-    exRoutes.post('/addevent-succes', isLoggedIn, (req, res) => {
-        const user_id = req.session.passport.user;
-        userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            if(err) throw err
-            doc.events.festival = req.body.festival;
-            console.log(doc.events);
-            await doc.save();
-            res.redirect('/profile');
-        });
-    });
-    
-    // Route to like other users
-    exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
-        const user_id = req.session.passport.user;
-        console.log(id)
-        userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            { $addToSet: { ilikedid: id }}
-            doc.save()
-        });
-        userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            { $addToSet: { likedme: user_id }}
-            otherUser.save()
-            console.log('Succes')
-        });
-        console.log(id)
-        res.redirect(`/user/${id}`)
-    })
-
-    // DANGER DELETE ACCOUNT
-    exRoutes.post('/delete', isLoggedIn, (req,res) => {
-        const user_id = req.url.session.passport.user;
-        userSchema.findOneAndDelete({ _id: user_id }, async (err, doc) => {
-            if(err) throw err
-            res.redirect('/');
-        });
-    });
-    // 404 pages invalid url or page doesnt exist
-    exRoutes.use( (req, res, next) => {
-        res.status(404).render('pages/404.ejs', {
-            title: "Sorry, page not found"
-        });
     });
 	exRoutes.post('/upload', (req, res) => {
 		const user_id = req.session.passport.user;
@@ -457,7 +409,23 @@ function routes() {
 				res.redirect("/profile");
 			}
 		);
-	});
+    });
+    // Route to like other users
+    exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
+        const user_id = req.session.passport.user;
+        console.log(id)
+        userSchema.findOne({ _id: user_id }, async (err, doc) => {
+            { $addToSet: { ilikedid: id }}
+            doc.save()
+        });
+        userSchema.findOne({ _id: id }, async (err, otherUser) => {
+            { $addToSet: { likedme: user_id }}
+            otherUser.save()
+            console.log('Succes')
+        });
+        console.log(id)
+        res.redirect(`/user/${id}`)
+    })
 	// DANGER DELETE ACCOUNT
 	exRoutes.post('/delete', isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
