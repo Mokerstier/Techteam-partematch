@@ -30,8 +30,7 @@ router.post("/", urlencodedParser, async (req, res) => {
 
 		await user.save();
 
-		// res.send('Succesfully registerd '+user.firstName+' with '+ user.email+' this e-mail!');
-		res.redirect("/profile");
+		res.redirect("/");
 	}
 });
 
