@@ -12,6 +12,7 @@ function routes() {
     const urlencodedParser = bodyParser.urlencoded({ extended: true });
     const multer = require('multer');
     const path = require('path');
+    const url = require('url')
     
     //Storage uploads
     const uploads = multer.diskStorage({
@@ -250,9 +251,11 @@ function routes() {
         });
     });
     
+    let id;
+
     //Route to other user profile
     exRoutes.get('/user/:id', isLoggedIn, (req, res, next) => {
-        let id = req.params.id
+        id = req.params.id
         console.log(id)
         userSchema.findById({ _id: id }, (err, user) => {
             if (err) return next(err)
@@ -382,9 +385,27 @@ function routes() {
             res.redirect('/profile');
         });
     });
+    
+    // Route to like other users
+    exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
+        const user_id = req.session.passport.user;
+        console.log(id)
+        userSchema.findOne({ _id: user_id }, async (err, doc) => {
+            doc.likes.ilikedid = id;
+            doc.save()
+        });
+        userSchema.findOne({ _id: id }, async (err, otherUser) => {
+            otherUser.likes.likedme = user_id;
+            otherUser.save()
+            console.log('Succes')
+        });
+        console.log(id)
+        res.redirect(`/user/${id}`)
+    })
+
     // DANGER DELETE ACCOUNT
     exRoutes.post('/delete', isLoggedIn, (req,res) => {
-        const user_id = req.session.passport.user;
+        const user_id = req.url.session.passport.user;
         userSchema.findOneAndDelete({ _id: user_id }, async (err, doc) => {
             if(err) throw err
             res.redirect('/');

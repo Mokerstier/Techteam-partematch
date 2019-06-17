@@ -44,6 +44,10 @@ const userSchema =  new mongoose.Schema({
     prefs: {
         pref: String,
         relation: String
+    },
+    likes: {
+        ilikedid: [String],
+        likedme: [String]
     }
     
 });
