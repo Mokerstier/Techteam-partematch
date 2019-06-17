@@ -1,30 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include ../partials/head %>
+	<% include ../partials/head %>
 
-<body>
-    <form action="/addevent-succes" method="POST">
-        <fieldset>
-            <legend>Voeg een festival toe</legend>
-            <div class="form_field_event">
-                <div class="form_option_event">
-                    <input value="lowlands" type="checkbox" name="festival" id="lowlands">
-                    <label class="event" for="lowlands">Lowlands</label>
-                </div>
-                <div class="form_option_event">
-                    <input value="pinkpop" type="checkbox" name="festival" id="pinkpop">
-                    <label class="event" for="pinkpop">Pinkpop</label>
-                </div>
-                <div class="form_option_event">
-                    <input value="psy-fi" type="checkbox" name="festival" id="psy-fi">
-                    <label class="event" for="psy-fi">Psy-fi</label>
-                </div>
-            </div>
-            
-        </fieldset>
-        <button class="form__button" type="submit">Voeg festival toe!</button>
-    </form>
-    <% include ../partials/navbar %>
-</body>
-
+	<body>
+		<main>
+			<% include ../partials/searchevent %>
+			<div class="event-container">
+				<% for (var i=0; i <= 4; i++) { %> <% include("../partials/event",
+				{action: "addEvent", value:"Add to profile"}) %> <% } %>
+			</div>
+		</main>
+		<% include ../partials/navbar %>
+	</body>
 </html>
