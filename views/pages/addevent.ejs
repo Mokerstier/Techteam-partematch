@@ -6,8 +6,8 @@
 		<main>
 			<% include ../partials/searchevent %>
 			<div class="event-container">
-				<% var action="addEvent"; var value="Add to profile";%> <% for (var i=0;
-				i <= 4; i++) { %> <% include ../partials/event %> <% } %>
+				<% for (var i=0; i <= 4; i++) { %> <% include("../partials/event",
+				{action: "addEvent", value:"Add to profile"}) %> <% } %>
 			</div>
 		</main>
 		<% include ../partials/navbar %>
