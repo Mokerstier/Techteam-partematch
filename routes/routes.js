@@ -14,6 +14,7 @@ function routes() {
 	const path = require("path");
 	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
+	const fs = require('fs'); 
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
@@ -370,9 +371,11 @@ function routes() {
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
 						if (err) throw err;
-						console.log(doc);
+						let oldimg = doc.img;
+						fs.unlink('public/uploads/'+oldimg, (err) => {
+							if (err) throw err;
+						  });
 						doc.img = req.file.filename;
-
 						await doc.save();
 
 						console.log(req.file.filename);
