@@ -1,0 +1,17 @@
+<% var result = events._embedded.events[i].images.find(function(obj) {
+return(obj.ratio === "16_9" && obj.width === 1024) }) %>
+<div class="event-card">
+	<% if(result.url) {%>
+	<img src="<%= result.url %>" alt="" />
+	<% } %>
+	<h3><%= events._embedded.events[i].name %></h3>
+	<form class="event-addForm action=" <%="action" %>
+		" method="POST">
+		<input
+			type="hidden"
+			value="<%= events._embedded.events[i].id %>"
+			name="eventID"
+		/>
+		<input type="submit" value="<%= value %>" />
+	</form>
+</div>
