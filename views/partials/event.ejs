@@ -5,8 +5,7 @@ return(obj.ratio === "16_9" && obj.width === 1024) }) %>
 	<img src="<%= result.url %>" alt="" />
 	<% } %>
 	<h3><%= events._embedded.events[i].name %></h3>
-	<form class="event-addForm action=" <%="action" %>
-		" method="POST">
+	<form class="event-addForm" action="<%= action %>" method="POST">
 		<input
 			type="hidden"
 			value="<%= events._embedded.events[i].id %>"
