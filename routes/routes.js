@@ -95,7 +95,7 @@ function routes() {
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
 				res.redirect('/profile');
-			} else festivalMatch = doc.events.festival;
+			} else festivalMatch = doc.events;
 			return next(null, festivalMatch);
 		});
 	};
@@ -119,7 +119,7 @@ function routes() {
 			userSchema.find({
 				_id: { $ne: data._id },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
-				'events.festival': { $in: festivalMatch }
+				'events': { $in: festivalMatch }
 			}, (err, users) => {
 				if (err) throw err;
 				console.log(`we found you ${users.length} matches`);
@@ -136,7 +136,7 @@ function routes() {
 				_id: { $ne: data._id },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
 				'prefs.relation': { $in: ['nopref', 'friend'] },
-				'events.festival': { $in: festivalMatch }
+				'events': { $in: festivalMatch }
 			},
 			(err, users) => {
 				if (err) throw err;
@@ -154,7 +154,7 @@ function routes() {
 				{
 					_id: { $ne: data._id },
 					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events.festival': { $in: festivalMatch },
+					'eventst': { $in: festivalMatch },
 					'prefs.relation': { $in: ['nopref', 'love'] }
 				},
 				(err, users) => {
@@ -175,7 +175,7 @@ function routes() {
 					_id: { $ne: data._id },
 					gender: { $ne: data.gender },
 					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events.festival': { $in: festivalMatch },
+					'events': { $in: festivalMatch },
 					'prefs.relation': { $in: ['nopref', 'love'] }
 				},
 				(err, users) => {
@@ -196,7 +196,7 @@ function routes() {
 					_id: { $ne: data._id },
 					gender: data.gender,
 					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events.festival': { $in: festivalMatch },
+					'events': { $in: festivalMatch },
 					'prefs.relation': { $in: ['nopref', 'love'] }
 				},
 				(err, users) => {
@@ -216,7 +216,7 @@ function routes() {
 				_id: { $ne: data._id },
 				gender: { $ne: data.gender },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
-				'events.festival': { $in: festivalMatch },
+				'events': { $in: festivalMatch },
 				'prefs.relation': { $in: ['nopref', 'friend'] }
 			}, (err, users) => {
 				if (err) throw err;
@@ -235,7 +235,7 @@ function routes() {
 					_id: { $ne: data._id },
 					gender: data.gender,
 					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events.festival': { $in: festivalMatch },
+					'events': { $in: festivalMatch },
 					'prefs.relation': { $in: ['nopref', 'friend'] }
 				},
 				(err, users) => {
@@ -271,10 +271,8 @@ function routes() {
 					{ pascalCase: true },
 					user.lastName,
 					{ pascalCase: true }
-				),
-				festival: user.events.festival,
-				dob: user.dob,
-				bio: user.bio
+				)
+
 			});
 		});
 	});
