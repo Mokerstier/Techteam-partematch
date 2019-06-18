@@ -20,7 +20,7 @@ function routes() {
 	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
     const fs = require('fs'); 
-    const url = require('url')
+	const url = require('url')
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
@@ -296,7 +296,6 @@ function routes() {
 		})
 		});
 	});
-	});
 	// Route to login
 	exRoutes.get("/login", (req, res) => {
 		res.render("pages/login.ejs", {
@@ -486,7 +485,7 @@ function routes() {
 			{ $addToSet: { 'likes.likedme': user_id} },
 			async (err, doc) => {
 				if (err) throw err;
-				await doc.save();
+				doc.save();
 			}
         )
         res.redirect(`/user/${id}`)
@@ -495,25 +494,23 @@ function routes() {
 	// Route to unlike other users
     exRoutes.post('/unlike', isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
-        userSchema.findOne(
+        userSchema.updateOne(
 			{ _id: user_id },
-			{ $unset: { ilikedid: id} },
+			{ $unset: { 'likes.ilikedid': id} },
             async (err, doc) => {
-				console.log(user_id)
+				console.log(id)
 				if (err) throw err;
-				await doc.save();
+				doc.save();
 			}
 		)
-		/*
-        userSchema.findOneAndUpdate(
+        userSchema.updateOne(
 			{ _id: id }, 
-			{ $unset: {likedme: user_id} },
+			{ $unset: { 'likes.likedme': user_id} },
 			async (err, doc) => {
 				if (err) throw err;
 				console.log(id);
-				await doc.save();
+				doc.save();
 		});
-		*/
 		res.redirect(`/profile`)
 	})
 	exRoutes.post("/removeEvent", isLoggedIn, (req, res) => {
