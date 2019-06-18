@@ -25,7 +25,7 @@ module.exports = (req, res) => {
 					console.log(`${user_id} passwords matched`);
 					bcrypt.hash(newPass, 10, async (err, hash) => {
 						if (err) {
-							return next(err);
+							console.log(err);
 						}
 						try {
 							userSchema.updateOne(
@@ -37,8 +37,8 @@ module.exports = (req, res) => {
 										console.log(
 											`${user_id} pass change- Something went wrong while updating`
 										);
-										return done(null, false, {
-											message: "Something went wrong while updating"
+										res.redirect("/settings", 200, {
+											message: "Wrong password"
 										});
 									}
 									console.log(`updated password ${user_id}`);
@@ -52,7 +52,10 @@ module.exports = (req, res) => {
 						}
 					});
 				} else {
-					return done(null, false, { message: "Wrong password" });
+					res.render("pages/settings.ejs", {
+						title: "Verander je instellingen",
+						message: "Verkeerde wachtwoord ingevoerd"
+					});
 				}
 			});
 		} catch (err) {

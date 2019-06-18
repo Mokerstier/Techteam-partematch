@@ -9,8 +9,7 @@ body {
   overflow: -moz-scrollbars-none;
 }
 main {
-  -webkit-box-flex: 1;
-          flex: 1;
+  flex: 1;
   padding: 3em 0;
 }
 footer {
@@ -25,11 +24,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;
-  display: -webkit-box;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-          flex-direction: column;
+  flex-direction: column;
   height: 100vh;
   font-family: futura, sans-serif;
   color: #fff;
@@ -49,7 +45,6 @@ body {
   z-index: -1;
 }
 .splash div {
-  background-image: -webkit-linear-gradient(227deg, #435ca7 0%, #6171b4 24%, #4cbed2 100%);
   background-image: linear-gradient(223deg, #435ca7 0%, #6171b4 24%, #4cbed2 100%);
   height: 100%;
   width: 100%;
@@ -101,12 +96,9 @@ a {
 /* Header navigation */
 header {
   background-color: #161622;
-  display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-          flex-direction: row-reverse;
+  flex-direction: row-reverse;
   align-content: center;
   padding: 1rem 1.5rem;
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.1);
@@ -148,10 +140,8 @@ footer nav {
   box-shadow: 1px -1px 5px rgba(255, 255, 255, 0.1);
 }
 footer ul {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
   padding: 0;
   margin: 0;
 }
@@ -186,10 +176,8 @@ form {
   text-align: center;
 }
 form .form-field {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin: 1em 0;
 }
 form .form-field label {
@@ -207,7 +195,6 @@ form fieldset input {
 }
 .login_form {
   padding: 2rem 1rem;
-  display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
   text-align: left;
@@ -227,7 +214,6 @@ form fieldset input {
   padding: 0 4px;
   position: absolute;
   top: 1.6rem;
-  -webkit-transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .login_form input {
@@ -267,7 +253,6 @@ form fieldset input {
   height: 100%;
 }
 .users_match {
-  display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
 }
@@ -298,12 +283,10 @@ form fieldset input {
   display: none;
 }
 .searchEvent {
-  display: -webkit-box;
   display: flex;
   width: 100%;
   max-width: 22rem;
-  -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   justify-content: space-around;
 }
 .searchEvent input[type="text"] {
@@ -323,14 +306,12 @@ form fieldset input {
   cursor: pointer;
   text-align: left;
   text-indent: 0.5em;
-  -webkit-transition: ease-in 0.15s;
   transition: ease-in 0.15s;
 }
 .searchEvent input[type="submit"]:hover {
   background-color: #1a1a28;
 }
 .event-container {
-  display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
   padding: 6px 0;
@@ -347,37 +328,29 @@ form fieldset input {
   margin-right: 1em;
 }
 .event-container.search .event-card {
-  -webkit-transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   margin: 1em auto;
 }
 .event-card {
   min-width: 15em;
-  display: -webkit-box;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-          justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: 1px -1px 10px rgba(0, 0, 0, 0.3);
   max-width: 20em;
   border-radius: 5px;
   overflow: hidden;
   background-color: #1c1c2b;
-  -webkit-transition: ease-in-out 0.2s;
   transition: ease-in-out 0.2s;
 }
 .event-card:hover {
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
+  transform: translateY(-3px);
   box-shadow: 1px 0px 15px rgba(0, 0, 0, 0.35);
 }
 .event-card img {
   width: 100%;
   object-fit: cover;
-  -webkit-transform: translateY(-1px);
-          transform: translateY(-1px);
+  transform: translateY(-1px);
 }
 .event-card h3 {
   margin: 1em 1em;
@@ -398,7 +371,6 @@ form fieldset input {
   cursor: pointer;
   text-align: left;
   text-indent: 0.5em;
-  -webkit-transition: ease-in 0.15s;
   transition: ease-in 0.15s;
 }
 .event-addForm input[type="submit"]:hover {
@@ -418,22 +390,22 @@ form fieldset input {
   position: absolute;
   padding: 1rem;
   top: 8rem;
-  opacity: .6;
+  opacity: 0.6;
 }
 .arrow:hover {
   opacity: 1;
 }
 .arrow.left {
-  left: .5em;
+  left: 0.5em;
   background-image: url("/public/icons/arrow-left.svg");
 }
 .arrow.right {
   background-image: url("/public/icons/arrow-right.svg");
-  right: .5em;
+  right: 0.5em;
 }
 .overflow-hid {
   overflow-x: hidden;
-  scroll-behavior: 'smooth';
+  scroll-behavior: "smooth";
 }
 /* Form styling */
 /*Form opacity*/
@@ -447,7 +419,6 @@ form fieldset input {
 .field {
   opacity: 0;
   height: 0;
-  -webkit-transition: 300ms;
   transition: 300ms;
   margin: 1em 0;
 }
@@ -498,6 +469,14 @@ form fieldset button {
   margin: auto;
   margin-top: 5em;
 }
+.changePass label {
+  display: flex;
+  max-height: 2em;
+  margin-bottom: 1em;
+}
+.changePass input[type="submit"] {
+  min-height: 3em;
+}
 .upload .form_field .form_option {
   display: unset;
 }
@@ -519,7 +498,6 @@ form fieldset button {
 }
 .form_field_event {
   background-color: rgba(255, 255, 255, 0.397);
-  display: -webkit-box;
   display: flex;
   flex-wrap: nowrap;
   max-width: 300px;
@@ -568,7 +546,6 @@ form fieldset button {
 /* button */
 .link__button,
 .form__button {
-  background-image: -webkit-linear-gradient(179deg, #e54114, #e8620b 47%, #f49b05);
   background-image: linear-gradient(271deg, #e54114, #e8620b 47%, #f49b05);
   border: none;
   border-radius: 6px;
@@ -586,6 +563,5 @@ form fieldset button {
 }
 .link__button:hover,
 .form__button:hover {
-  background-image: -webkit-linear-gradient(179deg, #e8620b, #e54114 47%, #f49b05);
   background-image: linear-gradient(271deg, #e8620b, #e54114 47%, #f49b05);
 }
