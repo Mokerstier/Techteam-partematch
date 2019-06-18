@@ -450,39 +450,42 @@ function routes() {
     // Route to like other users
     exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
         const user_id = req.session.passport.user;
-        console.log(id)
-        userSchema.findOne(
-			{ $addToSet: { ilikedid: id } },
-			async (err, doc) => {
-				doc.save()
-			}
-        );
-        userSchema.findOne(
-			{ $addToSet: { likedme: user_id } },
-			async (err, doc) => {
-				otherUser.save();
-			}
-        );
-        console.log(id)
-        res.redirect(`/user/${id}`)
-	});
-	// Route to unlike other users
-    exRoutes.post('/user/delete', isLoggedIn, (req, res) => {
-        const user_id = req.session.passport.user;
-        console.log(id)
         userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            { $unSet: { ilikedid: id }}
+            doc.likes.ilikedid
             doc.save()
         });
         userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            { $unSet: { likedme: user_id }}
+            otherUser.likes.likedme
             otherUser.save()
             console.log('Succes')
         });
         console.log(id)
         res.redirect(`/user/${id}`)
+    })
+	// Route to unlike other users
+    exRoutes.post('/unlike', isLoggedIn, (req, res) => {
+		const user_id = req.session.passport.user;
+        userSchema.findOneAndUpdate(
+			{ _id: user_id },
+			{ $unset: { ilikedid: id} },
+            async (err, doc) => {
+				console.log(id)
+				if (err) throw err;
+				await doc.save();
+			}
+		)
+		/*
+        userSchema.findOneAndUpdate(
+			{ _id: id }, 
+			{ $unset: {likedme: user_id} },
+			async (err, doc) => {
+				if (err) throw err;
+				console.log(id);
+				await doc.save();
+		});
+		*/
+		res.redirect(`/profile`)
 	})
-	
 	exRoutes.post("/removeEvent", isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOneAndUpdate(
