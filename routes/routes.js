@@ -125,6 +125,7 @@ function routes() {
 		relationMatch,
 		(req, res) => {
 			const data = JSON.parse(thisUser);
+				
 			console.log(genderMatch, festivalMatch, relationMatch)
 		// User looking for all kind of relations <3 in both sexes
 		if (relationMatch === 'nopref') {
@@ -261,7 +262,8 @@ function routes() {
 				}
 			);
 		}
-		});
+		
+	});
 	// Route to homepage
 	exRoutes.get("/", (req, res) => {
 		res.render("pages/splash.ejs", {
@@ -274,6 +276,8 @@ function routes() {
 	exRoutes.get("/user/:id", isLoggedIn, (req, res, next) => {
 		id = req.params.id
 		console.log(id);
+		
+
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
 			getEventById(user.events.join("&id=")).then(eventObjects => {
@@ -291,6 +295,7 @@ function routes() {
 			});
 		})
 		});
+	});
 	});
 	// Route to login
 	exRoutes.get("/login", (req, res) => {
