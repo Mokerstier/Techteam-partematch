@@ -452,18 +452,21 @@ function routes() {
     exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
         const user_id = req.session.passport.user;
         console.log(id)
-        userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            { $addToSet: { ilikedid: id }}
-            doc.save()
-        });
-        userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            { $addToSet: { likedme: user_id }}
-            otherUser.save()
-            console.log('Succes')
-        });
+        userSchema.findOne(
+			{ $addToSet: { ilikedid: id } },
+			async (err, doc) => {
+				doc.save()
+			}
+        );
+        userSchema.findOne(
+			{ $addToSet: { likedme: user_id } },
+			async (err, doc) => {
+				otherUser.save();
+			}
+        );
         console.log(id)
         res.redirect(`/user/${id}`)
-	})
+	});
 	// Route to unlike other users
     exRoutes.post('/user/delete', isLoggedIn, (req, res) => {
         const user_id = req.session.passport.user;
