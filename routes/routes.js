@@ -276,6 +276,8 @@ function routes() {
 		console.log(id);
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
+			getEventById(user.events.join("&id=")).then(eventObjects => {
+				user.eventObjects = eventObjects;
 			return res.render("pages/user.ejs", {
 				user: user,
 				title: user.firstName + " PartEmatch",
@@ -285,8 +287,9 @@ function routes() {
 					user.lastName,
 					{ pascalCase: true }
 				)
-
+			
 			});
+		})
 		});
 	});
 	// Route to login
@@ -459,32 +462,40 @@ function routes() {
 				if (err) throw err;
 				await doc.save();
 				res.redirect("/profile");
+				console.log(doc)
 			}
 		);
     });
     // Route to like other users
-    exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
+    exRoutes.post("/user/:id", isLoggedIn, (req, res) => {
         const user_id = req.session.passport.user;
-        userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            doc.likes.ilikedid
-            doc.save()
-        });
-        userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            otherUser.likes.likedme
-            otherUser.save()
-            console.log('Succes')
-        });
-        console.log(id)
+        userSchema.updateOne(
+			{ _id: user_id },
+			{ $addToSet: { 'likes.ilikedid': id} },
+			async (err, doc) => {
+				if (err) throw err;
+				await doc.save();
+			}
+		);
+        userSchema.updateOne(
+			{ _id: id },
+			{ $addToSet: { 'likes.likedme': user_id} },
+			async (err, doc) => {
+				if (err) throw err;
+				await doc.save();
+			}
+        )
         res.redirect(`/user/${id}`)
     })
+
 	// Route to unlike other users
     exRoutes.post('/unlike', isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
-        userSchema.findOneAndUpdate(
+        userSchema.findOne(
 			{ _id: user_id },
 			{ $unset: { ilikedid: id} },
             async (err, doc) => {
-				console.log(id)
+				console.log(user_id)
 				if (err) throw err;
 				await doc.save();
 			}
