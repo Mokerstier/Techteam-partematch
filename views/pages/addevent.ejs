@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include ../partials/head %>
-
-<body>
-    <form action="/addevent-succes" method="POST">
-        <fieldset>
-            <legend>Voeg een festival toe</legend>
-            <div class="form_field_event">
-                <div class="form_option_event">
-                    <input value="lowlands" type="checkbox" name="festival" id="lowlands">
-                    <label class="event" for="lowlands">Lowlands</label>
-                </div>
-                <div class="form_option_event">
-                    <input value="pinkpop" type="checkbox" name="festival" id="pinkpop">
-                    <label class="event" for="pinkpop">Pinkpop</label>
-                </div>
-                <div class="form_option_event">
-                    <input value="psy-fi" type="checkbox" name="festival" id="psy-fi">
-                    <label class="event" for="psy-fi">Psy-fi</label>
-                </div>
-            </div>
+	<% include ../partials/head %>
+    <% include ../partials/header %>
+	<body>
+		<main>
+			<% include ../partials/searchevent %>
             
-        </fieldset>
-        <button class="form__button" type="submit">Voeg festival toe!</button>
-    </form>
-    <% include ../partials/navbar %>
-</body>
-
+			<div class="event-container search">
+                <% if(events.page.totalElements > 0) { %>
+                    <% for(var i=0; i<events._embedded.events.length; i++) { %> 
+                    <%- include("../partials/event",{ action: "/addEvent", value:"Add to profile", i:i, events:events }) %>
+                    <% } %>
+                <% } %>
+            </div>
+            <h3 class="emptySearch <% if(events.page.totalElements > 0) { %>
+                <%- "hidden" %>
+                <% } %>
+                ">Nothing found, try other keywords</h3>
+		</main>
+		<% include ../partials/navbar %>
+        <script type="module" src="/public/js/events.js"></script>
+	</body>
 </html>

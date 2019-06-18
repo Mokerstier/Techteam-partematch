@@ -36,6 +36,7 @@ For local setups:
 3. `echo "DB_PORT=your_db_port" >> .env`
 4. `echo "DB_HOST=your_db_host" >> .env` => usually `localhost`
 5. `echo "PORT=your_port_number" >> .env` => usually `8080`
+6. `echo "MONGODB_URI='mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME`
 
 You are now able to run the application using `npm start`
 if everything is setted up the right way youre terminal will log:

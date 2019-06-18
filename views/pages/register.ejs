@@ -4,11 +4,12 @@
     <% include ../partials/head %>
 </head>
 <body>
-    <form method="POST" id="newUser" action="/register">
+    <form method="POST" id="newUser" action="/register" class="ac-radio ac-fill">
+        <h1>Sign up</h1>
         <% include ../partials/user-create.ejs %>
         <% include ../partials/settings.ejs %>
-        <% include ../partials/addevent.ejs %>
         <% include ../partials/preferences.ejs %>
     <button class="form__button" type="submit">Registreer</button>
     </form>
+    <script src="/public/js/radio.js"></script>
 </body>
