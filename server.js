@@ -1,3 +1,6 @@
+/* eslint-disable no-inline-comments */
+/* eslint-disable capitalized-comments */
+/* eslint-disable line-comment-position */
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -11,8 +14,6 @@ const flash = require('connect-flash');
 const { routes } = require('./routes/routes');
 // controllers
 const user = require('./controllers/users');
-// const {matching} = require('./controllers/matching');
-
 
 require('dotenv').config();
 require('./controllers/user-login')(passport);
