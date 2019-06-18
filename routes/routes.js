@@ -6,6 +6,7 @@ function routes() {
 	const login = require("../controllers/user-login");
 	const { userSchema } = require("../models/user");
 	const { getEvents, getEventById } = require("../controllers/getEventData");
+	const { getNoti } = require("../controllers/getNotiData");
 	const user = require("../controllers/users");
 	const camelCase = require("camelcase");
 	const bodyParser = require("body-parser");
@@ -385,6 +386,14 @@ function routes() {
 				}
 			}
 		});
+	});
+	// Route to notifications
+	exRoutes.get('/notifications', isLoggedIn, thisUser, (req, res) => {
+		getNoti().then(noti => {
+			const data = { title: `${noti.length} new messages`, noti};
+			console.log(noti);
+			res.render("pages/notifications.ejs", data);
+		})
 	});
 	// Route to adding festivals
 	exRoutes.get("/addevent", isLoggedIn, (req, res) => {
