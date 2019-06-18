@@ -260,7 +260,7 @@ function routes() {
 				}
 			);
 		}
-	);
+		});
 	// Route to homepage
 	exRoutes.get("/", (req, res) => {
 		res.render("pages/splash.ejs", {
@@ -405,6 +405,7 @@ function routes() {
 			console.log(noti);
 			res.render("pages/notifications.ejs", data);
 		})
+	});
 	exRoutes.post("/searchEvent", isLoggedIn, (req, res) => {
 		if (req.body.query) {
 			const keywords = req.body.query;
@@ -474,6 +475,6 @@ function routes() {
 	});
 
 	return exRoutes;
-}
+};
 
 exports.routes = routes();
