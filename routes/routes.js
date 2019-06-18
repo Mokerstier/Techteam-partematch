@@ -425,6 +425,11 @@ function routes() {
 				console.log(data);
 				res.render("pages/addevent.ejs", data);
 			});
+		} else {
+			getEvents().then(events => {
+				const data = { title: "Add event", events };
+				res.render("pages/addevent.ejs", data);
+			});
 		}
 	});
 	exRoutes.get("/getEvents/:query", (req, res) => {
@@ -450,7 +455,6 @@ function routes() {
 			{ $addToSet: { events: req.body.eventID } },
 			async (err, doc) => {
 				if (err) throw err;
-				console.log(doc.events);
 				await doc.save();
 				res.redirect("/profile");
 			}
