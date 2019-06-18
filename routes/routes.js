@@ -462,7 +462,6 @@ function routes() {
 				if (err) throw err;
 				await doc.save();
 				res.redirect("/profile");
-				console.log(doc)
 			}
 		);
     });
