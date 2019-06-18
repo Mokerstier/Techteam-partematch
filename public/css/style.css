@@ -225,6 +225,10 @@ form fieldset input {
   top: 0.2rem;
   opacity: 1;
 }
+.login_form input:valid ~ label {
+  top: 0;
+  color: #2bdd2b;
+}
 .profile_user {
   padding: 1rem;
 }

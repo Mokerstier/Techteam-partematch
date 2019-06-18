@@ -230,6 +230,7 @@ form {
 		padding-top: 1.5rem;
 		position: relative;
 	}
+	
 	label {
 		font-size: 1rem;
 		color: @black;
@@ -253,6 +254,8 @@ form {
 		}
 	}
 }
+.login_form input:valid ~ label { top: 0; color: #2bdd2b;}
+
 .profile_user {
 	padding: 1rem;
 }
