@@ -19,7 +19,11 @@ function routes() {
 	const path = require("path");
 	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
+<<<<<<< HEAD
 	const fs = require('fs');
+=======
+	const fs = require("fs");
+>>>>>>> development
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
@@ -97,7 +101,7 @@ function routes() {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
-				res.redirect('/profile');
+				res.redirect("/profile");
 			} else festivalMatch = doc.events;
 			return next(null, festivalMatch);
 		});
@@ -107,8 +111,7 @@ function routes() {
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
 				res.redirect("/profile");
-			} else
-				relationMatch = doc.prefs.relation;
+			} else relationMatch = doc.prefs.relation;
 			return next(null, relationMatch);
 		});
 	};
@@ -197,7 +200,6 @@ function routes() {
 		let id = req.params.id;
 		console.log(id);
 
-
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
 			getEventById(user.events.join("&id=")).then(eventObjects => {
@@ -211,7 +213,6 @@ function routes() {
 						user.lastName,
 						{ pascalCase: true }
 					)
-
 				});
 			});
 		});
@@ -309,42 +310,38 @@ function routes() {
 					});
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
-
 						if (err) throw err;
 						let oldimg = doc.img;
-
 
 						if (oldimg == "") {
 							doc.img = req.file.filename;
 							await doc.save();
-							console.log('Toegevoegd als nieuwe PF');
-						}
-						else {
-							fs.unlink('public/uploads/' + oldimg, (err) => {
+							console.log("Toegevoegd als nieuwe PF");
+						} else {
+							fs.unlink("public/uploads/" + oldimg, err => {
 								if (err) throw err;
 							});
 							doc.img = req.file.filename;
 							await doc.save();
-							console.log('vervangen');
+							console.log("vervangen");
 						}
-						res.redirect('/profile', 200, {
-							msg: 'File uploaded',
+						res.redirect("/profile", 200, {
+							msg: "File uploaded",
 
 							file: `uploads/${req.file.filename}`
 						});
-
 					});
 				}
 			}
 		});
 	});
 	// Route to notifications
-	exRoutes.get('/notifications', isLoggedIn, thisUser, (req, res) => {
+	exRoutes.get("/notifications", isLoggedIn, thisUser, (req, res) => {
 		getNoti().then(noti => {
 			const data = { title: `${noti.length} new messages`, noti };
 			console.log(noti);
 			res.render("pages/notifications.ejs", data);
-		})
+		});
 	});
 	exRoutes.post("/searchEvent", isLoggedIn, (req, res) => {
 		if (req.body.query) {
@@ -419,6 +416,6 @@ function routes() {
 	});
 
 	return exRoutes;
-};
+}
 
 exports.routes = routes();
