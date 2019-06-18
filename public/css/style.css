@@ -214,7 +214,6 @@ form fieldset input {
   position: absolute;
   top: 1.6rem;
   transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-  z-index: 2;
 }
 .login_form input {
   background-color: rgba(255, 255, 255, 0.5);
@@ -270,9 +269,39 @@ form fieldset input {
   margin: 0 auto;
   text-align: center;
 }
+.searchEvent {
+  display: flex;
+  width: 100%;
+  max-width: 22rem;
+  align-items: center;
+  justify-content: space-around;
+}
+.searchEvent input[type="text"] {
+  margin: 0 1em;
+  height: 2em;
+  border-radius: 5px;
+  border: none;
+  color: #2d2d2d;
+}
+.searchEvent input[type="submit"] {
+  height: 100%;
+  padding: 1em;
+  border: none;
+  background-color: #161622;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  text-indent: 0.5em;
+  transition: ease-in 0.15s;
+}
+.searchEvent input[type="submit"]:hover {
+  background-color: #1a1a28;
+}
 .event-container {
   display: flex;
   flex-wrap: wrap;
+  padding: 6px 0;
 }
 .event-container::-webkit-scrollbar {
   display: none;
@@ -294,25 +323,45 @@ form fieldset input {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  border: solid 1px black;
+  box-shadow: 1px -1px 10px rgba(0, 0, 0, 0.3);
   max-width: 20em;
-  justify-content: space-around;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #1c1c2b;
+  transition: ease-in-out 0.2s;
+}
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 1px 0px 15px rgba(0, 0, 0, 0.35);
 }
 .event-card img {
   width: 100%;
   object-fit: cover;
+  transform: translateY(-1px);
 }
 .event-card h3 {
-  margin: 0 1em;
+  margin: 1em 1em;
 }
 .event-addForm {
   padding: 0;
   margin: 0;
   background-color: inherit;
+  width: 100%;
 }
 .event-addForm input[type="submit"] {
   width: 100%;
   padding: 1em;
+  border: none;
+  background-color: #1a1a28;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  text-indent: 0.5em;
+  transition: ease-in 0.15s;
+}
+.event-addForm input[type="submit"]:hover {
+  background-color: #1e1e2e;
 }
 /* Form styling */
 /*Form opacity*/

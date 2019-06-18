@@ -8,7 +8,7 @@
             <% if(events.page.totalElements > 0) { %>
 			<div class="event-container search">
                 <% for(var i=0; i<events._embedded.events.length; i++) { %> 
-                <%- include("../partials/event",{ action: "addEvent", value:"Add to profile", i:i, events:events }) %>
+                <%- include("../partials/event",{ action: "/addEvent", value:"Add to profile", i:i, events:events }) %>
                 <% } %>
             </div>
             <% } %>
@@ -17,5 +17,6 @@
             <% } %>
 		</main>
 		<% include ../partials/navbar %>
+        <script type="module" src="/public/js/events.js"></script>
 	</body>
 </html>
