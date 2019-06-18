@@ -19,11 +19,7 @@ function routes() {
 	const path = require("path");
 	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
-<<<<<<< HEAD
-	const fs = require('fs');
-=======
 	const fs = require("fs");
->>>>>>> development
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
