@@ -88,7 +88,6 @@ function routes() {
 			if (err) {
 				res.redirect("/profile");
 			} else genderMatch = doc.prefs.pref;
-			console.log(genderMatch);
 
 			return next(null, genderMatch);
 		});
@@ -114,162 +113,77 @@ function routes() {
 	};
 
 	// Route to match when logged in and with matchingLogic based on festival
-	exRoutes.get(
-		"/match",
-		isLoggedIn,
-		thisUser,
-		festivalMatch,
-		genderMatch,
-		relationMatch,
-		(req, res) => {
-			const data = JSON.parse(thisUser);
+	exRoutes.get("/match", isLoggedIn, thisUser, festivalMatch, genderMatch, relationMatch, (req, res) => {
+		const data = JSON.parse(thisUser);
+		console.log(genderMatch == data.gender)
+		let matches;
 
-			console.log(genderMatch, festivalMatch, relationMatch);
-			// User looking for all kind of relations <3 in both sexes
-			if (relationMatch === "nopref") {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						events: { $in: festivalMatch }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for friends of both sexes
-			else if (relationMatch === "friend") {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						"prefs.relation": { $in: ["nopref", "friend"] },
-						events: { $in: festivalMatch }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with all sexes
-			else if (relationMatch === "love") {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
+		// User looking for friends
+		if (relationMatch == 'friend') {
+			if (genderMatch == data.gender) {
+				console.log(data.gender, 'looking for', relationMatch)// same sex
+				userSchema.find({
+					_id: { $ne: data._id },
+					events : { $in: festivalMatch },
+					'prefs.relation': {$eq: relationMatch}
+				}, (err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					matches = users;
+				});
+			} else {
+				console.log(data.gender, ' looking for ', relationMatch)
+				userSchema.find({
+					_id: { $ne: data._id },
+					events : { $in: festivalMatch },
+					'prefs.relation': 'friend'
+				}, (err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					matches = users;
+				})
+			};
+			// User looking for love
+		} else if (relationMatch == 'love') {
+			if (genderMatch == data.gender) {
+				console.log(data.gender, ' looking for ', relationMatch) // same sex
+				userSchema.find({
+					_id: { $ne: data._id },
+					gender: { $in: data.gender },
+					events: { $in: festivalMatch },
+					'prefs.relation': {$eq: relationMatch}
+				}, (err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					matches = users;
+				});
+			} else {
+				console.log(data.gender, ' looking for ', relationMatch) // other sex
+				userSchema.find({
+					_id: { $ne: data._id },
+					gender: {$ne: data.gender}, 
+					events: { $in: festivalMatch },
+					'prefs.relation': {$eq: relationMatch}
+				},(err, users) => {
+					if (err) throw err;
+					matches = users;
+					console.log(matches)
+					console.log(`we found you ${users.length} matches`);
+					res.render('pages/index.ejs', {
+						user: matches,
+						title: 'Find a match'
+					});
 
-						eventst: { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with opposing sex
-			else if (relationMatch === "love" && genderMatch === !data.gender) {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: { $ne: data.gender },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						events: { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for love with Same sex
-			else if (relationMatch === "love") {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: data.gender,
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						events: { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "love"] }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for friend with opposing sex
-			else if (relationMatch === "friend" && genderMatch === !data.gender) {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: { $ne: data.gender },
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						events: { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "friend"] }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
-			}
-			// User looking for friend with Same sex
-			else if (relationMatch === "friend") {
-				userSchema.find(
-					{
-						_id: { $ne: data._id },
-						gender: data.gender,
-						"prefs.pref": { $in: [data.gender, "nopref"] },
-						events: { $in: festivalMatch },
-						"prefs.relation": { $in: ["nopref", "friend"] }
-					},
-					(err, users) => {
-						if (err) throw err;
-						console.log(`we found you ${users.length} matches`);
-						console.log(users);
-						res.render("pages/index.ejs", {
-							user: users,
-							title: "Find a match"
-						});
-					}
-				);
+				});
 			}
 		}
-	);
+		
+	});
+	
+
 	// Route to homepage
 	exRoutes.get("/", (req, res) => {
 		res.render("pages/splash.ejs", {
