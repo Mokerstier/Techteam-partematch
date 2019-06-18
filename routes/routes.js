@@ -418,6 +418,14 @@ function routes() {
 			});
 		}
 	});
+	exRoutes.get("/getEvents/:query", (req, res) => {
+		keywords = req.params.query;
+		console.log(keywords);
+		getEventsByKeywords(keywords).then(events => {
+			console.log(events);
+			res.json(events);
+		});
+	});
 	// Route to adding festivals
 	exRoutes.get("/addevent", isLoggedIn, (req, res) => {
 		getEvents().then(events => {
