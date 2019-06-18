@@ -382,19 +382,30 @@ function routes() {
 					});
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
+
 						if (err) throw err;
 						let oldimg = doc.img;
-						fs.unlink('public/uploads/'+oldimg, (err) => {
-							if (err) throw err;
-						  });
-						doc.img = req.file.filename;
-						await doc.save();
 
-						console.log(req.file.filename);
-						res.redirect("/profile", 200, {
-							msg: "File uploaded",
+
+						if (oldimg == ""){
+							doc.img = req.file.filename;
+							await doc.save();
+							console.log('Toegevoegd als nieuwe PF');
+						}
+						else{
+							fs.unlink('public/uploads/'+oldimg, (err) => {
+								if (err) throw err;
+							  });
+							  doc.img = req.file.filename;
+							  await doc.save();
+							  console.log('vervangen');
+						}
+						res.redirect('/profile', 200, {
+							msg: 'File uploaded',
+              
 							file: `uploads/${req.file.filename}`
 						});
+
 					});
 				}
 			}
@@ -414,6 +425,11 @@ function routes() {
 			getEventsByKeywords(keywords).then(events => {
 				const data = { title: "Add event", events };
 				console.log(data);
+				res.render("pages/addevent.ejs", data);
+			});
+		} else {
+			getEvents().then(events => {
+				const data = { title: "Add event", events };
 				res.render("pages/addevent.ejs", data);
 			});
 		}
@@ -441,7 +457,6 @@ function routes() {
 			{ $addToSet: { events: req.body.eventID } },
 			async (err, doc) => {
 				if (err) throw err;
-				console.log(doc.events);
 				await doc.save();
 				res.redirect("/profile");
 			}

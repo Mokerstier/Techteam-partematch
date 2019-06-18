@@ -1,7 +1,12 @@
 <section class="profile_user">
 
 	<div class="profile_picture">
-		<img src="../public/uploads/<%= user.img %>" alt="" />
+		<a href="/settings">
+			<% if(user.img == ""){ %>
+				<img src="https://via.placeholder.com/400x400/?text=Kies+Profielfoto">
+			<% } else {%>
+			<img src="../public/uploads/<%= user.img %>" alt="" />
+			<% } %></a>
 	</div>
 	<div class="profile_info">
 		<h2 class="profile_name"><%= username %></h2>
