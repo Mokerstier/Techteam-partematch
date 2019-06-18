@@ -109,7 +109,7 @@ function routes() {
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
 				res.redirect("/profile");
-			} else genderMatch = doc.gender;
+			} else 
 			relationMatch = doc.prefs.relation;
 			return next(null, relationMatch);
 		});
@@ -261,7 +261,8 @@ function routes() {
 				}
 			);
 		}
-	);
+		});
+	
 	// Route to homepage
 	exRoutes.get("/", (req, res) => {
 		res.render("pages/splash.ejs", {
@@ -407,6 +408,7 @@ function routes() {
 			console.log(noti);
 			res.render("pages/notifications.ejs", data);
 		})
+	})
 	exRoutes.post("/searchEvent", isLoggedIn, (req, res) => {
 		if (req.body.query) {
 			const keywords = req.body.query;
@@ -451,11 +453,11 @@ function routes() {
         const user_id = req.session.passport.user;
         console.log(id)
         userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            { $addToSet: { doc.likes.ilikedid: id }}
+            { $addToSet: { ilikedid: id }}
             doc.save()
         });
         userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            { $addToSet: { otherUser.likes.likedme: user_id }}
+            { $addToSet: { likedme: user_id }}
             otherUser.save()
             console.log('Succes')
         });

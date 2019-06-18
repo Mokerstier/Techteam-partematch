@@ -16,6 +16,20 @@
 		<p class="profile_bio"><%= user.bio %></p>
 		<% }; %>
 	</div>
+	<div class="profile_festival">
+		        <h2>Gaat naar:</h2>
+		        <% if(!user.events){ %>
+		        <p>
+		            You don't seem to have liked any events, like some events to find matches.
+		        </p>
+		        <% } %> <% if(user.events) { %>
+		        <div class="event-container profile">
+		            <% for(var i =0; i < user.events.length; i++){ %> <%-
+		            include("../partials/event", {events:user.eventObjects, i:i,
+		            action:"removeEvent", value:"Remove from profile"}) %> <% } %>
+		        </div>
+		        <% } %>
+		    </div>
 	
 	<div>
 		<% if (user.session == user.id){ %>
