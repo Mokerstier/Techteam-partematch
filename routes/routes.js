@@ -70,6 +70,7 @@ function routes() {
 	};
 	exRoutes.get("/profile", isLoggedIn, thisUser, (req, res) => {
 		const data = JSON.parse(thisUser);
+		console.log(data);
 		getEventById(data.events.join("&id=")).then(eventObjects => {
 			data.eventObjects = eventObjects;
 			res.render("pages/profile.ejs", {
@@ -360,7 +361,8 @@ function routes() {
 	// route to settings
 	exRoutes.get("/settings", isLoggedIn, (req, res) => {
 		res.render("pages/settings.ejs", {
-			title: "Change your settings"
+			title: "Verander je instellingen",
+			message: ""
 		});
 	});
 	exRoutes.post("/settings", isLoggedIn, urlencodedParser, (req, res) => {
@@ -472,10 +474,10 @@ function routes() {
 		const user_id = req.session.passport.user;
 		userSchema.findOneAndUpdate(
 			{ _id: user_id },
-			{ $unset: { events: req.body.eventID } },
+			{ $pull: { events: req.body.eventID } },
 			async (err, doc) => {
 				if (err) throw err;
-				console.log(doc.events);
+				console.log(`EVENTS: ${doc.events}`);
 				await doc.save();
 				res.redirect("/profile");
 			}
