@@ -420,7 +420,7 @@ function routes() {
 			});
 		}
 	});
-	exRoutes.get("/getEvents/:query", (req, res) => {
+		exRoutes.get("/getEvents/:query", (req, res) => {
 		keywords = req.params.query;
 		console.log(keywords);
 		getEventsByKeywords(keywords).then(events => {
@@ -454,11 +454,11 @@ function routes() {
         const user_id = req.session.passport.user;
         console.log(id)
         userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            { $addToSet: { ilikedid: id }}
+            { $addToSet: { doc.likes.ilikedid: id }}
             doc.save()
         });
         userSchema.findOne({ _id: id }, async (err, otherUser) => {
-            { $addToSet: { likedme: user_id }}
+            { $addToSet: { otherUser.likes.likedme: user_id }}
             otherUser.save()
             console.log('Succes')
         });
