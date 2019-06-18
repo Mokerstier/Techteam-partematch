@@ -114,6 +114,7 @@ header {
   top: 0;
   height: 3em;
   width: 100%;
+  z-index: 1;
 }
 header a {
   font-size: 0;
@@ -281,8 +282,12 @@ form fieldset input {
   padding: 1rem;
 }
 .emptySearch {
+  display: inherit;
   margin: 0 auto;
   text-align: center;
+}
+.emptySearch.hidden {
+  display: none;
 }
 .searchEvent {
   display: -webkit-box;
@@ -345,8 +350,6 @@ form fieldset input {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
           flex-direction: column;
-  -webkit-box-align: center;
-          align-items: center;
   -webkit-box-pack: justify;
           justify-content: space-between;
   box-shadow: 1px -1px 10px rgba(0, 0, 0, 0.3);
@@ -422,27 +425,7 @@ form fieldset input {
 }
 .overflow-hid {
   overflow-x: hidden;
-  behavior: 'smooth';
-}
-@-webkit-keyframes slide-in {
-  from {
-    -webkit-transform: translateX(10rem);
-            transform: translateX(10rem);
-  }
-  to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-  }
-}
-@keyframes slide-in {
-  from {
-    -webkit-transform: translateX(10rem);
-            transform: translateX(10rem);
-  }
-  to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-  }
+  scroll-behavior: 'smooth';
 }
 /* Form styling */
 /*Form opacity*/

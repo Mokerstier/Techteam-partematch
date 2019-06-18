@@ -108,7 +108,7 @@ function routes() {
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
 				res.redirect("/profile");
-			} else genderMatch = doc.gender;
+			} else 
 			relationMatch = doc.prefs.relation;
 			return next(null, relationMatch);
 		});
@@ -124,9 +124,10 @@ function routes() {
 		relationMatch,
 		(req, res) => {
 			const data = JSON.parse(thisUser);
-
+				
+			console.log(genderMatch, festivalMatch, relationMatch)
 		// User looking for all kind of relations <3 in both sexes
-		if (genderMatch === 'nopref' && relationMatch === 'nopref') {
+		if (relationMatch === 'nopref') {
 			userSchema.find({
 				_id: { $ne: data._id },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
@@ -142,7 +143,7 @@ function routes() {
 			});
 		}
 		// User looking for friends of both sexes
-		else if (genderMatch === 'nopref' && relationMatch === 'friend') {
+		else if (relationMatch === 'friend') {
 			userSchema.find({
 				_id: { $ne: data._id },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
@@ -160,11 +161,11 @@ function routes() {
 			});
 		}
 		// User looking for love with all sexes
-		else if (genderMatch === 'nopref' && relationMatch === 'love') {
+		else if (relationMatch === 'love') {
 			userSchema.find(
 				{
 					_id: { $ne: data._id },
-					'prefs.pref': { $in: [data.gender, 'nopref'] },
+					
 					'eventst': { $in: festivalMatch },
 					'prefs.relation': { $in: ['nopref', 'love'] }
 				},
@@ -180,7 +181,7 @@ function routes() {
 			);
 		}
 		// User looking for love with opposing sex
-		else if (relationMatch === 'love' && genderMatch === !'nopref') {
+		else if (relationMatch === 'love' && genderMatch === !data.gender) {
 			userSchema.find(
 				{
 					_id: { $ne: data._id },
@@ -222,7 +223,7 @@ function routes() {
 			);
 		}
 		// User looking for friend with opposing sex
-		else if (relationMatch === 'friend' && genderMatch === !'nopref') {
+		else if (relationMatch === 'friend' && genderMatch === !data.gender) {
 			userSchema.find({
 				_id: { $ne: data._id },
 				gender: { $ne: data.gender },
@@ -260,7 +261,8 @@ function routes() {
 				}
 			);
 		}
-		});
+		
+	});
 	// Route to homepage
 	exRoutes.get("/", (req, res) => {
 		res.render("pages/splash.ejs", {
@@ -272,8 +274,12 @@ function routes() {
 	exRoutes.get("/user/:id", isLoggedIn, (req, res, next) => {
 		let id = req.params.id;
 		console.log(id);
+		
+
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
+			getEventById(user.events.join("&id=")).then(eventObjects => {
+				user.eventObjects = eventObjects;
 			return res.render("pages/user.ejs", {
 				user: user,
 				title: user.firstName + " PartEmatch",
@@ -286,6 +292,7 @@ function routes() {
 
 			});
 		});
+	});
 	});
 	// Route to login
 	exRoutes.get("/login", (req, res) => {
@@ -380,19 +387,30 @@ function routes() {
 					});
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
+
 						if (err) throw err;
 						let oldimg = doc.img;
-						fs.unlink('public/uploads/'+oldimg, (err) => {
-							if (err) throw err;
-						  });
-						doc.img = req.file.filename;
-						await doc.save();
 
-						console.log(req.file.filename);
-						res.redirect("/profile", 200, {
-							msg: "File uploaded",
+
+						if (oldimg == ""){
+							doc.img = req.file.filename;
+							await doc.save();
+							console.log('Toegevoegd als nieuwe PF');
+						}
+						else{
+							fs.unlink('public/uploads/'+oldimg, (err) => {
+								if (err) throw err;
+							  });
+							  doc.img = req.file.filename;
+							  await doc.save();
+							  console.log('vervangen');
+						}
+						res.redirect('/profile', 200, {
+							msg: 'File uploaded',
+              
 							file: `uploads/${req.file.filename}`
 						});
+
 					});
 				}
 			}
@@ -412,6 +430,11 @@ function routes() {
 			getEventsByKeywords(keywords).then(events => {
 				const data = { title: "Add event", events };
 				console.log(data);
+				res.render("pages/addevent.ejs", data);
+			});
+		} else {
+			getEvents().then(events => {
+				const data = { title: "Add event", events };
 				res.render("pages/addevent.ejs", data);
 			});
 		}
@@ -439,7 +462,6 @@ function routes() {
 			{ $addToSet: { events: req.body.eventID } },
 			async (err, doc) => {
 				if (err) throw err;
-				console.log(doc.events);
 				await doc.save();
 				res.redirect("/profile");
 			}
