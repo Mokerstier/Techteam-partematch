@@ -207,7 +207,7 @@ form fieldset input {
 }
 .login_form label {
   font-size: 1rem;
-  color: #2d2d2d;
+  color: #fff;
   display: block;
   width: 100%;
   opacity: 0.5;
