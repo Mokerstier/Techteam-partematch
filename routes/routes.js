@@ -108,7 +108,7 @@ function routes() {
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
 				res.redirect("/profile");
-			} else genderMatch = doc.gender;
+			} else 
 			relationMatch = doc.prefs.relation;
 			return next(null, relationMatch);
 		});
@@ -124,9 +124,9 @@ function routes() {
 		relationMatch,
 		(req, res) => {
 			const data = JSON.parse(thisUser);
-
+			console.log(genderMatch, festivalMatch, relationMatch)
 		// User looking for all kind of relations <3 in both sexes
-		if (genderMatch === 'nopref' && relationMatch === 'nopref') {
+		if (relationMatch === 'nopref') {
 			userSchema.find({
 				_id: { $ne: data._id },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
@@ -142,7 +142,7 @@ function routes() {
 			});
 		}
 		// User looking for friends of both sexes
-		else if (genderMatch === 'nopref' && relationMatch === 'friend') {
+		else if (relationMatch === 'friend') {
 			userSchema.find({
 				_id: { $ne: data._id },
 				'prefs.pref': { $in: [data.gender, 'nopref'] },
@@ -160,11 +160,11 @@ function routes() {
 			});
 		}
 		// User looking for love with all sexes
-		else if (genderMatch === 'nopref' && relationMatch === 'love') {
+		else if (relationMatch === 'love') {
 			userSchema.find(
 				{
 					_id: { $ne: data._id },
-					'prefs.pref': { $in: [data.gender, 'nopref'] },
+					
 					'eventst': { $in: festivalMatch },
 					'prefs.relation': { $in: ['nopref', 'love'] }
 				},
@@ -180,7 +180,7 @@ function routes() {
 			);
 		}
 		// User looking for love with opposing sex
-		else if (relationMatch === 'love' && genderMatch === !'nopref') {
+		else if (relationMatch === 'love' && genderMatch === !data.gender) {
 			userSchema.find(
 				{
 					_id: { $ne: data._id },
@@ -222,7 +222,7 @@ function routes() {
 			);
 		}
 		// User looking for friend with opposing sex
-		else if (relationMatch === 'friend' && genderMatch === !'nopref') {
+		else if (relationMatch === 'friend' && genderMatch === !data.gender) {
 			userSchema.find({
 				_id: { $ne: data._id },
 				gender: { $ne: data.gender },
