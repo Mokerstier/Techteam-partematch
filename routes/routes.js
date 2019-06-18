@@ -370,19 +370,28 @@ function routes() {
 					});
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
+
 						if (err) throw err;
 						let oldimg = doc.img;
-						fs.unlink('public/uploads/'+oldimg, (err) => {
-							if (err) throw err;
-						  });
-						doc.img = req.file.filename;
-						await doc.save();
 
-						console.log(req.file.filename);
+						if (oldimg == ""){
+							doc.img = req.file.filename;
+							await doc.save();
+							console.log('Toegevoegd als nieuwe PF');
+						}
+						else{
+							fs.unlink('public/uploads/'+oldimg, (err) => {
+								if (err) throw err;
+							  });
+							  doc.img = req.file.filename;
+							  await doc.save();
+							  console.log('vervangen');
+						}
 						res.redirect('/profile', 200, {
 							msg: 'File uploaded',
 							file: `uploads/${req.file.filename}`
 						});
+
 					});
 				}
 			}
