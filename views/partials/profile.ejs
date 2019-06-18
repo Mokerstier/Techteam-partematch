@@ -26,7 +26,10 @@
 			<% for(var i =0; i < user.events.length; i++){ %> <%-
 			include("../partials/event", {events:user.eventObjects, i:i,
 			action:"removeEvent", value:"Remove from profile"}) %> <% } %>
+			
 		</div>
+		<div class="arrow left"></div>
+			<div class="arrow right"></div>
 		<% } %>
 	</div>
 	<div>

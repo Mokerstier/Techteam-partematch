@@ -396,17 +396,45 @@ form {
 		}
 	}
 }
-/* carousel styling */
-.event-container.profile .overflow-hid{
-	overflow-x: hidden;
+.profile_festival{
+	position: relative;
 }
-.hide{
-	visibility: hidden;
+/* carousel styling */
+.arrow {
+	background-color: #e8620b;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border-radius: 50%;
+	display: block;
+	position: absolute;
+	padding: 1rem;
+	top: 8rem;
+	opacity: .6;
+	&:hover{
+		opacity: 1;
+	}
+	&.left{
+		left: .5em;
+		background-image: url("/public/icons/arrow-left.svg");
+	}
+	&.right{
+		background-image: url("/public/icons/arrow-right.svg");
+		right: .5em;
+	}
 }
 
-.slide-in{
-	animation: slide-in .5s 1;
+.overflow-hid{
+	overflow-x: hidden;
+	behavior: 'smooth';
 }
+// .hide{
+// 	animation: slide-in .5s 1;
+// }
+
+// .slide-in{
+// 	animation: slide-in .5s 1;
+// }
 @keyframes slide-in{
 	from{
 		transform: translateX(10rem);
