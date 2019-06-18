@@ -228,13 +228,13 @@ form {
 
 	.form_field {
 		display: block;
-		padding-top: 1.5rem;
+		padding: 1.5rem 0 1rem 0;
 		position: relative;
 	}
 	
 	label {
 		font-size: 1rem;
-		color: @white;
+		color: @black;
 		display: block;
 		width: 100%;
 		opacity: 0.5;
@@ -255,6 +255,7 @@ form {
 		}
 	}
 }
+.login_form input:focus ~ label { top: 0; color: @white;}
 .login_form input:valid ~ label { top: 0; color: #2bdd2b;}
 
 .profile_user {

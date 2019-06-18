@@ -202,12 +202,12 @@ form fieldset input {
 }
 .login_form .form_field {
   display: block;
-  padding-top: 1.5rem;
+  padding: 1.5rem 0 1rem 0;
   position: relative;
 }
 .login_form label {
   font-size: 1rem;
-  color: #fff;
+  color: #2d2d2d;
   display: block;
   width: 100%;
   opacity: 0.5;
@@ -225,6 +225,10 @@ form fieldset input {
 .login_form input:focus ~ label {
   top: 0.2rem;
   opacity: 1;
+}
+.login_form input:focus ~ label {
+  top: 0;
+  color: #fff;
 }
 .login_form input:valid ~ label {
   top: 0;
