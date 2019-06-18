@@ -19,5 +19,15 @@ async function getEventById(id) {
 	let eventObject = await eventCall.json();
 	return eventObject;
 }
-
-module.exports = { getEvents, getEventById };
+async function getEventsByKeywords(keywords) {
+	keywords.replace("\\s+", "%20");
+	// console.log(keywords);
+	let eventCall = await fetch(
+		`https://app.ticketmaster.com/discovery/v2/events.json?&classificationName=Music&locale=*&countryCode=NL&keyword=${keywords}&apikey=${
+			process.env.TICKETMASTER_KEY
+		}`
+	);
+	let events = await eventCall.json();
+	return events;
+}
+module.exports = { getEvents, getEventById, getEventsByKeywords };
