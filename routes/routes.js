@@ -377,6 +377,7 @@ function routes() {
 			res.redirect("/profile");
 		});
 	});
+
 	exRoutes.post("/upload", (req, res) => {
 		const user_id = req.session.passport.user;
 		upload(req, res, err => {
@@ -453,7 +454,7 @@ function routes() {
         const user_id = req.session.passport.user;
         console.log(id)
         userSchema.findOne({ _id: user_id }, async (err, doc) => {
-            { $addToSet: { ilikedid: user.id} } 
+            { $addToSet: { ilikedid: id }}
             doc.save()
         });
         userSchema.findOne({ _id: id }, async (err, otherUser) => {
@@ -465,15 +466,18 @@ function routes() {
         res.redirect(`/user/${id}`)
 	})
 	// Route to unlike other users
-    exRoutes.post('/user/:id', isLoggedIn, (req, res) => {
+    exRoutes.post('/user/delete', isLoggedIn, (req, res) => {
         const user_id = req.session.passport.user;
         console.log(id)
-        userSchema.findOneAndUpdate(
+        userSchema.findOne({ _id: user_id }, async (err, doc) => {
             { $unSet: { ilikedid: id }}
-        );
-        userSchema.findOneAndUpdate(
+            doc.save()
+        });
+        userSchema.findOne({ _id: id }, async (err, otherUser) => {
             { $unSet: { likedme: user_id }}
-        );
+            otherUser.save()
+            console.log('Succes')
+        });
         console.log(id)
         res.redirect(`/user/${id}`)
 	})
