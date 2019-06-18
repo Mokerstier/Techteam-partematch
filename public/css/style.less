@@ -344,6 +344,7 @@ form {
 		}
 		&.search {
 			.event-card {
+				transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
 				margin: 1em auto;
 			}
 		}
@@ -393,6 +394,25 @@ form {
 				background-color: lighten(@dark-blue, 4%);
 			}
 		}
+	}
+}
+/* carousel styling */
+.event-container.profile .overflow-hid{
+	overflow-x: hidden;
+}
+.hide{
+	visibility: hidden;
+}
+
+.slide-in{
+	animation: slide-in .5s 1;
+}
+@keyframes slide-in{
+	from{
+		transform: translateX(10rem);
+	}
+	to{
+		transform: translateX(0);
 	}
 }
 /* Form styling */

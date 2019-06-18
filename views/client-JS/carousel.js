@@ -9,12 +9,14 @@ let slideIndex = 1;
 // eslint-disable-next-line init-declarations
 let delay;
 function carousel(){
+    eventSlider.classList.add('overflow-hid');
     // eslint-disable-next-line init-declarations
     let i;
     
     for (i=0; i < eventCard.length; i++){
         eventCard[i].classList.remove('slide-in');
-        eventCard[i].style.display = 'none';
+        eventCard[i].classList.add('hide');
+        // eventCard[i].style.display = 'none';
         
     }
     
@@ -25,7 +27,8 @@ function carousel(){
     //   dots[i].className = dots[i].className.replace(" active", " inactive");
       
     // }
-    eventCard[slideIndex-1].style.display = "block";
+    // eventCard[slideIndex-1].style.display = "block";
+    eventCard[slideIndex-1].classList.remove('hide');
     eventCard[slideIndex-1].classList.add('slide-in');
     // dots[slideIndex - 1].classList.add('active');
     // dots[slideIndex - 1].classList.remove('inactive');
