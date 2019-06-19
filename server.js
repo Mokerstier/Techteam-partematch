@@ -1,25 +1,26 @@
 /* eslint-disable no-inline-comments */
 /* eslint-disable capitalized-comments */
 /* eslint-disable line-comment-position */
-const express = require('express');
-const session = require('express-session');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const express = require("express");
+const session = require("express-session");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const flash = require('connect-flash');
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const flash = require("connect-flash");
 
 // routes
-const { routes } = require('./routes/routes');
+const { routes } = require("./routes/routes");
 // controllers
-const user = require('./controllers/users');
+const user = require("./controllers/users");
 
-require('dotenv').config();
-require('./controllers/user-login')(passport);
+require("dotenv").config();
+require("./controllers/user-login")(passport);
 
 const options = {
 	useNewUrlParser: true,
+	useFindAndModify: false,
 	autoIndex: false, // Don't build indexes
 	reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
 	reconnectInterval: 500, // Reconnect every 500ms
@@ -35,7 +36,7 @@ const options = {
 var uri = process.env.MONGODB_URI;
 mongoose.connect(uri, options);
 
-mongoose.connection.on('open', function (err, doc) {
+mongoose.connection.on("open", function(err, doc) {
 	console.log(`connection established with ${process.env.DB_NAME}`);
 	if (err) throw err;
 });
@@ -46,27 +47,29 @@ const app = express();
 app
 
 	.use(urlencodedParser)
-// define static files
-	.use(express.static(__dirname, +'/public'))
+	// define static files
+	.use(express.static(__dirname, Number("/public")))
 	.use(express.json())
 	.use(cookieParser())
 	.use(flash())
-// register route
-	.use('/register', user)
-// session
-	.use(session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false
-		// cookie: {secure: true}
-	}))
-// passport
+	// register route
+	.use("/register", user)
+	// session
+	.use(
+		session({
+			secret: process.env.SESSION_SECRET,
+			resave: false,
+			saveUninitialized: false
+			// cookie: {secure: true}
+		})
+	)
+	// passport
 	.use(passport.initialize())
 	.use(passport.session())
-// define route folder
-	.use('/', routes)
-// define template engine
-	.set('view engine', 'ejs')
-	.set('trust proxy', 1); // used because not communicating over HTTPS and want to set cookie
+	// define route folder
+	.use("/", routes)
+	// define template engine
+	.set("view engine", "ejs")
+	.set("trust proxy", 1); // used because not communicating over HTTPS and want to set cookie
 
 app.listen(port, () => console.log(`server is gestart op port ${port}`));

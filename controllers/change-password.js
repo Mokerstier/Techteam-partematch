@@ -1,14 +1,14 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const mongo = require('mongodb');
-const express = require('express');
-const session = require('express-session');
-const { userSchema } = require('../models/user');
-const bodyParser = require('body-parser');
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const mongo = require("mongodb");
+const express = require("express");
+const session = require("express-session");
+const { userSchema } = require("../models/user");
+const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
-require('dotenv').config();
+const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 module.exports = (req, res) => {
 	const user_id = req.session.passport.user;
@@ -25,7 +25,7 @@ module.exports = (req, res) => {
 					console.log(`${user_id} passwords matched`);
 					bcrypt.hash(newPass, 10, async (err, hash) => {
 						if (err) {
-							return next(err);
+							console.log(err);
 						}
 						try {
 							userSchema.updateOne(
@@ -37,28 +37,31 @@ module.exports = (req, res) => {
 										console.log(
 											`${user_id} pass change- Something went wrong while updating`
 										);
-										return done(null, false, {
-											message: 'Something went wrong while updating'
+										res.redirect("/settings", 200, {
+											message: "Wrong password"
 										});
 									}
 									console.log(`updated password ${user_id}`);
-									res.redirect('/settings');
+									res.redirect("/settings");
 								}
 							);
 						} catch (err) {
 							console.log(err);
 						} finally {
-							console.log('password change complete');
+							console.log("password change complete");
 						}
 					});
 				} else {
-					return done(null, false, { message: 'Wrong password' });
+					res.render("pages/settings.ejs", {
+						title: "Verander je instellingen",
+						message: "Verkeerde wachtwoord ingevoerd"
+					});
 				}
 			});
 		} catch (err) {
 			console.log(err);
 		} finally {
-			console.log('password tried');
+			console.log("password tried");
 		}
 	});
 };

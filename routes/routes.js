@@ -71,6 +71,7 @@ function routes() {
 	};
 	exRoutes.get("/profile", isLoggedIn, thisUser, (req, res) => {
 		const data = JSON.parse(thisUser);
+		console.log(data);
 		getEventById(data.events.join("&id=")).then(eventObjects => {
 			data.eventObjects = eventObjects;
 			res.render("pages/profile.ejs", {
@@ -89,7 +90,6 @@ function routes() {
 			if (err) {
 				res.redirect("/profile");
 			} else genderMatch = doc.prefs.pref;
-			console.log(genderMatch);
 
 			return next(null, genderMatch);
 		});
@@ -99,7 +99,7 @@ function routes() {
 		const user_id = req.session.passport.user;
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
-				res.redirect('/profile');
+				res.redirect("/profile");
 			} else festivalMatch = doc.events;
 			return next(null, festivalMatch);
 		});
@@ -109,161 +109,83 @@ function routes() {
 		userSchema.findOne({ _id: user_id }, (err, doc) => {
 			if (err) {
 				res.redirect("/profile");
-			} else 
-			relationMatch = doc.prefs.relation;
+			} else relationMatch = doc.prefs.relation;
 			return next(null, relationMatch);
 		});
 	};
 
 	// Route to match when logged in and with matchingLogic based on festival
-	exRoutes.get(
-		"/match",
-		isLoggedIn,
-		thisUser,
-		festivalMatch,
-		genderMatch,
-		relationMatch,
-		(req, res) => {
-			const data = JSON.parse(thisUser);
-				
-			console.log(genderMatch, festivalMatch, relationMatch)
-		// User looking for all kind of relations <3 in both sexes
-		if (relationMatch === 'nopref') {
-			userSchema.find({
-				_id: { $ne: data._id },
-				'prefs.pref': { $in: [data.gender, 'nopref'] },
-				'events': { $in: festivalMatch }
-			}, (err, users) => {
-				if (err) throw err;
-				console.log(`we found you ${users.length} matches`);
-				console.log(users);
-				res.render('pages/index.ejs', {
-					user: users,
-					title: 'Find a match'
+	exRoutes.get("/match", isLoggedIn, thisUser, festivalMatch, genderMatch, relationMatch, (req, res) => {
+		const data = JSON.parse(thisUser);
+		console.log(genderMatch == data.gender)
+		let matches;
+
+		// User looking for friends
+		if (relationMatch == 'friend') {
+			if (genderMatch == data.gender) {
+				console.log(data.gender, 'looking for', relationMatch)// same sex
+				userSchema.find({
+					_id: { $ne: data._id },
+					events : { $in: festivalMatch },
+					'prefs.relation': {$eq: relationMatch}
+				}, (err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					matches = users;
 				});
-			});
-		}
-		// User looking for friends of both sexes
-		else if (relationMatch === 'friend') {
-			userSchema.find({
-				_id: { $ne: data._id },
-				'prefs.pref': { $in: [data.gender, 'nopref'] },
-				'prefs.relation': { $in: ['nopref', 'friend'] },
-				'events': { $in: festivalMatch }
-			},
-			(err, users) => {
-				if (err) throw err;
-				console.log(`we found you ${users.length} matches`);
-				console.log(users);
-				res.render('pages/index.ejs', {
-					user: users,
-					title: 'Find a match'
+			} else {
+				console.log(data.gender, ' looking for ', relationMatch)
+				userSchema.find({
+					_id: { $ne: data._id },
+					events : { $in: festivalMatch },
+					'prefs.relation': 'friend'
+				}, (err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					matches = users;
+				})
+			};
+			// User looking for love
+		} else if (relationMatch == 'love') {
+			if (genderMatch == data.gender) {
+				console.log(data.gender, ' looking for ', relationMatch) // same sex
+				userSchema.find({
+					_id: { $ne: data._id },
+					gender: { $in: data.gender },
+					events: { $in: festivalMatch },
+					'prefs.relation': {$eq: relationMatch}
+				}, (err, users) => {
+					if (err) throw err;
+					console.log(`we found you ${users.length} matches`);
+					console.log(users);
+					matches = users;
 				});
-			});
-		}
-		// User looking for love with all sexes
-		else if (relationMatch === 'love') {
-			userSchema.find(
-				{
+			} else {
+				console.log(data.gender, ' looking for ', relationMatch) // other sex
+				userSchema.find({
 					_id: { $ne: data._id },
-					
-					'eventst': { $in: festivalMatch },
-					'prefs.relation': { $in: ['nopref', 'love'] }
-				},
-				(err, users) => {
+					gender: {$ne: data.gender}, 
+					events: { $in: festivalMatch },
+					'prefs.relation': {$eq: relationMatch}
+				},(err, users) => {
 					if (err) throw err;
+					matches = users;
+					console.log(matches)
 					console.log(`we found you ${users.length} matches`);
-					console.log(users);
 					res.render('pages/index.ejs', {
-						user: users,
+						user: matches,
 						title: 'Find a match'
 					});
-				}
-			);
-		}
-		// User looking for love with opposing sex
-		else if (relationMatch === 'love' && genderMatch === !data.gender) {
-			userSchema.find(
-				{
-					_id: { $ne: data._id },
-					gender: { $ne: data.gender },
-					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events': { $in: festivalMatch },
-					'prefs.relation': { $in: ['nopref', 'love'] }
-				},
-				(err, users) => {
-					if (err) throw err;
-					console.log(`we found you ${users.length} matches`);
-					console.log(users);
-					res.render('pages/index.ejs', {
-						user: users,
-						title: 'Find a match'
-					});
-				}
-			);
-		}
-		// User looking for love with Same sex
-		else if (relationMatch === 'love') {
-			userSchema.find(
-				{
-					_id: { $ne: data._id },
-					gender: data.gender,
-					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events': { $in: festivalMatch },
-					'prefs.relation': { $in: ['nopref', 'love'] }
-				},
-				(err, users) => {
-					if (err) throw err;
-					console.log(`we found you ${users.length} matches`);
-					console.log(users);
-					res.render('pages/index.ejs', {
-						user: users,
-						title: 'Find a match'
-					});
-				}
-			);
-		}
-		// User looking for friend with opposing sex
-		else if (relationMatch === 'friend' && genderMatch === !data.gender) {
-			userSchema.find({
-				_id: { $ne: data._id },
-				gender: { $ne: data.gender },
-				'prefs.pref': { $in: [data.gender, 'nopref'] },
-				'events': { $in: festivalMatch },
-				'prefs.relation': { $in: ['nopref', 'friend'] }
-			}, (err, users) => {
-				if (err) throw err;
-				console.log(`we found you ${users.length} matches`);
-				console.log(users);
-				res.render('pages/index.ejs', {
-					user: users,
-					title: 'Find a match'
+
 				});
-			});
-		}
-		// User looking for friend with Same sex
-		else if (relationMatch === 'friend') {
-			userSchema.find(
-				{
-					_id: { $ne: data._id },
-					gender: data.gender,
-					'prefs.pref': { $in: [data.gender, 'nopref'] },
-					'events': { $in: festivalMatch },
-					'prefs.relation': { $in: ['nopref', 'friend'] }
-				},
-				(err, users) => {
-					if (err) throw err;
-					console.log(`we found you ${users.length} matches`);
-					console.log(users);
-					res.render('pages/index.ejs', {
-						user: users,
-						title: 'Find a match'
-					});
-				}
-			);
+			}
 		}
 		
 	});
+	
+
 	// Route to homepage
 	exRoutes.get("/", (req, res) => {
 		res.render("pages/splash.ejs", {
@@ -276,7 +198,6 @@ function routes() {
 	exRoutes.get("/user/:id", isLoggedIn, (req, res, next) => {
 		id = req.params.id
 		console.log(id);
-		
 
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
@@ -357,7 +278,8 @@ function routes() {
 	// route to settings
 	exRoutes.get("/settings", isLoggedIn, (req, res) => {
 		res.render("pages/settings.ejs", {
-			title: "Change your settings"
+			title: "Verander je instellingen",
+			message: ""
 		});
 	});
 	exRoutes.post("/settings", isLoggedIn, urlencodedParser, (req, res) => {
@@ -389,42 +311,38 @@ function routes() {
 					});
 				} else {
 					userSchema.findOne({ _id: user_id }, async (err, doc) => {
-
 						if (err) throw err;
 						let oldimg = doc.img;
 
-
-						if (oldimg == ""){
+						if (oldimg == "") {
 							doc.img = req.file.filename;
 							await doc.save();
-							console.log('Toegevoegd als nieuwe PF');
-						}
-						else{
-							fs.unlink('public/uploads/'+oldimg, (err) => {
+							console.log("Toegevoegd als nieuwe PF");
+						} else {
+							fs.unlink("public/uploads/" + oldimg, err => {
 								if (err) throw err;
-							  });
-							  doc.img = req.file.filename;
-							  await doc.save();
-							  console.log('vervangen');
+							});
+							doc.img = req.file.filename;
+							await doc.save();
+							console.log("vervangen");
 						}
-						res.redirect('/profile', 200, {
-							msg: 'File uploaded',
-              
+						res.redirect("/profile", 200, {
+							msg: "File uploaded",
+
 							file: `uploads/${req.file.filename}`
 						});
-
 					});
 				}
 			}
 		});
 	});
 	// Route to notifications
-	exRoutes.get('/notifications', isLoggedIn, thisUser, (req, res) => {
+	exRoutes.get("/notifications", isLoggedIn, thisUser, (req, res) => {
 		getNoti().then(noti => {
-			const data = { title: `${noti.length} new messages`, noti};
+			const data = { title: `${noti.length} new messages`, noti };
 			console.log(noti);
 			res.render("pages/notifications.ejs", data);
-		})
+		});
 	});
 	exRoutes.post("/searchEvent", isLoggedIn, (req, res) => {
 		if (req.body.query) {
@@ -493,34 +411,34 @@ function routes() {
 
 	// Route to unlike other users
     exRoutes.post('/unlike', isLoggedIn, (req, res) => {
-		const user_id = req.session.passport.user;
+        const user_id = req.session.passport.user;
         userSchema.updateOne(
-			{ _id: user_id },
-			{ $unset: { 'likes.ilikedid': id} },
+            { _id: user_id },
+            { $unset: { 'likes.ilikedid': id} },
             async (err, doc) => {
-				console.log(id)
-				if (err) throw err;
-				doc.save();
-			}
-		)
+                console.log(id)
+                if (err) throw err;
+                doc.save();
+            }
+        )
         userSchema.updateOne(
-			{ _id: id }, 
-			{ $unset: { 'likes.likedme': user_id} },
-			async (err, doc) => {
-				if (err) throw err;
-				console.log(id);
-				doc.save();
-		});
-		res.redirect(`/profile`)
-	})
+            { _id: id }, 
+            { $unset: { 'likes.likedme': user_id} },
+            async (err, doc) => {
+                if (err) throw err;
+                console.log(id);
+                doc.save();
+			});
+        res.redirect(`/profile`)
+    })
 	exRoutes.post("/removeEvent", isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOneAndUpdate(
 			{ _id: user_id },
-			{ $unset: { events: req.body.eventID } },
+			{ $pull: { events: req.body.eventID } },
 			async (err, doc) => {
 				if (err) throw err;
-				console.log(doc.events);
+				console.log(`EVENTS: ${doc.events}`);
 				await doc.save();
 				res.redirect("/profile");
 			}
@@ -543,6 +461,6 @@ function routes() {
 	});
 
 	return exRoutes;
-};
+}
 
 exports.routes = routes();

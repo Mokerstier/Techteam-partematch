@@ -3,6 +3,9 @@
 	<% include ../partials/head %>
 	<body>
 		<section class="profile_settings">
+		<% if(message) {%>
+			<h3 style="color:red"><%= message %></h3>
+			<% } %>
 			<h2>Aanvullende informatie</h2>
 			<% include ../partials/uploadimg.ejs %>
 			<form action="/settings" method="POST" class="settings_form">
