@@ -1,4 +1,5 @@
 <section class="profile_user">
+
 	<div class="profile_picture">
 		<a href="/settings">
 			<% if(user.img == ""){ %>
@@ -42,4 +43,9 @@
 		<a class="link__button" href="/addevent">Voeg festival toe</a>
 		<% } %>
 	</div>
+	<% if (user.session != user.id) { %>
+        <% include ../partials/like.ejs %>
+	<% }  else { %>
+		<% include ../partials/iliked.ejs { %>
+	<% }; %>
 </section>

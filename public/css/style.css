@@ -543,6 +543,15 @@ form fieldset button {
 .form_field_event .form_option_event #lowlands + label:before {
   background-image: url("/public/Festivals/Lowlands-logo.jpg");
 }
+.likeBG{
+  background: none;
+  position: absolute;
+  margin: -29.5em 0em;
+}
+.unlikeBG{
+  background: none;
+  padding: 0;
+}
 /* button */
 .link__button,
 .form__button {
@@ -564,4 +573,28 @@ form fieldset button {
 .link__button:hover,
 .form__button:hover {
   background-image: linear-gradient(271deg, #e8620b, #e54114 47%, #f49b05);
+}
+.button{
+  background: #e8620b;
+  color: #fff;
+  border: none;
+  padding: 1em;
+  border-radius: 6px;
+}
+.counter{
+  position: absolute;
+  margin: -5.4em -1.5em;
+}
+.likeSection{
+  margin-top: 5em; 
+}
+.likeSection a {
+  margin: 0 0 0 -2em;
+}
+.likeSection .button{
+  position: absolute;
+  margin: -5.8em 10em;
+}
+.likeSection p {
+  margin: -2.5em 0 0 -2em;
 }

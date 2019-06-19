@@ -1,0 +1,19 @@
+<div class="likeSection">
+    <ul>
+        <% var aantallikes = 0 %>
+        <% if (user.likes.ilikedid.length > 0) { %>
+            <% for (var i = 0; i < user.likes.ilikedid.length; i++) { %>
+                <% if (user.likes.ilikedid[i].length > 0) { %>
+                    <div>
+                        <p><a href="/user/<%= user.likes.ilikedid[i] %>"><%= user.likes.ilikedid[i] %></a></p>
+                        <% include ../partials/unlike.ejs %>
+                        <% aantallikes += 1 %>
+                    </div>
+                <% } %>
+            <% } %>
+            <h2 class="counter"> Je hebt <%= aantallikes %> like(s) gedeeld</h2>
+        <% } else  { %>
+                <p>Je hebt nog geen like gedeeld</p>
+            <% } %>
+    </ul>
+</div>

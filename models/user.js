@@ -42,7 +42,11 @@ const userSchema = new mongoose.Schema({
 	prefs: {
 		pref: String,
 		relation: String
-	}
+	},
+	likes: {
+        ilikedid: [String],
+        likedme: [String]
+    }
 });
 userSchema.pre("save", function(next) {
 	var user = this;

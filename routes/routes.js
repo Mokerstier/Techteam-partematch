@@ -19,7 +19,8 @@ function routes() {
 	const path = require("path");
 	const isLoggedIn = require("../controllers/loggedin");
 	const changePassword = require("../controllers/change-password");
-	const fs = require("fs");
+    const fs = require('fs'); 
+	const url = require('url')
 
 	// Storage uploads
 	const uploads = multer.diskStorage({
@@ -192,26 +193,28 @@ function routes() {
 		});
 	});
 
+    let id;
 	// Route to other user profile
 	exRoutes.get("/user/:id", isLoggedIn, (req, res, next) => {
-		let id = req.params.id;
+		id = req.params.id
 		console.log(id);
 
 		userSchema.findById({ _id: id }, (err, user) => {
 			if (err) return next(err);
 			getEventById(user.events.join("&id=")).then(eventObjects => {
 				user.eventObjects = eventObjects;
-				return res.render("pages/user.ejs", {
-					user: user,
-					title: user.firstName + " PartEmatch",
-					username: camelCase(
-						user.firstName,
-						{ pascalCase: true },
-						user.lastName,
-						{ pascalCase: true }
-					)
-				});
+			return res.render("pages/user.ejs", {
+				user: user,
+				title: user.firstName + " PartEmatch",
+				username: camelCase(
+					user.firstName,
+					{ pascalCase: true },
+					user.lastName,
+					{ pascalCase: true }
+				)
+			
 			});
+		})
 		});
 	});
 	// Route to login
@@ -356,7 +359,7 @@ function routes() {
 			});
 		}
 	});
-	exRoutes.get("/getEvents/:query", (req, res) => {
+		exRoutes.get("/getEvents/:query", (req, res) => {
 		keywords = req.params.query;
 		console.log(keywords);
 		getEventsByKeywords(keywords).then(events => {
@@ -383,7 +386,51 @@ function routes() {
 				res.redirect("/profile");
 			}
 		);
-	});
+    });
+    // Route to like other users
+    exRoutes.post("/user/:id", isLoggedIn, (req, res) => {
+        const user_id = req.session.passport.user;
+        userSchema.updateOne(
+			{ _id: user_id },
+			{ $addToSet: { 'likes.ilikedid': id} },
+			async (err, doc) => {
+				if (err) throw err;
+				await doc.save();
+			}
+		);
+        userSchema.updateOne(
+			{ _id: id },
+			{ $addToSet: { 'likes.likedme': user_id} },
+			async (err, doc) => {
+				if (err) throw err;
+				doc.save();
+			}
+        )
+        res.redirect(`/user/${id}`)
+    })
+
+	// Route to unlike other users
+    exRoutes.post('/unlike', isLoggedIn, (req, res) => {
+        const user_id = req.session.passport.user;
+        userSchema.updateOne(
+            { _id: user_id },
+            { $unset: { 'likes.ilikedid': id} },
+            async (err, doc) => {
+                console.log(id)
+                if (err) throw err;
+                doc.save();
+            }
+        )
+        userSchema.updateOne(
+            { _id: id }, 
+            { $unset: { 'likes.likedme': user_id} },
+            async (err, doc) => {
+                if (err) throw err;
+                console.log(id);
+                doc.save();
+			});
+        res.redirect(`/profile`)
+    })
 	exRoutes.post("/removeEvent", isLoggedIn, (req, res) => {
 		const user_id = req.session.passport.user;
 		userSchema.findOneAndUpdate(
