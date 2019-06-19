@@ -34,41 +34,32 @@ const options = {
 
 // Settings for online DATABASE
 var uri = process.env.MONGODB_URI;
-mongoose.connect(uri, options);
+const port = process.env.PORT;
+const app = express();
 
+mongoose.connect(uri, options);
 mongoose.connection.on("open", function(err, doc) {
 	console.log(`connection established with ${process.env.DB_NAME}`);
 	if (err) throw err;
 });
-// Port for running server
-const port = process.env.PORT;
-const app = express();
 
 app
-
 	.use(urlencodedParser)
-	// define static files
 	.use(express.static(__dirname, Number("/public")))
 	.use(express.json())
 	.use(cookieParser())
 	.use(flash())
-	// register route
 	.use("/register", user)
-	// session
 	.use(
 		session({
 			secret: process.env.SESSION_SECRET,
 			resave: false,
 			saveUninitialized: false
-			// cookie: {secure: true}
 		})
 	)
-	// passport
 	.use(passport.initialize())
 	.use(passport.session())
-	// define route folder
 	.use("/", routes)
-	// define template engine
 	.set("view engine", "ejs")
 	.set("trust proxy", 1); // used because not communicating over HTTPS and want to set cookie
 

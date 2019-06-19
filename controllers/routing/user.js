@@ -9,13 +9,11 @@ function thisUser(req, res, next) {
 			res.send("something broke who this ", data.firstName);
 		} else {
 			thisUser = JSON.stringify(data);
-			// console.log(thisUser);
-			return next();
+			return next(null, thisUser);
 		}
 	});
 }
 function onProfile(req, res) {
-	console.log(thisUser);
 	const data = JSON.parse(thisUser);
 	getEventById(data.events.join("&id=")).then(eventObjects => {
 		data.eventObjects = eventObjects;
@@ -28,5 +26,26 @@ function onProfile(req, res) {
 		});
 	});
 }
+function onUser(req, res, next) {
+	let id = req.params.id;
+	console.log(id);
 
-module.exports = { thisUser, onProfile };
+	userSchema.findById({ _id: id }, (err, user) => {
+		if (err) return next(err);
+		getEventById(user.events.join("&id=")).then(eventObjects => {
+			user.eventObjects = eventObjects;
+			return res.render("pages/user.ejs", {
+				user,
+				title: `${user.firstName} PartEmatch`,
+				username: camelCase(
+					user.firstName,
+					{ pascalCase: true },
+					user.lastName,
+					{ pascalCase: true }
+				)
+			});
+		});
+	});
+}
+
+module.exports = { thisUser, onProfile, onUser };
