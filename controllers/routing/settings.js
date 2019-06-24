@@ -1,4 +1,4 @@
-const userSchema = require("../../models/user");
+const { userSchema } = require("../../models/user");
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
@@ -76,44 +76,42 @@ function onSettingsPost(req, res) {
 }
 
 function onUpload(req, res) {
-	const user_id = req.session.passport.user;
-	upload(req, res, err => {
-		if (err) {
-			res.redirect("/settings", {
-				msg: err
-			});
-		} else {
-			if (req.file === undefined) {
-				res.redirect("/settings", {
-					msg: "Error: no file selected!"
-				});
-			} else {
-				userSchema.findOne({ _id: user_id }, async (err, doc) => {
-					if (err) throw err;
-					let oldimg = doc.img;
+    const path_uploads = "public/uploads/";
+    const path_error = "/settings";
+    const path_succes = "/profile";
+    
+    upload(req, res, err => {
+        if(err || !req.file){
+            res.redirect(path_error, {msg: err ? err : "Error: no file selected!"});
+            return;
+        } else {
+            const user_id = req.session.passport.user;
 
-					if (oldimg == "") {
-						doc.img = req.file.filename;
-						await doc.save();
-						console.log("Toegevoegd als nieuwe PF");
-					} else {
-						fs.unlink("public/uploads/" + oldimg, err => {
-							if (err) throw err;
-						});
-						doc.img = req.file.filename;
-						await doc.save();
-						console.log("vervangen");
-					}
-					res.redirect("/profile", 200, {
-						msg: "File uploaded",
+            userSchema.findOne({ _id: user_id }, async (err, doc) => {
+                if (err) throw err;
 
-						file: `uploads/${req.file.filename}`
-					});
-				});
-			}
-		}
-	});
+                let oldimg = doc.img;
+                if (oldimg == "") {
+                    doc.img = req.file.filename;
+                    await doc.save();
+                } else {
+                    fs.unlink(path_uploads + oldimg, err => {
+                        if (err) throw err;
+                    });
+
+                    doc.img = req.file.filename;
+                    await doc.save();
+                }
+
+                res.redirect(path_succes, 200, {
+                    msg: "File uploaded",
+                    file: `uploads/${req.file.filename}`
+                });
+            });
+        }
+    });
 }
+
 function onDelete(req, res) {
 	const user_id = req.session.passport.user;
 	userSchema.findOneAndDelete({ _id: user_id }, async (err, doc) => {
