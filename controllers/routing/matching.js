@@ -63,7 +63,7 @@ function onMatching(req, res) {
 				{
 					_id: { $ne: data._id },
 					events: { $in: festivalMatch },
-					"prefs.relation": "friend"
+					// "prefs.relation": "friend"
 				},
 				(err, users) => {
 					if (err) throw err;
@@ -86,7 +86,7 @@ function onMatching(req, res) {
 					_id: { $ne: data._id },
 					gender: { $in: data.gender },
 					events: { $in: festivalMatch },
-					"prefs.relation": { $eq: relationMatch }
+					// "prefs.relation": { $eq: relationMatch }
 				},
 				(err, users) => {
 					if (err) throw err;
@@ -106,7 +106,7 @@ function onMatching(req, res) {
 					_id: { $ne: data._id },
 					gender: { $ne: data.gender },
 					events: { $in: festivalMatch },
-					"prefs.relation": { $eq: relationMatch }
+					// "prefs.relation": { $eq: relationMatch }
 				},
 				(err, users) => {
 					if (err) throw err;
